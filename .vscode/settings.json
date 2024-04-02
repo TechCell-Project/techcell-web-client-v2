@@ -1,0 +1,39 @@
+{
+    "cSpell.words": [
+        "cloudinary",
+        "formik",
+        "Macbook",
+        "NEXTAUTH",
+        "Parens",
+        "persistor",
+        "plaiceholder",
+        "Readmore",
+        "reduxjs",
+        "Shawshank",
+        "signin",
+        "Signout",
+        "svgr",
+        "tanstack",
+        "toastify",
+        "trpc",
+        "unauth",
+        "usehooks",
+        "webp"
+    ],
+    "conventionalCommits.scopes": [
+        "deps",
+        "utils",
+        "setting",
+        "hooks",
+        "app",
+        "actions",
+        "utils",
+        "deps",
+        "components",
+        "type",
+        "typo/spell",
+        "seo",
+        "images",
+        "scripts"
+    ]
+}

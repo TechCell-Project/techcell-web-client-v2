@@ -1,0 +1,13 @@
+yarn.lock
+
+# Ignore Next.js specific files:
+.next/
+.out/
+
+# Ignore public folder:
+public/
+
+# Ignore node_modules:
+node_modules/
+
+.vscode
