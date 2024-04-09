@@ -8,10 +8,6 @@ body,
   height: 100%;
 }
 
-html {
-  font-family: 'Montserrat', sans-serif;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -88,5 +84,14 @@ html {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .nunito-base {
+    font-family: 'Nunito', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
   }
 }

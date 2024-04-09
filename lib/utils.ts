@@ -33,7 +33,7 @@ export const handleErrorApi = ({
         setError(key, {
           type: 'server',
           message: `${key} ${combineArraysToString(Object.entries(value))}`,
-        })
+        });
       }
     }
   } else {
@@ -49,9 +49,9 @@ export const handleErrorApi = ({
 function combineArraysToString(arrays: [string, string][]): string {
   // Sort the arrays based on the first element (index 0)
   arrays.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
-  
+
   // Combine the second element (index 1) of each array into a string
-  const combinedString = arrays.map(array => array[1]).join('');
+  const combinedString = arrays.map((array) => array[1]).join('');
 
   return combinedString;
 }
@@ -76,3 +76,14 @@ export function getErrorMsg(statusCode: number, errorCase: string): string {
 
   return errorObj[errorCase] ?? errorObj.CASE_DEFAULT;
 }
+
+export function getSearchParamsQuery(key: string, value: string): URLSearchParams {
+  const searchParams: URLSearchParams = new URLSearchParams();
+  searchParams.append(key, value);
+
+  return searchParams;
+}
+
+export const upperCase = (name: string) => {
+  return name[0].toUpperCase() + name.slice(1);
+};

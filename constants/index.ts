@@ -1,3 +1,4 @@
 export * from './enum';
 export * from './services';
 export * from './error';
+export * from './validApiParams';

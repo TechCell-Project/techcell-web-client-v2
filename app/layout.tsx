@@ -1,18 +1,31 @@
 import type { Metadata } from 'next';
-import { Montserrat as FontSans } from 'next/font/google';
-import './globals.css';
-import Favicon from '@/public/favicon.ico';
-import AppProvider from '@/providers/app-provider';
 import { cookies } from 'next/headers';
-import { Toaster } from '@/components/ui/toaster';
+
+import Favicon from '@/public/favicon.ico';
+import './globals.css';
+
 import { User } from '@techcell/node-sdk';
+
+import AppProvider from '@/providers/app-provider';
+
+import Header from '@/components/navigation/header';
+import { Toaster } from '@/components/ui/toaster';
+
 import { authApiRequest } from '@/apiRequests/auth';
 
-const fontSans = FontSans({
-  subsets: ['latin'],
+import localFont from 'next/font/local';
+
+//import { Nunito as FontSans } from 'next/font/google';
+// const fontSans = FontSans({
+//   subsets: ['vietnamese'],
+//   display: 'swap',
+//   variable: '--font-sans',
+// });
+
+const myLocalFont = localFont({
+  src: '../public/font/Nunito-VariableFont_wght.ttf',
   display: 'swap',
-  variable: '--font-sans',
-});
+})
 
 export const metadata: Metadata = {
   title: 'TechCell - Điện thoại, phụ kiện chính hãng',
@@ -42,10 +55,13 @@ export default async function RootLayout({
   console.log(user);
 
   return (
-    <html lang="en" className={fontSans.variable}>
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={myLocalFont.className}>
         <Toaster />
-        <AppProvider inititalSessionToken={sessionToken?.value} user={user}>{children}</AppProvider>
+        <AppProvider inititalSessionToken={sessionToken?.value} user={user}>
+          <Header user={null} />
+          {children}
+        </AppProvider>
       </body>
     </html>
   );

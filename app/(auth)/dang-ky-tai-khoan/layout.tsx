@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default async function LoginLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <div className="w-full h-full flex flex-col items-center justify-center">{children}</div>;
+  return <div className="w-full h-fit flex flex-col items-center justify-center">{children}</div>;
 }
