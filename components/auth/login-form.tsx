@@ -12,9 +12,7 @@ import { Icons } from '@/components/icons';
 import { useForm } from 'react-hook-form';
 import { InputPassword } from '../common/form/input-password';
 import { RootPath } from '@/constants';
-import { authApi } from '@/services/auth.service';
 import { toast } from '../ui/use-toast';
-import { AuthApi } from '@techcell/node-sdk';
 import { authApiRequest } from '@/apiRequests';
 import { handleErrorApi } from '@/lib/utils';
 

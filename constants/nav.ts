@@ -3,7 +3,7 @@ import { getSearchParamsQuery, upperCase } from '@/lib/utils';
 
 import { IconType } from 'react-icons/lib';
 import { LuShoppingBag } from 'react-icons/lu';
-import { MdNotificationsNone } from "react-icons/md";
+import { MdNotificationsNone } from 'react-icons/md';
 import { FaRegUser } from 'react-icons/fa';
 import { RootPath } from './enum';
 
@@ -46,5 +46,40 @@ export const RIGHT_NAV: IconProps[] = [
     icon: FaRegUser,
     name: 'account',
     desc: 'Tài khoản',
-  }
-]
+  },
+];
+
+interface FooterLinks {
+  title: string;
+  children: {
+    title: string;
+    href: string;
+  }[];
+}[];
+
+export const FOOTER_LINKS = [
+  {
+    title: 'Dịch vụ',
+    children: [
+      { title: 'Quy chế hoạt động', href: '' },
+      { title: 'Ưu đãi thanh toán', href: '' },
+      { title: 'Bảo hành điện thoại', href: '' },
+      { title: 'Bảo hành mở rộng', href: '' },
+      { title: 'Chính sách bảo hành', href: '' },
+    ],
+  },
+  {
+    title: 'Sản phẩm',
+    children: [
+      { title: 'Smart Phone', href: '' },
+      { title: 'Phụ kiện', href: '' },
+    ],
+  },
+  {
+    title: 'Liên hệ',
+    children: [
+      { title: 'Mail: teams@techcell.cloud', href: '' },
+      { title: 'Hotline: 0019 8942', href: '' },
+    ],
+  },
+];

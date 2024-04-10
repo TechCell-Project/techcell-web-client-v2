@@ -52,15 +52,15 @@ export default async function RootLayout({
     user = userData.payload;
   }
 
-  console.log(user);
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={myLocalFont.className}>
         <Toaster />
         <AppProvider inititalSessionToken={sessionToken?.value} user={user}>
-          <Header user={null} />
-          {children}
+          <Header user={user} />
+          <div className='w-full h-full bg-slate-100'>
+            {children}
+          </div>
         </AppProvider>
       </body>
     </html>

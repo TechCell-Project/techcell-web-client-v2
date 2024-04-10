@@ -1,0 +1,83 @@
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
+
+import { User } from '@techcell/node-sdk';
+
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+
+import AlternativeAvatar from '@/public/temp/avatarColor.webp';
+import LogoText from '@/public/logo-text-red.png';
+import { PencilLine, Plus } from 'lucide-react';
+
+interface ProfileProps {
+  profile: User;
+}
+
+const Profile = ({ profile }: ProfileProps) => {
+  return (
+    <div className="container px-2.5 sm:px-10 sm:max-w-[960px] h-full rounded-md flex flex-col sm:flex-row gap-2.5 sm:gap-6">
+      <div className="w-full sm:w-1/5 h-fit rounded-md bg-white sm:py-5">
+        <Tabs defaultValue="information" className="w-full h-fit bg-inherit">
+          <TabsList className="grid w-full h-auto grid-cols-2 sm:grid-cols-1 rounded-none [&>button]:text-base [&>button]:rounded-md sm:[&>button]:rounded-r-none p-0 bg-inherit">
+            <TabsTrigger value="information">Thông tin</TabsTrigger>
+            <TabsTrigger value="privacy">Bảo mật</TabsTrigger>
+          </TabsList>
+        </Tabs>
+        <div className='hidden sm:flex w-full justify-center'>
+          <Image 
+            src={LogoText.src}
+            alt='logo'
+            width={100}
+            height={50}
+            className='w-[120px] h-auto'
+          />
+        </div>
+      </div>
+      <div className="w-full sm:w-4/5 h-fit rounded-md bg-white p-2.5 sm:p-5">
+        <div className="w-full flex items-center sm:items-end gap-5 mb-5 sm:mb-10">
+          <div className="rounded-full overflow-hidden max-h-24 max-w-24">
+            <Image
+              src={profile.avatar?.url ?? AlternativeAvatar.src}
+              alt="avatar"
+              width={96}
+              height={96}
+              className="w-full max-w-24 max-h-24 h-auto object-cover object-center"
+            />
+          </div>
+          <div className='flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-5'>
+            <h3 className="text-2xl font-semibold">
+              {profile.lastName} {profile.firstName}
+            </h3>
+            <Button variant='default' className='text-sm gap-2.5'>
+              Chỉnh sửa
+              <PencilLine className='w-5' />
+            </Button>
+          </div>
+        </div>
+        <div className="w-full flex flex-col gap-4 text-base sm:text-lg">
+          <div className="flex items-center gap-5">
+            <h5 className="w-[54px] sm:w-20 font-semibold text-zinc-600">Email:</h5>
+            <p>{profile.email}</p>
+          </div>
+          <div className="w-full flex flex-col gap-4">
+            <div className='flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between'>
+              <div className='flex items-center gap-5'>
+                <h5 className="w-[54px] sm:w-20 font-semibold text-zinc-600">Địa chỉ:</h5>
+                <p className='text-zinc-500 font-normal' >(Sl địa chỉ hiện tại: {profile.address?.length})</p>
+              </div>
+              <Button variant='outline' className='border-primary text-sm gap-2.5 text-primary hover:text-primary w-fit'>
+                Thêm địa chỉ
+                <Plus className='w-5' />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Profile;

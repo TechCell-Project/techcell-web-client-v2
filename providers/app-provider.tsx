@@ -2,7 +2,7 @@
 
 import { clientSessionToken } from '@/lib/http';
 import { User } from '@techcell/node-sdk';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const AppContext = createContext<{ user: User | null; setUser: (user: User | null) => void }>({
   user: null,
@@ -26,12 +26,12 @@ export default function AppProvider({
 }>) {
   const [user, setUser] = useState<User | null>(userProp);
 
-  if (typeof window !== 'undefined') {
-    clientSessionToken.value = inititalSessionToken;
-  }
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      clientSessionToken.value = inititalSessionToken;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const contextValue = useMemo(() => ({ user, setUser }), []);
-
-  return <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{ user, setUser }}>{children}</AppContext.Provider>;
 }

@@ -150,7 +150,7 @@ const request = async <Response>(
       throw new HttpError(data);
     }
   }
-  // Đảm bảo logic dưới đây chỉ chạy ở phía client (browser)
+  // make sure that logics below only runs in client
   if (typeof window !== 'undefined') {
     if (
       [EMAIL_LOGIN_ENDPOINT, EMAIL_REGISTER_ENDPOINT].some((item) => item === normalizePath(url))
