@@ -34,7 +34,7 @@ export const InputText = <T extends FieldValues>({
   isLoading = false,
   description,
   onChange,
-  inputAttributes,
+  ...props
 }: InputProps & InputFieldProps<T>) => {
   return (
     <FormField
@@ -46,7 +46,7 @@ export const InputText = <T extends FieldValues>({
           <FormControl>
             <Input
               {...field}
-              {...inputAttributes}
+              {...props}
               className={cn(
                 'text-base focus-visible:ring-0 focus-visible:ring-offset-0',
                 error && 'border-primary',

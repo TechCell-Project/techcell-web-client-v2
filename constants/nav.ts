@@ -46,6 +46,7 @@ export const RIGHT_NAV: IconProps[] = [
     icon: FaRegUser,
     name: 'account',
     desc: 'Tài khoản',
+    href: RootPath.Login,
   },
 ];
 

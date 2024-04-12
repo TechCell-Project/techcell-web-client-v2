@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 
 import { NavLinks, RootPath } from '@/constants';
 
-interface NavMenuProps {
+export interface NavMenuProps {
   content: string;
   redirectLinks: NavLinks[];
 }

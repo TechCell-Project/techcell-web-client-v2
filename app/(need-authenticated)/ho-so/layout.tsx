@@ -5,5 +5,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProfileLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return <>{children}</>;
+    return <div className='w-full h-full py-5'>{children}</div>;
 }

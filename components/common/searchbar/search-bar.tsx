@@ -3,12 +3,14 @@
 import React from 'react';
 
 import { useSearch } from '@/hooks/useSearch';
+import { useDebounce } from 'ahooks';
 import { Input } from '@/components/ui/input';
 
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 export const SearchBar = () => {
   const { searchTerm, setSearchTerm } = useSearch();
+  const debouncedSearchTerm = useDebounce(searchTerm, { wait: 600 });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

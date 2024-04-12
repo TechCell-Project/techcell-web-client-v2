@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 
 import { User } from '@techcell/node-sdk';
@@ -11,12 +11,20 @@ import { Button } from '@/components/ui/button';
 import AlternativeAvatar from '@/public/temp/avatarColor.webp';
 import LogoText from '@/public/logo-text-red.png';
 import { PencilLine, Plus } from 'lucide-react';
+import { ProfileModal } from './profile-modal';
+import { useProfileModal } from '@/hooks/useProfileModal';
 
 interface ProfileProps {
   profile: User;
 }
 
 const Profile = ({ profile }: ProfileProps) => {
+  const onOpen = useProfileModal((state) => state.onOpen);
+
+  const handleOpenUpdate = () => {
+    onOpen();
+  }
+  
   return (
     <div className="container px-2.5 sm:px-10 sm:max-w-[960px] h-full rounded-md flex flex-col sm:flex-row gap-2.5 sm:gap-6">
       <div className="w-full sm:w-1/5 h-fit rounded-md bg-white sm:py-5">
@@ -44,14 +52,14 @@ const Profile = ({ profile }: ProfileProps) => {
               alt="avatar"
               width={96}
               height={96}
-              className="w-full max-w-24 max-h-24 h-auto object-cover object-center"
+              className="w-[80px] h-[80px] sm:w-24 sm:h-24 object-cover sm:object-fill object-center"
             />
           </div>
           <div className='flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-5'>
             <h3 className="text-2xl font-semibold">
               {profile.lastName} {profile.firstName}
             </h3>
-            <Button variant='default' className='text-sm gap-2.5'>
+            <Button variant='default' className='text-sm gap-2.5' onClick={handleOpenUpdate}>
               Chỉnh sửa
               <PencilLine className='w-5' />
             </Button>
@@ -76,6 +84,7 @@ const Profile = ({ profile }: ProfileProps) => {
           </div>
         </div>
       </div>
+      <ProfileModal />
     </div>
   );
 };

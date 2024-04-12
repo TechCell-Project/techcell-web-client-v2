@@ -9,10 +9,10 @@ import { Form } from '@/components/ui/form';
 import { InputText } from '@/components/common/form/input-text';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
+import { toast } from '@/components/ui/use-toast';
 import { useForm } from 'react-hook-form';
 import { InputPassword } from '../common/form/input-password';
 import { RootPath } from '@/constants';
-import { toast } from '../ui/use-toast';
 import { authApiRequest } from '@/apiRequests';
 import { handleErrorApi } from '@/lib/utils';
 
@@ -41,8 +41,6 @@ export const LoginForm = () => {
   } = form;
 
   async function onSubmit(values: LoginFormType) {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-
     try {
       const res = await authApiRequest.loginEmail(values);
 
@@ -78,9 +76,7 @@ export const LoginForm = () => {
             name="email"
             label="Email"
             form={form}
-            inputAttributes={{
-              placeholder: 'Nhập email',
-            }}
+            placeholder="Nhập email"
           />
           <InputPassword<LoginFormType>
             name="password"

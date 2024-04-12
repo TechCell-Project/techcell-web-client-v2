@@ -12,11 +12,12 @@ import {
   DrawerTrigger,
 } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
+import { DrawerCollapsible } from './drawer-collapsible';
 
 import { Home, Menu } from 'lucide-react';
 
 import Logo from '@/public/logo-red.png';
-import { RootPath } from '@/constants';
+import { NAV_CATEGORIES, RootPath } from '@/constants';
 
 export const MobileDrawer = () => {
   return (
@@ -39,10 +40,11 @@ export const MobileDrawer = () => {
               />
             </DrawerTitle>
             <DrawerDescription className="text-xl leading-5 font-semibold text-zinc-600 text-start mt-5">
-              <Link href={RootPath.Home} className="w-full flex gap-5 items-end">
+              <Link href={RootPath.Home} className="w-full flex gap-5 items-end mb-5">
                 <Home className='w-6 text-primary' />
                 <h4>Trang chủ</h4>
               </Link>
+              <DrawerCollapsible content='Sản phẩm' redirectLinks={NAV_CATEGORIES} />
             </DrawerDescription>
           </DrawerHeader>
         </div>
