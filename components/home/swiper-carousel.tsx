@@ -15,7 +15,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 
 import { ImageLabel } from '@/constants/common';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface CarouselProps {
     imgLabels: ImageLabel[];
@@ -65,7 +65,7 @@ const SwiperNavButtons = () => {
                 <ChevronLeft className='text-[18px] sm:text-[30px]' />
             </Button>
             <Button className='w-[30px] sm:w-[50px] h-[30px] sm:h-[50px] rounded-full p-0' onClick={() => swiper.slideNext()}>
-                <ChevronLeft className='text-[18px] sm:text-[30px]' />
+                <ChevronRight className='text-[18px] sm:text-[30px]' />
             </Button>
         </div>
     )
