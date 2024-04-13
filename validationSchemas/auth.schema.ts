@@ -16,14 +16,14 @@ export const RegisterSchema = z
     email: z.string().min(1, 'Email không được bỏ trống').email({
       message: 'Bạn cần nhập đúng định dạng email',
     }),
-    userName: z
-      .string()
-      .min(1, {
-        message: 'Tên người dùng không được bỏ trống',
-      })
-      .min(4, {
-        message: 'Tên đăng nhập có độ dài ít nhất 4 kí tự',
-      }),
+    // userName: z
+    //   .string()
+    //   .min(1, {
+    //     message: 'Tên người dùng không được bỏ trống',
+    //   })
+    //   .min(4, {
+    //     message: 'Tên đăng nhập có độ dài ít nhất 4 kí tự',
+    //   }),
     firstName: z
       .string()
       .min(1, {

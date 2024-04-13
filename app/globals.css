@@ -8,6 +8,10 @@ body,
   height: 100%;
 }
 
+iframe {
+  z-index: 1000 !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -131,6 +135,7 @@ body,
 .swiper-button-prev, .swiper-button-next:hover {
   opacity: 100%;
 }
+
 
 @keyframes slideDown {
   from {

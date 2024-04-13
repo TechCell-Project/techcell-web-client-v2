@@ -25,13 +25,12 @@ export default function AppProvider({
   user: User | null;
 }>) {
   const [user, setUser] = useState<User | null>(userProp);
-
-  useEffect(() => {
+  
+  useState(() => {
     if (typeof window !== 'undefined') {
       clientSessionToken.value = inititalSessionToken;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return <AppContext.Provider value={{ user, setUser }}>{children}</AppContext.Provider>;
 }

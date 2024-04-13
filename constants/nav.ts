@@ -17,7 +17,7 @@ export const DRAWER_WIDTH: number = 280;
 
 export const NAV_CATEGORIES: NavLinks[] = PHONE_CATEGORIES.map((cat) => {
   return {
-    label: upperCase(cat),
+    label: cat[0].toUpperCase() + cat.slice(1),
     value: cat,
     searchQuery: getSearchParamsQuery(CATEGORY_PARAM, cat),
   };

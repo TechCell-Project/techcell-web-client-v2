@@ -1,23 +1,30 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+
 import { CardWrapper } from './card-wrapper';
 import { RegisterFormType, RegisterSchema } from '@/validationSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import { Form } from '@/components/ui/form';
 import { InputText } from '@/components/common/form/input-text';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
+import { InputPassword } from '@/components/common/form/input-password';
+import { toast } from '@/components/ui/use-toast';
+
 import { useForm } from 'react-hook-form';
-import { InputPassword } from '../common/form/input-password';
-import { RootPath } from '@/constants';
+
+import { CASE_AUTH_REGISTER, RootPath } from '@/constants';
+import { getErrorMsg, handleErrorApi } from '@/lib/utils';
+import { authApiRequest } from '@/apiRequests';
 
 export const RegisterForm = () => {
   const form = useForm<RegisterFormType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: '',
-      userName: '',
+      // userName: '',
       password: '',
       confirmPassword: '',
       firstName: '',
@@ -28,19 +35,33 @@ export const RegisterForm = () => {
   const {
     formState: { isSubmitting },
     handleSubmit,
-    control,
-    getValues,
-    setValue,
-    trigger,
+    setError
   } = form;
 
-  console.log(isSubmitting);
-
   async function onSubmit(values: RegisterFormType) {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    try {
+      await authApiRequest.registerEmail({
+        email: values.email,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        password: values.password,
+      });
+      
+      toast({
+        variant: 'success',
+        title: 'Tạo tài khoản thành công. Kiểm tra email để hoàn thành đăng ký.',
+      });
+    } catch (error) {
+      const errorResponse = handleErrorApi({
+        error,
+        setError,
+      });
+      toast({
+        variant: 'destructive',
+        title: 'Đăng nhập thất bại',
+        description: getErrorMsg(errorResponse.status, CASE_AUTH_REGISTER),
+      })
+    }
   }
 
   return (
@@ -80,14 +101,14 @@ export const RegisterForm = () => {
             }}
           />
 
-          <InputText<RegisterFormType>
+          {/* <InputText<RegisterFormType>
             name="userName"
             label="Tên người dùng"
             form={form}
             inputAttributes={{
               placeholder: 'Nhập tên người dùng',
             }}
-          />
+          /> */}
 
           <InputPassword<RegisterFormType>
             name="password"

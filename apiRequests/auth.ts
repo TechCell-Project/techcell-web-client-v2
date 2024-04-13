@@ -12,7 +12,7 @@ export const authApiRequest = {
   registerEmail: (body: AuthSignupDto) => http.post<void>(`${ApiPrefix}/email/register`, body),
 
   auth: (body: { sessionToken: string; expiresAt: number }) =>
-    http.post('/api/auth', body, {
+    http.post('/api/auth-client', body, {
       baseUrl: '',
     }),
 
@@ -28,7 +28,7 @@ export const authApiRequest = {
     ),
 
   logoutFromNextClientToNextServer: (force?: boolean, signal?: AbortSignal) =>
-    http.post<MessageResType>('/api/auth/logout', { force }, { baseUrl: '', signal }),
+    http.post<MessageResType>('/api/auth-client/logout', { force }, { baseUrl: '', signal }),
 
   getMe: (sessionToken: string) =>
     http.get<User>(`${ApiPrefix}/me`, {
@@ -36,6 +36,8 @@ export const authApiRequest = {
         Authorization: `Bearer ${sessionToken}`
       }
     }),
+
+  getMeClient: () => http.get<User>(`${ApiPrefix}/me`),
 
   updateMe: (body: AuthUpdateDto) => http.patch<User>(`${ApiPrefix}/me`, body),
 };

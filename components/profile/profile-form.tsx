@@ -3,10 +3,18 @@
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { DialogFooter } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 import { InputText } from '@/components/common/form/input-text';
-import { Form } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import ImageUpload from '@/components/ui/image-upload';
+import { Input } from '@/components/ui/input';
 import { Icons } from '@/components/icons';
 
 import { ProfileFormType, ProfileSchema } from '@/validationSchemas/profile.schema';
@@ -14,20 +22,34 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useProfileModal } from '@/hooks/useProfileModal';
 
-import { handleErrorApi } from '@/lib/utils';
+import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
-import { SUCCESS } from '@/constants';
+import { CASE_DEFAULT } from '@/constants';
+import { AuthUpdateDto, User } from '@techcell/node-sdk';
 
-export function UpdateProfile() {
+interface ProfileFormProps {
+  initialData: User;
+  editable: boolean;
+  closeEdit: () => void;
+  setUpdateUser: (user: User) => void;
+}
+
+export function UpdateProfile({
+  initialData,
+  editable,
+  closeEdit,
+  setUpdateUser,
+}: Readonly<ProfileFormProps>) {
   const router = useRouter();
   const onClose = useProfileModal((state) => state.onClose);
 
   const form = useForm<ProfileFormType>({
+    mode: 'onChange',
     resolver: zodResolver(ProfileSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      avatarImageId: undefined,
+      firstName: initialData.firstName,
+      lastName: initialData.lastName,
+      avatarImageId: initialData.avatar ? initialData.avatar.publicId : '',
     },
   });
 
@@ -39,44 +61,98 @@ export function UpdateProfile() {
 
   async function onSubmit(values: ProfileFormType) {
     try {
-      await authApiRequest.updateMe(values);
+      await authApiRequest.updateMe(values as Partial<AuthUpdateDto>);
+
+      await authApiRequest.getMeClient().then((res) => {
+        setUpdateUser(res.payload);
+      });
 
       toast({
         variant: 'success',
         title: 'Cập nhật hồ sơ thành công',
       });
+
+      closeEdit();
       router.refresh();
     } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Cập nhật hồ sơ thất bại',
-      });
-      handleErrorApi({
+      const errorResponse = handleErrorApi({
         error,
         setError,
       });
+      toast({
+        variant: 'destructive',
+        title: 'Cập nhật hồ sơ thất bại',
+        description: getErrorMsg(errorResponse.status, CASE_DEFAULT),
+      });
     } finally {
-        onClose();
+      onClose();
     }
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <InputText<ProfileFormType>
-          name="firstName"
-          label="Tên"
-          form={form}
-          placeholder="Nhập Tên"
-        />
-        <InputText<ProfileFormType> name="lastName" label="Họ" form={form} placeholder="Nhập Họ" />
-        <DialogFooter>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-            Lưu
-          </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+    <div className="w-full">
+      <Form {...form}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="avatarImageId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-base">Ảnh đại diện</FormLabel>
+                <FormControl>
+                  <div className="flex flex-col items-center gap-2.5">
+                    <ImageUpload
+                      value={field.value ? [field.value] : []}
+                      disabled={isSubmitting}
+                      onChange={(url) => field.onChange(url)}
+                      onRemove={() => field.onChange('')}
+                      changable={editable}
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <InputText<ProfileFormType>
+              name="firstName"
+              label="Tên"
+              form={form}
+              placeholder="Nhập Tên"
+              isLoading={isSubmitting}
+              disabled={!editable}
+            />
+            <InputText<ProfileFormType>
+              name="lastName"
+              label="Họ"
+              form={form}
+              placeholder="Nhập Họ"
+              isLoading={isSubmitting}
+              disabled={!editable}
+            />
+          </div>
+
+          <FormItem>
+            <FormLabel className="text-base">Email</FormLabel>
+            <Input
+              value={initialData.email}
+              className="text-base focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-100"
+              disabled
+            />
+          </FormItem>
+          <div className={cn('justify-end items-center gap-4', editable ? 'flex' : 'hidden')}>
+            <Button type="button" variant="secondary" onClick={closeEdit}>
+              Hủy
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+              Lưu
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   );
 }

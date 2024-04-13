@@ -48,10 +48,10 @@ export const InputText = <T extends FieldValues>({
               {...field}
               {...props}
               className={cn(
-                'text-base focus-visible:ring-0 focus-visible:ring-offset-0',
+                'text-base focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-100',
                 error && 'border-primary',
               )}
-              disabled={isLoading}
+              disabled={isLoading || props.disabled}
               onChange={(e) => (onChange ? onChange(e) : field.onChange(e))}
             />
           </FormControl>
