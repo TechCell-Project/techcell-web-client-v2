@@ -14,6 +14,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { authApiRequest } from '@/apiRequests/auth';
 
 import localFont from 'next/font/local';
+import Footer from '@/components/navigation/footer';
 
 //import { Nunito as FontSans } from 'next/font/google';
 // const fontSans = FontSans({
@@ -61,6 +62,7 @@ export default async function RootLayout({
           <div className='w-full h-full bg-slate-100'>
             {children}
           </div>
+          <Footer />
         </AppProvider>
       </body>
     </html>
