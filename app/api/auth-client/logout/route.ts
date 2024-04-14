@@ -6,6 +6,10 @@ export async function POST(request: Request) {
   const req = await request.json();
   console.log(req);
   const force = req.force as boolean | undefined;
+  const appendHeaders = new Headers();
+  appendHeaders.append('Set-Cookie', 'sessionToken=; Path=/; HttpOnly; Max-Age=0');
+  appendHeaders.append('Set-Cookie', 'refreshToken=; Path=/; HttpOnly; Max-Age=0');
+
   if (force) {
     return Response.json(
       {
@@ -13,10 +17,7 @@ export async function POST(request: Request) {
       },
       {
         status: 200,
-        headers: {
-          // Xóa cookie sessionToken
-          'Set-Cookie': `sessionToken=; Path=/; HttpOnly; Max-Age=0`,
-        },
+        headers: appendHeaders
       },
     );
   }
@@ -35,10 +36,7 @@ export async function POST(request: Request) {
 
     return new Response(null, {
       status: 204,
-      headers: {
-        // Xóa cookie sessionToken
-        'Set-Cookie': `sessionToken=; Path=/; HttpOnly; Max-Age=0`,
-      },
+      headers: appendHeaders
     });
   } catch (error) {
     console.log('error', error);

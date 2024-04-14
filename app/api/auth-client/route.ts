@@ -11,12 +11,20 @@ export async function POST(request: Request) {
       },
     );
   }
+
   const expiresDate = new Date(accessTokenExpiresAt).toUTCString();
+
+  const appendHeaders = new Headers({
+    'Set-Cookie': `sessionToken=${sessionToken}; Path=/; HttpOnly; Expires=${expiresDate}; SameSite=Lax; Secure`,
+  });
+
+  appendHeaders.append(
+    'Set-Cookie',
+    `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Lax; Secure`,
+  );
+
   return Response.json(body, {
     status: 200,
-    headers: {
-      'Set-Session-Cookie': `sessionToken=${sessionToken}; Path=/; HttpOnly; Expires=${expiresDate}; SameSite=Lax; Secure`,
-      'Set-Refresh-Cookie': `refreshToken=${refreshToken}; Path=/; HttpOnly; SameSite=Lax; Secure`,
-    },
+    headers: appendHeaders,
   });
 }

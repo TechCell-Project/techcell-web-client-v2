@@ -23,12 +23,21 @@ export async function POST(request: Request) {
 
     const newExpriredDate = new Date(res.payload.accessTokenExpires).toUTCString();
 
+    const appendHeaders = new Headers();
+
+    appendHeaders.append(
+      'Set-Cookie',
+      `sessionToken=${res.payload.accessToken}; Path=/; HttpOnly; Expires=${newExpriredDate}; SameSite=Lax; Secure`,
+    );
+
+    appendHeaders.append(
+      'Set-Cookie',
+      `refreshToken=${res.payload.refreshToken}; Path=/; HttpOnly; SameSite=Lax; Secure`,
+    );
+
     return Response.json(res.payload, {
       status: SUCCESS,
-      headers: {
-        'Set-Session-Cookie': `sessionToken=${res.payload.accessToken}; Path=/; HttpOnly; Expires=${newExpriredDate}; SameSite=Lax; Secure`,
-        'Set-Refresh-Cookie': `refreshToken=${res.payload.refreshToken}; Path=/; HttpOnly; SameSite=Lax; Secure`,
-      },
+      headers: appendHeaders,
     });
   } catch (error) {
     if (error instanceof HttpError) {
