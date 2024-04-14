@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
-interface AddressModalStore {
+interface ProfileModalStore {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
-export const useAddressModal = create<AddressModalStore>((set) => ({
+export const useProfileModal = create<ProfileModalStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
