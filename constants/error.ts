@@ -34,7 +34,7 @@ export const ERROR_MSG = new Map<number, Record<string, string>>([
         },
     ],
     [
-        NOTFOUND || ENTITY_ERROR,
+        NOTFOUND,
         {
             [CASE_AUTH_LOGIN]: 'Tài khoản hoặc mật khẩu không đúng.',
             [CASE_AUTH_REGISTER]: 'Thông tin không chính xác',
@@ -50,6 +50,12 @@ export const ERROR_MSG = new Map<number, Record<string, string>>([
         OVERLOAD,
         {
             [CASE_DEFAULT]: 'Quá nhiều yêu cầu. Vui lòng thử lại sau',
+        },
+    ],
+    [
+        ENTITY_ERROR,
+        {
+            [CASE_DEFAULT]: 'Form dữ liệu không hợp lệ',
         },
     ],
     [

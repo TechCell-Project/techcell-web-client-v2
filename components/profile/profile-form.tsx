@@ -74,6 +74,7 @@ export function UpdateProfile({
       closeEdit();
       router.refresh();
     } catch (error) {
+      console.log(error);
       const errorResponse = handleErrorApi({
         error,
         setError,

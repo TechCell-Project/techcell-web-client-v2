@@ -133,6 +133,7 @@ const request = async <Response>(
   };
 
   if (!res.ok) {
+    console.log('go entity');
     if (res.status === ENTITY_ERROR_STATUS) {
       throw new EntityError(
         data as {
@@ -141,6 +142,7 @@ const request = async <Response>(
         },
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
+      console.log('go unauthorized');
       if (typeof window !== 'undefined') {
         if (!clientLogoutRequest) {
           clientLogoutRequest = fetch('/api/auth-client/logout', {
