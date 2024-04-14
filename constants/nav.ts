@@ -1,11 +1,7 @@
 import { CATEGORY_PARAM, PHONE_CATEGORIES } from './validApiParams';
 import { getSearchParamsQuery, upperCase } from '@/lib/utils';
-
-import { IconType } from 'react-icons/lib';
-import { LuShoppingBag } from 'react-icons/lu';
-import { MdNotificationsNone } from 'react-icons/md';
-import { FaRegUser } from 'react-icons/fa';
 import { RootPath } from './enum';
+import { Bell, ShoppingBag, User } from 'lucide-react';
 
 export interface NavLinks {
   label: string;
@@ -24,7 +20,7 @@ export const NAV_CATEGORIES: NavLinks[] = PHONE_CATEGORIES.map((cat) => {
 });
 
 export interface IconProps {
-  icon: IconType;
+  icon: React.ElementType;
   name: string;
   desc: string;
   href?: string;
@@ -32,18 +28,18 @@ export interface IconProps {
 
 export const RIGHT_NAV: IconProps[] = [
   {
-    icon: LuShoppingBag,
+    icon: ShoppingBag,
     name: 'cart',
     desc: 'Giỏ hàng',
     href: RootPath.Cart,
   },
   {
-    icon: MdNotificationsNone,
+    icon: Bell,
     name: 'notification',
     desc: 'Thông báo',
   },
   {
-    icon: FaRegUser,
+    icon: User,
     name: 'account',
     desc: 'Tài khoản',
     href: RootPath.Login,
