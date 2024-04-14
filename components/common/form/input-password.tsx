@@ -59,7 +59,7 @@ export const InputPassword = <T extends FieldValues>({
                   'text-base focus-visible:ring-0 focus-visible:ring-offset-0',
                   error && 'border-primary',
                 )}
-                disabled={isLoading}
+                disabled={isLoading || props.disabled}
                 onChange={(e) => (onChange ? onChange(e) : field.onChange(e))}
               />
               <Button
@@ -68,7 +68,7 @@ export const InputPassword = <T extends FieldValues>({
                 size="sm"
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => setShowPassword((prev) => !prev)}
-                disabled={disablePasswordEye}
+                disabled={disablePasswordEye || props.disabled}
               >
                 {showPassword && !disablePasswordEye ? (
                   <IoMdEye className="h-5 w-5" aria-hidden="true" />

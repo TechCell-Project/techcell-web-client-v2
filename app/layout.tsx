@@ -13,7 +13,9 @@ import { Toaster } from '@/components/ui/toaster';
 import { authApiRequest } from '@/apiRequests/auth';
 
 import localFont from 'next/font/local';
+
 import Header from '@/components/navigation/header';
+
 import Footer from '@/components/navigation/footer';
 
 //import { Nunito as FontSans } from 'next/font/google';

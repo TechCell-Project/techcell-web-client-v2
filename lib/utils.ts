@@ -1,9 +1,8 @@
 import { type ClassValue, clsx } from 'clsx';
 import { UseFormSetError } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
-import { EntityError } from './http';
-import { toast } from '@/components/ui/use-toast';
-import { CASE_AUTH, ERROR_MSG } from '@/constants/error';
+import { EntityError, HttpError } from './http';
+import { ERROR_MSG } from '@/constants/error';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -12,37 +11,26 @@ export function cn(...inputs: ClassValue[]) {
 export const handleErrorApi = ({
   error,
   setError,
-  duration,
 }: {
   error: any;
   setError?: UseFormSetError<any>;
-  duration?: number;
 }) => {
   if (error instanceof EntityError && setError) {
-    console.log('error: ', error.payload);
-    if (error.payload.errors[0] !== undefined) {
-      error.payload.errors.forEach((item) => {
-        setError(item.field, {
-          type: 'server',
-          message: item.message,
-        });
-      });
-    } else {
-      const errEntries = Object.entries(error.payload.errors);
-      for (const [key, value] of errEntries) {
-        setError(key, {
-          type: 'server',
-          message: `${key} ${combineArraysToString(Object.entries(value))}`,
-        });
-      }
-    }
-  } else {
-    toast({
-      title: 'Lỗi',
-      description: error?.payload?.message ?? 'Lỗi không xác định',
-      variant: 'destructive',
-      duration: duration ?? 5000,
+    Object.entries(error.payload.errors).forEach(([field, message]) => {
+      setError(field, { type: 'server', message });
     });
+    return {
+      status: 422
+    }
+  }
+  if (error instanceof HttpError) {
+    return {
+      status: error.status,
+      payload: error.payload,
+    }
+  }
+  return {
+    status: 500,
   }
 };
 

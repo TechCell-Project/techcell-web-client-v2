@@ -37,6 +37,58 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cloudinary-util/types@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@cloudinary-util/types@npm:1.0.2"
+  checksum: 10c0/dbfa4f8e0b9218d1369378269b78012e74b134fe4663766983223f382a4d2087d27920ccdc4093c6a1c3458268bd0932af399cae4200af47f93fed0d285a6cd3
+  languageName: node
+  linkType: hard
+
+"@cloudinary-util/url-loader@npm:5.2.2":
+  version: 5.2.2
+  resolution: "@cloudinary-util/url-loader@npm:5.2.2"
+  dependencies:
+    "@cloudinary-util/util": "npm:3.0.0"
+    "@cloudinary/url-gen": "npm:1.15.0"
+    zod: "npm:^3.22.4"
+  checksum: 10c0/2736ac8b2beac185f277997ce6938be833246b175ed0d98e385873341398235f8c59f3d498e05632a0e5889a044a094d05d27df04b0ffc21ae04e42d94b6ad24
+  languageName: node
+  linkType: hard
+
+"@cloudinary-util/util@npm:3.0.0, @cloudinary-util/util@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@cloudinary-util/util@npm:3.0.0"
+  checksum: 10c0/59f792bcee17c6e0782c3d325b47a0a888da6e5c4eac5f9ee99c5c58cbe6cd70b6a9e417f30155b2070487deab93089805b1196e63bdbb01228f38e57850c7bb
+  languageName: node
+  linkType: hard
+
+"@cloudinary/transformation-builder-sdk@npm:^1.10.0, @cloudinary/transformation-builder-sdk@npm:^1.13.0":
+  version: 1.13.3
+  resolution: "@cloudinary/transformation-builder-sdk@npm:1.13.3"
+  dependencies:
+    "@cloudinary/url-gen": "npm:^1.7.0"
+  checksum: 10c0/2f2b2e29ff0e0be205c6d4a20b6e8831e47d2b479e66cebd1b927ac4a7b864ecdedd6d98c3a153ab6353d8ac27f84ceae77949b6151ef682b8268107f674afdc
+  languageName: node
+  linkType: hard
+
+"@cloudinary/url-gen@npm:1.15.0":
+  version: 1.15.0
+  resolution: "@cloudinary/url-gen@npm:1.15.0"
+  dependencies:
+    "@cloudinary/transformation-builder-sdk": "npm:^1.10.0"
+  checksum: 10c0/4b50b690f40b117068d7396906e9bbda36bd4b8e6143bbc8ad57709cf18f7b3953611a414f56f6551680277e683c3e82f581b01d67e6d06ff88125f8c8f447d6
+  languageName: node
+  linkType: hard
+
+"@cloudinary/url-gen@npm:^1.7.0":
+  version: 1.19.0
+  resolution: "@cloudinary/url-gen@npm:1.19.0"
+  dependencies:
+    "@cloudinary/transformation-builder-sdk": "npm:^1.13.0"
+  checksum: 10c0/bfef710f7ea7b7ebd8752cf8bae4e0f860ce9f9afb970ce5c7592b45d38f4c9543ff211752678ca034c0215c9cfa5bd8230e864d3009d61a923f39db57c770e5
+  languageName: node
+  linkType: hard
+
 "@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0":
   version: 4.4.0
   resolution: "@eslint-community/eslint-utils@npm:4.4.0"
@@ -1116,6 +1168,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tsconfig/recommended@npm:^1.0.3":
+  version: 1.0.6
+  resolution: "@tsconfig/recommended@npm:1.0.6"
+  checksum: 10c0/4789509c7958c99cfbfc1c41d59b4af21bd628d3914930529b70159572902e86727de15c4d99725169eeb56d91024497a5e1358a6293a43112a715012d226bec
+  languageName: node
+  linkType: hard
+
 "@types/json-schema@npm:^7.0.12":
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
@@ -1792,6 +1851,16 @@ __metadata:
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
   checksum: 10c0/9d6cfd0c19e1c96a434605added99dff48482152af791ec4172fb912a71cff9027ff174efd8cdb2160cc7f377543e0537ffc462d4f279bc4701de3f2a3c4b358
+  languageName: node
+  linkType: hard
+
+"cloudinary@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "cloudinary@npm:2.1.0"
+  dependencies:
+    lodash: "npm:^4.17.21"
+    q: "npm:^1.5.1"
+  checksum: 10c0/8e05207cefec7ee247ba678f73d7aa7e5ecf8b6f3ef77f006be3d7644eeb1766ec3b5414021c7c5d4d301e4a7cc6eb8014055a4207af673cd72d11e95cb99a5e
   languageName: node
   linkType: hard
 
@@ -3775,6 +3844,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next-cloudinary@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "next-cloudinary@npm:6.5.0"
+  dependencies:
+    "@cloudinary-util/types": "npm:1.0.2"
+    "@cloudinary-util/url-loader": "npm:5.2.2"
+    "@cloudinary-util/util": "npm:^3.0.0"
+    "@tsconfig/recommended": "npm:^1.0.3"
+  peerDependencies:
+    next: ^12 || ^13 || ^14
+    react: ^17 || ^18
+  checksum: 10c0/c0e004554f08a59efd01fa8edb31404130dbcc6d052d4fede3cabe4540869393cf1fcda81ce7c91712ae3ab5b8722797a46e165bd79715fb2e17a0ec31791143
+  languageName: node
+  linkType: hard
+
 "next@npm:14.1.4":
   version: 14.1.4
   resolution: "next@npm:14.1.4"
@@ -4255,6 +4339,13 @@ __metadata:
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
   checksum: 10c0/14f76a8206bc3464f794fb2e3d3cc665ae416c01893ad7a02b23766eb07159144ee612ad67af5e84fa4479ccfe67678c4feb126b0485651b302babf66f04f9e9
+  languageName: node
+  linkType: hard
+
+"q@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "q@npm:1.5.1"
+  checksum: 10c0/7855fbdba126cb7e92ef3a16b47ba998c0786ec7fface236e3eb0135b65df36429d91a86b1fff3ab0927b4ac4ee88a2c44527c7c3b8e2a37efbec9fe34803df4
   languageName: node
   linkType: hard
 
@@ -4994,11 +5085,13 @@ __metadata:
     axios: "npm:^1.6.8"
     axios-retry: "npm:^4.1.0"
     class-variance-authority: "npm:^0.7.0"
+    cloudinary: "npm:^2.1.0"
     clsx: "npm:^2.1.0"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.1.4"
     lucide-react: "npm:^0.364.0"
     next: "npm:14.1.4"
+    next-cloudinary: "npm:^6.5.0"
     postcss: "npm:^8"
     react: "npm:^18"
     react-dom: "npm:^18"

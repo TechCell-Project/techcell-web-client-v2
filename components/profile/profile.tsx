@@ -1,30 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { User } from '@techcell/node-sdk';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
+import LoadingPage from '@/app/loading';
+import { UpdateProfile } from './profile-form';
 
-import AlternativeAvatar from '@/public/temp/avatarColor.webp';
 import LogoText from '@/public/logo-text-red.png';
+import { cn } from '@/lib/utils';
 import { PencilLine, Plus } from 'lucide-react';
-import { ProfileModal } from './profile-modal';
-import { useProfileModal } from '@/hooks/useProfileModal';
 
 interface ProfileProps {
   profile: User;
 }
 
 const Profile = ({ profile }: ProfileProps) => {
-  const onOpen = useProfileModal((state) => state.onOpen);
-
-  const handleOpenUpdate = () => {
-    onOpen();
-  }
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [currentProfile, setCurrentProfile] = useState<User>(profile);
   
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <LoadingPage />;
+  }
+
   return (
     <div className="container px-2.5 sm:px-10 sm:max-w-[960px] h-full rounded-md flex flex-col sm:flex-row gap-2.5 sm:gap-6">
       <div className="w-full sm:w-1/5 h-fit rounded-md bg-white sm:py-5">
@@ -34,18 +40,18 @@ const Profile = ({ profile }: ProfileProps) => {
             <TabsTrigger value="privacy">Bảo mật</TabsTrigger>
           </TabsList>
         </Tabs>
-        <div className='hidden sm:flex w-full justify-center'>
-          <Image 
+        <div className="hidden sm:flex w-full justify-center">
+          <Image
             src={LogoText.src}
-            alt='logo'
+            alt="logo"
             width={100}
             height={50}
-            className='w-[120px] h-auto'
+            className="w-[120px] h-auto"
           />
         </div>
       </div>
-      <div className="w-full sm:w-4/5 h-fit rounded-md bg-white p-2.5 sm:p-5">
-        <div className="w-full flex items-center sm:items-end gap-5 mb-5 sm:mb-10">
+      <div className="w-full flex-col gap-5 sm:w-4/5 h-fit rounded-md bg-white p-2.5 sm:p-5">
+        {/* <div className="w-full flex items-center sm:items-end gap-5">
           <div className="rounded-full overflow-hidden max-h-24 max-w-24">
             <Image
               src={profile.avatar?.url ?? AlternativeAvatar.src}
@@ -55,36 +61,53 @@ const Profile = ({ profile }: ProfileProps) => {
               className="w-[80px] h-[80px] sm:w-24 sm:h-24 object-cover sm:object-fill object-center"
             />
           </div>
-          <div className='flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-5'>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-5">
             <h3 className="text-2xl font-semibold">
               {profile.lastName} {profile.firstName}
             </h3>
-            <Button variant='default' className='text-sm gap-2.5' onClick={handleOpenUpdate}>
+            <Button variant="default" className="text-sm gap-2.5" onClick={handleOpenUpdate}>
               Chỉnh sửa
-              <PencilLine className='w-5' />
+              <PencilLine className="w-5" />
+            </Button>
+            <div className='!z-10'>
+              <ProfileModal userProfile={profile} />
+            </div>
+          </div>
+        </div> */}
+        <div className="w-full relative">
+          <Button
+            variant="default"
+            className={cn('absolute top-0 right-0 text-sm gap-2.5', isEdit ? 'hidden' : 'flex')}
+            onClick={() => setIsEdit(true)}
+          >
+            Chỉnh sửa
+            <PencilLine className="w-5" />
+          </Button>
+          <UpdateProfile
+            initialData={currentProfile}
+            editable={isEdit}
+            closeEdit={() => setIsEdit(false)}
+            setUpdateUser={setCurrentProfile}
+          />
+        </div>
+        <div className="w-full flex flex-col gap-4 text-base mt-4">
+          <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-5">
+              <h5 className="w-[54px] sm:w-20 font-semibold">Địa chỉ:</h5>
+              <p className="text-zinc-500 font-normal">
+                (Sl địa chỉ hiện tại: {profile.address?.length})
+              </p>
+            </div>
+            <Button
+              variant="outline"
+              className="border-primary text-sm gap-2.5 text-primary hover:text-primary w-fit"
+            >
+              Thêm địa chỉ
+              <Plus className="w-5" />
             </Button>
           </div>
         </div>
-        <div className="w-full flex flex-col gap-4 text-base sm:text-lg">
-          <div className="flex items-center gap-5">
-            <h5 className="w-[54px] sm:w-20 font-semibold text-zinc-600">Email:</h5>
-            <p>{profile.email}</p>
-          </div>
-          <div className="w-full flex flex-col gap-4">
-            <div className='flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between'>
-              <div className='flex items-center gap-5'>
-                <h5 className="w-[54px] sm:w-20 font-semibold text-zinc-600">Địa chỉ:</h5>
-                <p className='text-zinc-500 font-normal' >(Sl địa chỉ hiện tại: {profile.address?.length})</p>
-              </div>
-              <Button variant='outline' className='border-primary text-sm gap-2.5 text-primary hover:text-primary w-fit'>
-                Thêm địa chỉ
-                <Plus className='w-5' />
-              </Button>
-            </div>
-          </div>
-        </div>
       </div>
-      <ProfileModal />
     </div>
   );
 };

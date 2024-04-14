@@ -1,4 +1,5 @@
 import envConfig from '@/config';
+import { RootPath } from '@/constants';
 import {
   EMAIL_LOGIN_ENDPOINT,
   EMAIL_REGISTER_ENDPOINT,
@@ -14,13 +15,12 @@ type CustomOptions = Omit<RequestInit, 'method'> & {
 
 const ENTITY_ERROR_STATUS = 422;
 const AUTHENTICATION_ERROR_STATUS = 401;
+const NO_CONTENT_STATUS = 204;
 
 type EntityErrorPayload = {
-  message: string;
   errors: {
-    field: string;
-    message: string;
-  }[];
+    [field: string]: string;
+  };
 };
 
 export class HttpError extends Error {
@@ -36,11 +36,10 @@ export class HttpError extends Error {
   }
 }
 
-export class EntityError extends HttpError {
+export class EntityError {
   status: 422;
   payload: EntityErrorPayload;
   constructor({ status, payload }: { status: 422; payload: EntityErrorPayload }) {
-    super({ status, payload });
     this.status = status;
     this.payload = payload;
   }
@@ -53,7 +52,7 @@ class SessionToken {
     return this.token;
   }
   set value(token: string) {
-    // Nếu gọi method này ở server thì sẽ bị lỗi
+    // cannot call this method in server
     if (typeof window === 'undefined') {
       throw new Error('Cannot set token on server side');
     }
@@ -63,7 +62,7 @@ class SessionToken {
     return this._expiresAt;
   }
   set expiresAt(expiresAt: string) {
-    // Nếu gọi method này ở server thì sẽ bị lỗi
+    // cannot call this method in server
     if (typeof window === 'undefined') {
       throw new Error('Cannot set token on server side');
     }
@@ -111,7 +110,11 @@ const request = async <Response>(
     body,
     method,
   });
-  const payload: Response = await res.json();
+
+  const payload: Response = await res.json().catch((reason) => {
+    console.log(reason);
+  });
+  
   const data = {
     status: res.status,
     payload,
@@ -122,7 +125,7 @@ const request = async <Response>(
       throw new EntityError(
         data as {
           status: 422;
-          payload: EntityErrorPayload | any;
+          payload: EntityErrorPayload;
         },
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
@@ -140,7 +143,7 @@ const request = async <Response>(
           clientSessionToken.value = '';
           clientSessionToken.expiresAt = new Date().toISOString();
           clientLogoutRequest = null;
-          location.href = '/login';
+          location.href = RootPath.Login;
         }
       } else {
         const sessionToken = (options?.headers as any)?.Authorization.split('Bearer ')[1];
@@ -150,6 +153,7 @@ const request = async <Response>(
       throw new HttpError(data);
     }
   }
+
   // make sure that logics below only runs in client
   if (typeof window !== 'undefined') {
     if (
