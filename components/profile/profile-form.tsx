@@ -20,7 +20,6 @@ import { Icons } from '@/components/icons';
 import { ProfileFormType, ProfileSchema } from '@/validationSchemas/profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useProfileModal } from '@/hooks/useProfileModal';
 
 import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
@@ -41,7 +40,6 @@ export function UpdateProfile({
   setUpdateUser,
 }: Readonly<ProfileFormProps>) {
   const router = useRouter();
-  const onClose = useProfileModal((state) => state.onClose);
 
   const form = useForm<ProfileFormType>({
     mode: 'onChange',
@@ -56,6 +54,7 @@ export function UpdateProfile({
   const {
     formState: { isSubmitting },
     handleSubmit,
+    setValue,
     setError,
   } = form;
 
@@ -84,9 +83,13 @@ export function UpdateProfile({
         title: 'Cập nhật hồ sơ thất bại',
         description: getErrorMsg(errorResponse.status, CASE_DEFAULT),
       });
-    } finally {
-      onClose();
     }
+  }
+
+  const handleCloseEdit = () => {
+    setUpdateUser(initialData);
+    setValue('avatarImageId', initialData.avatar?.publicId);
+    closeEdit();
   }
 
   return (
@@ -143,7 +146,7 @@ export function UpdateProfile({
             />
           </FormItem>
           <div className={cn('justify-end items-center gap-4', editable ? 'flex' : 'hidden')}>
-            <Button type="button" variant="secondary" onClick={closeEdit}>
+            <Button type="button" variant="secondary" onClick={handleCloseEdit}>
               Hủy
             </Button>
             <Button type="submit" disabled={isSubmitting}>

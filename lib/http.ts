@@ -46,17 +46,28 @@ export class EntityError {
 }
 
 class SessionToken {
-  private token = '';
+  private accessToken = '';
+  private refreshToken = '';
   private _expiresAt = new Date().toISOString();
-  get value() {
-    return this.token;
+  get accessValue() {
+    return this.accessToken;
   }
-  set value(token: string) {
+  set accessValue(accessToken: string) {
     // cannot call this method in server
     if (typeof window === 'undefined') {
-      throw new Error('Cannot set token on server side');
+      throw new Error('Cannot set accessToken on server side');
     }
-    this.token = token;
+    this.accessToken = accessToken;
+  }
+  get refreshValue() {
+    return this.refreshToken;
+  }
+  set refreshValue(refreshToken: string) {
+    // cannot call this method in server
+    if (typeof window === 'undefined') {
+      throw new Error('Cannot set refreshToken on server side');
+    }
+    this.refreshToken = refreshToken;
   }
   get expiresAt() {
     return this._expiresAt;
@@ -64,7 +75,7 @@ class SessionToken {
   set expiresAt(expiresAt: string) {
     // cannot call this method in server
     if (typeof window === 'undefined') {
-      throw new Error('Cannot set token on server side');
+      throw new Error('Cannot set accessToken on server side');
     }
     this._expiresAt = expiresAt;
   }
@@ -84,14 +95,15 @@ const request = async <Response>(
       ? options.body
       : JSON.stringify(options.body)
     : undefined;
+
   const baseHeaders =
     body instanceof FormData
       ? {
-          Authorization: clientSessionToken.value ? `Bearer ${clientSessionToken.value}` : '',
+          Authorization: clientSessionToken.accessValue ? `Bearer ${clientSessionToken.accessValue}` : '',
         }
       : {
           'Content-Type': 'application/json',
-          Authorization: clientSessionToken.value ? `Bearer ${clientSessionToken.value}` : '',
+          Authorization: clientSessionToken.accessValue ? `Bearer ${clientSessionToken.accessValue}` : '',
         };
 
   // if dont pass baseUrl (or baseUrl = undefined) then get it from envConfig.NEXT_PUBLIC_API_ENDPOINT
@@ -111,10 +123,10 @@ const request = async <Response>(
     method,
   });
 
-  const payload: Response = await res.json().catch((reason) => {
-    console.log(reason);
-  });
-  
+  const payload: Response = await res
+    .json()
+    .catch((reason) => console.log('reason', reason.status));
+
   const data = {
     status: res.status,
     payload,
@@ -131,7 +143,7 @@ const request = async <Response>(
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
       if (typeof window !== 'undefined') {
         if (!clientLogoutRequest) {
-          clientLogoutRequest = fetch('/api/auth/logout', {
+          clientLogoutRequest = fetch('/api/auth-client/logout', {
             method: 'POST',
             body: JSON.stringify({ force: true }),
             headers: {
@@ -140,14 +152,15 @@ const request = async <Response>(
           });
 
           await clientLogoutRequest;
-          clientSessionToken.value = '';
+          clientSessionToken.accessValue = '';
+          clientSessionToken.refreshValue = '';
           clientSessionToken.expiresAt = new Date().toISOString();
           clientLogoutRequest = null;
-          location.href = RootPath.Login;
+          location.reload();
         }
       } else {
         const sessionToken = (options?.headers as any)?.Authorization.split('Bearer ')[1];
-        redirect(`/logout?sessionToken=${sessionToken}`);
+        redirect(`/dang-xuat?sessionToken=${sessionToken}`);
       }
     } else {
       throw new HttpError(data);
@@ -159,12 +172,14 @@ const request = async <Response>(
     if (
       [EMAIL_LOGIN_ENDPOINT, EMAIL_REGISTER_ENDPOINT].some((item) => item === normalizePath(url))
     ) {
-      clientSessionToken.value = (payload as LoginResponseDto).accessToken;
+      clientSessionToken.accessValue = (payload as LoginResponseDto).accessToken;
+      clientSessionToken.refreshValue = (payload as LoginResponseDto).refreshToken;
       clientSessionToken.expiresAt = new Date(
         (payload as LoginResponseDto).accessTokenExpires,
       ).toISOString();
     } else if (LOGOUT_ENDPOINT === normalizePath(url)) {
-      clientSessionToken.value = '';
+      clientSessionToken.accessValue = '';
+      clientSessionToken.refreshValue = '';
       clientSessionToken.expiresAt = new Date().toISOString();
     }
   }

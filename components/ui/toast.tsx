@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
-import * as Portal from '@radix-ui/react-portal';
 import { cva, type VariantProps } from "class-variance-authority"
 import { X } from "lucide-react"
 
@@ -14,7 +13,6 @@ const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
 >(({ className, ...props }, ref) => (
-  <Portal.Root className="fixed z-[60]">
     <ToastPrimitives.Viewport
       ref={ref}
       className={cn(
@@ -23,8 +21,6 @@ const ToastViewport = React.forwardRef<
       )}
       {...props}
     />
-    
-  </Portal.Root>
 ))
 ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 

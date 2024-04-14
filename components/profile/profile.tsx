@@ -7,21 +7,26 @@ import { User } from '@techcell/node-sdk';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
+import MaxWidthWrapper from '@/components/common/max-width-wrapper';
 import LoadingPage from '@/app/loading';
 import { UpdateProfile } from './profile-form';
 
 import LogoText from '@/public/logo-text-red.png';
 import { cn } from '@/lib/utils';
 import { PencilLine, Plus } from 'lucide-react';
+import { useAddressModal } from '@/hooks/useAddressModal';
 
 interface ProfileProps {
   profile: User;
 }
 
 const Profile = ({ profile }: ProfileProps) => {
+  console.log(profile);
+  const [currentProfile, setCurrentProfile] = useState<User>(profile);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);
-  const [currentProfile, setCurrentProfile] = useState<User>(profile);
+
+  const openAddressModal = useAddressModal((state) => state.onOpen);
   
   useEffect(() => {
     setIsMounted(true);
@@ -32,7 +37,7 @@ const Profile = ({ profile }: ProfileProps) => {
   }
 
   return (
-    <div className="container px-2.5 sm:px-10 sm:max-w-[960px] h-full rounded-md flex flex-col sm:flex-row gap-2.5 sm:gap-6">
+    <MaxWidthWrapper className="sm:max-w-[960px] h-full rounded-md flex flex-col sm:flex-row gap-2.5 sm:gap-6">
       <div className="w-full sm:w-1/5 h-fit rounded-md bg-white sm:py-5">
         <Tabs defaultValue="information" className="w-full h-fit bg-inherit">
           <TabsList className="grid w-full h-auto grid-cols-2 sm:grid-cols-1 rounded-none [&>button]:text-base [&>button]:rounded-md sm:[&>button]:rounded-r-none p-0 bg-inherit">
@@ -51,29 +56,6 @@ const Profile = ({ profile }: ProfileProps) => {
         </div>
       </div>
       <div className="w-full flex-col gap-5 sm:w-4/5 h-fit rounded-md bg-white p-2.5 sm:p-5">
-        {/* <div className="w-full flex items-center sm:items-end gap-5">
-          <div className="rounded-full overflow-hidden max-h-24 max-w-24">
-            <Image
-              src={profile.avatar?.url ?? AlternativeAvatar.src}
-              alt="avatar"
-              width={96}
-              height={96}
-              className="w-[80px] h-[80px] sm:w-24 sm:h-24 object-cover sm:object-fill object-center"
-            />
-          </div>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-5">
-            <h3 className="text-2xl font-semibold">
-              {profile.lastName} {profile.firstName}
-            </h3>
-            <Button variant="default" className="text-sm gap-2.5" onClick={handleOpenUpdate}>
-              Chỉnh sửa
-              <PencilLine className="w-5" />
-            </Button>
-            <div className='!z-10'>
-              <ProfileModal userProfile={profile} />
-            </div>
-          </div>
-        </div> */}
         <div className="w-full relative">
           <Button
             variant="default"
@@ -101,6 +83,7 @@ const Profile = ({ profile }: ProfileProps) => {
             <Button
               variant="outline"
               className="border-primary text-sm gap-2.5 text-primary hover:text-primary w-fit"
+              onClick={openAddressModal}
             >
               Thêm địa chỉ
               <Plus className="w-5" />
@@ -108,7 +91,7 @@ const Profile = ({ profile }: ProfileProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </MaxWidthWrapper>
   );
 };
 

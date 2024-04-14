@@ -2,7 +2,7 @@
 
 import { clientSessionToken } from '@/lib/http';
 import { User } from '@techcell/node-sdk';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const AppContext = createContext<{ user: User | null; setUser: (user: User | null) => void }>({
   user: null,
@@ -17,18 +17,21 @@ export const useAppContext = () => {
 
 export default function AppProvider({
   children,
-  inititalSessionToken = '',
+  initialSessionToken = '',
+  initialRefreshToken = '',
   user: userProp,
 }: Readonly<{
   children: React.ReactNode;
-  inititalSessionToken?: string;
+  initialSessionToken?: string;
+  initialRefreshToken?: string;
   user: User | null;
 }>) {
   const [user, setUser] = useState<User | null>(userProp);
   
   useState(() => {
     if (typeof window !== 'undefined') {
-      clientSessionToken.value = inititalSessionToken;
+      clientSessionToken.accessValue = initialSessionToken;
+      clientSessionToken.refreshValue = initialRefreshToken;
     }
   });
 

@@ -3,8 +3,9 @@ import { HttpError } from '@/lib/http';
 import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
-  const res = await request.json();
-  const force = res.force as boolean | undefined;
+  const req = await request.json();
+  console.log(req);
+  const force = req.force as boolean | undefined;
   if (force) {
     return Response.json(
       {
@@ -30,15 +31,17 @@ export async function POST(request: Request) {
     );
   }
   try {
-    const result = await authApiRequest.logoutFromNextServerToServer(sessionToken.value);
-    return Response.json(result.payload, {
-      status: 200,
+    await authApiRequest.logoutFromNextServerToServer(sessionToken.value);
+
+    return new Response(null, {
+      status: 204,
       headers: {
         // Xóa cookie sessionToken
         'Set-Cookie': `sessionToken=; Path=/; HttpOnly; Max-Age=0`,
       },
     });
   } catch (error) {
+    console.log('error', error);
     if (error instanceof HttpError) {
       return Response.json(error.payload, {
         status: error.status,

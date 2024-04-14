@@ -14,9 +14,6 @@ export default function Home() {
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
       <p>This is home page</p>
-      <LoginButton>
-        <Button>Button</Button>
-      </LoginButton>
       <div className="px-[100px] xs:px-[20px]">
 
         <HomePage />
