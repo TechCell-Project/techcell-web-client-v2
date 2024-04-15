@@ -21,7 +21,6 @@ interface ProfileProps {
 }
 
 const Profile = ({ profile }: ProfileProps) => {
-  console.log(profile);
   const [currentProfile, setCurrentProfile] = useState<User>(profile);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState<boolean>(false);

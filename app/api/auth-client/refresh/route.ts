@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     );
   }
 
+  console.log(refreshToken.value);
   try {
     const res = await authApiRequest.refreshTokenFromNextServerToServer({
       refreshToken: refreshToken.value,

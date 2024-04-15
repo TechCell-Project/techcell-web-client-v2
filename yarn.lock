@@ -710,7 +710,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-dialog@npm:^1.0.4, @radix-ui/react-dialog@npm:^1.0.5":
+"@radix-ui/react-dialog@npm:1.0.5, @radix-ui/react-dialog@npm:^1.0.4, @radix-ui/react-dialog@npm:^1.0.5":
   version: 1.0.5
   resolution: "@radix-ui/react-dialog@npm:1.0.5"
   dependencies:
@@ -1343,12 +1343,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@techcell/node-sdk@npm:0.0.1-67958f7":
-  version: 0.0.1-67958f7
-  resolution: "@techcell/node-sdk@npm:0.0.1-67958f7"
+"@techcell/node-sdk@npm:0.0.1-b9d4df1":
+  version: 0.0.1-b9d4df1
+  resolution: "@techcell/node-sdk@npm:0.0.1-b9d4df1"
   dependencies:
     axios: "npm:^1.6.1"
-  checksum: 10c0/c0b28c8448be24ea4be1d811ed46962b99c3c59479d08ceb2a1ed85038a9915294653fa9ed4bc687e44bf63b25477a06153e2c3e1bdf51f51d157cb5d831266f
+  checksum: 10c0/cccf708236161c8716b1df978ca53d447598cb9d2ed61de28721c9070ba35f52d6fa11fc14abb4e615347520be936cce26317da4dbfad7ca8150e77645a35eb3
   languageName: node
   linkType: hard
 
@@ -2066,6 +2066,19 @@ __metadata:
   version: 2.1.0
   resolution: "clsx@npm:2.1.0"
   checksum: 10c0/c09c00ad14f638366ca814097e6cab533dfa1972a358da5b557be487168acbb25b4c1395e89ffa842a8a61ba87a462d2b4885bc9d4f8410b598f3cb339599cdb
+  languageName: node
+  linkType: hard
+
+"cmdk@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "cmdk@npm:1.0.0"
+  dependencies:
+    "@radix-ui/react-dialog": "npm:1.0.5"
+    "@radix-ui/react-primitive": "npm:1.0.3"
+  peerDependencies:
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  checksum: 10c0/bf1c9cfce46f2f507ab95735fa08c9aa27e76ecdff87720cc51ae89dbf4814b7559668458f66ff4c3932a88a6b9d8817be05c3cc4ff98bc40c3645acf4a97376
   languageName: node
   linkType: hard
 
@@ -5499,7 +5512,7 @@ __metadata:
     "@radix-ui/react-tooltip": "npm:^1.0.7"
     "@tanstack/eslint-plugin-query": "npm:^5.28.11"
     "@tanstack/react-query": "npm:^5.28.14"
-    "@techcell/node-sdk": "npm:0.0.1-67958f7"
+    "@techcell/node-sdk": "npm:0.0.1-b9d4df1"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
@@ -5510,6 +5523,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.0"
     cloudinary: "npm:^2.1.0"
     clsx: "npm:^2.1.0"
+    cmdk: "npm:^1.0.0"
     date-fns: "npm:^3.6.0"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.1.4"

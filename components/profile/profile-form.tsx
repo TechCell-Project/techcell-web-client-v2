@@ -47,7 +47,7 @@ export function UpdateProfile({
     defaultValues: {
       firstName: initialData.firstName,
       lastName: initialData.lastName,
-      avatarImageId: initialData.avatar ? initialData.avatar.publicId : '',
+      avatarImageId: initialData.avatar ? initialData.avatar.publicId : undefined,
     },
   });
 
@@ -109,7 +109,7 @@ export function UpdateProfile({
                       value={field.value ? [field.value] : []}
                       disabled={isSubmitting}
                       onChange={(url) => field.onChange(url)}
-                      onRemove={() => field.onChange('')}
+                      onRemove={() => field.onChange(undefined)}
                       changable={editable}
                     />
                   </div>
