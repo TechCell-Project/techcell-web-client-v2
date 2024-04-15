@@ -12,6 +12,10 @@ export default function Logout() {
   const searchParams = useSearchParams();
   const sessionToken = searchParams.get('sessionToken');
 
+  if (!sessionToken) {
+    push(RootPath.Login);
+  }
+
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;

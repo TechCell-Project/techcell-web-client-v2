@@ -15,10 +15,12 @@ export const handleErrorApi = ({
   error: any;
   setError?: UseFormSetError<any>;
 }) => {
-  if (error instanceof EntityError && setError) {
-    Object.entries(error.payload.errors).forEach(([field, message]) => {
-      setError(field, { type: 'server', message });
-    });
+  if (error instanceof EntityError) {
+    if (setError) {
+      Object.entries(error.payload.errors).forEach(([field, message]) => {
+        setError(field, { type: 'server', message });
+      });
+    }
     return {
       status: 422
     }
