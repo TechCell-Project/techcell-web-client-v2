@@ -3,8 +3,13 @@ import { HttpError } from '@/lib/http';
 import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
-  const res = await request.json();
-  const force = res.force as boolean | undefined;
+  const req = await request.json();
+  console.log(req);
+  const force = req.force as boolean | undefined;
+  const appendHeaders = new Headers();
+  appendHeaders.append('Set-Cookie', 'sessionToken=; Path=/; HttpOnly; Max-Age=0');
+  appendHeaders.append('Set-Cookie', 'refreshToken=; Path=/; HttpOnly; Max-Age=0');
+
   if (force) {
     return Response.json(
       {
@@ -12,10 +17,7 @@ export async function POST(request: Request) {
       },
       {
         status: 200,
-        headers: {
-          // Xóa cookie sessionToken
-          'Set-Cookie': `sessionToken=; Path=/; HttpOnly; Max-Age=0`,
-        },
+        headers: appendHeaders
       },
     );
   }
@@ -30,15 +32,14 @@ export async function POST(request: Request) {
     );
   }
   try {
-    const result = await authApiRequest.logoutFromNextServerToServer(sessionToken.value);
-    return Response.json(result.payload, {
-      status: 200,
-      headers: {
-        // Xóa cookie sessionToken
-        'Set-Cookie': `sessionToken=; Path=/; HttpOnly; Max-Age=0`,
-      },
+    await authApiRequest.logoutFromNextServerToServer(sessionToken.value);
+
+    return new Response(null, {
+      status: 204,
+      headers: appendHeaders
     });
   } catch (error) {
+    console.log('error', error);
     if (error instanceof HttpError) {
       return Response.json(error.payload, {
         status: error.status,

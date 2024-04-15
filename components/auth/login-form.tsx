@@ -47,6 +47,7 @@ export const LoginForm = () => {
 
       await authApiRequest.auth({
         sessionToken: res.payload.accessToken,
+        refreshToken: res.payload.refreshToken,
         expiresAt: res.payload.accessTokenExpires,
       });
 
