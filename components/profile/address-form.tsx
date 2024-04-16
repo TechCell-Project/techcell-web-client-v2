@@ -45,7 +45,7 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
     defaultValues: initialData ?? {
       provinceLevel: { provinceId: undefined },
       districtLevel: { districtId: undefined },
-      wardLevel: { wardCode: '' },
+      wardLevel: { wardCode: ''},
       detail: '',
       customerName: '',
       phoneNumber: '',
