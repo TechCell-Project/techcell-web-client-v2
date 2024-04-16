@@ -1,15 +1,20 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Form } from '@/components/ui/form';
-import { useForm } from 'react-hook-form';
+
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import { Form } from '@/components/ui/form';
 import { AddressFormType, AddressSchema } from '@/validationSchemas';
-import { InputComboBox } from '../common/form/input-combobox';
-import { useEffect, useState } from 'react';
-import { toast } from '../ui/use-toast';
+import { InputComboBox } from '@/components/common/form/input-combobox';
+import { toast } from '@/components/ui/use-toast';
+
 import { addressApiRequest } from '@/apiRequests';
-import { GhnProvinceDTO } from '@techcell/node-sdk';
+
+import { GhnDistrictDTO, GhnProvinceDTO, GhnWardDTO } from '@techcell/node-sdk';
+import { useDebounce } from 'ahooks';
 
 interface ProfileFormProps {
   initialData: AddressFormType | null;
@@ -19,25 +24,8 @@ interface ProfileFormProps {
 export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
   const router = useRouter();
   const [provinces, setProvinces] = useState<GhnProvinceDTO[]>([]);
-  console.log(provinces);
-  useEffect(() => {
-    const fetchProvinces = async () => {
-      try {
-        const res = await addressApiRequest.getProvinces();
-        setProvinces(res.payload);
-      } catch (error) {
-        console.error('Failed to fetch provinces:', error);
-        toast({
-          variant: 'destructive',
-          title: 'Lấy dữ liệu tỉnh thành thất bại',
-        });
-      }
-    };
-    if(provinces.length === 0) {
-      fetchProvinces();
-    }
-
-  }, []);
+  const [districts, setDistricts] = useState<GhnDistrictDTO[]>([]);
+  const [wards, setWards] = useState<GhnWardDTO[]>([]);
 
   const form = useForm<AddressFormType>({
     mode: 'onChange',
@@ -45,7 +33,7 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
     defaultValues: initialData ?? {
       provinceLevel: { provinceId: undefined },
       districtLevel: { districtId: undefined },
-      wardLevel: { wardCode: ''},
+      wardLevel: { wardCode: '' },
       detail: '',
       customerName: '',
       phoneNumber: '',
@@ -57,9 +45,80 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
   const {
     formState: { isSubmitting },
     handleSubmit,
+    resetField,
     setValue,
     setError,
+    watch,
+    control,
   } = form;
+
+  const provinceField = useWatch({ control, name: 'provinceLevel.provinceId' });
+  const districtField = useWatch({ control, name: 'districtLevel.districtId' });
+  const wardField = useWatch({ control, name: 'wardLevel.wardCode' });
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const res = await addressApiRequest.getProvinces();
+
+        setProvinces(res.payload);
+      } catch (error) {
+        console.error('Failed to fetch provinces:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Lấy dữ liệu Tỉnh thành thất bại',
+        });
+      }
+    };
+
+    if (provinces.length === 0) {
+      fetchProvinces();
+    }
+  }, [provinces.length]);
+
+  useEffect(() => {
+    const fetchDistricts = async (provinceId: string) => {
+      try {
+        const res = await addressApiRequest.getDistricts(provinceId);
+
+        setDistricts(res.payload);
+      } catch (error) {
+        console.error('Failed to fetch districts:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Lấy dữ liệu Quận Huyện thất bại',
+        });
+      }
+    };
+
+    if (provinceField) {
+      resetField('districtLevel');
+      fetchDistricts(provinceField.toString());
+    }
+  }, [provinceField]);
+
+  useEffect(() => {
+    const fetchWards = async (districtId: string) => {
+      try {
+        const res = await addressApiRequest.getWards(districtId);
+
+        setWards(res.payload);
+      } catch (error) {
+        console.error('Failed to fetch districts:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Lấy dữ liệu Xã Phường thất bại',
+        });
+      }
+    };
+
+    if (districtField) {
+      resetField('wardLevel');
+      fetchWards(districtField.toString());
+    }
+  }, [districtField]);
+
+  console.log(provinceField, districtField, wardField);
 
   async function onSubmit(values: AddressFormType) {}
 
@@ -74,6 +133,22 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
             form={form}
             options={provinces}
             optionKeyValue={{ key: 'provinceId', value: 'provinceName' }}
+          />
+          <InputComboBox<AddressFormType, GhnDistrictDTO>
+            name="districtLevel"
+            label="Chọn Quận/huyện"
+            selectPlaceholder="Quận/huyện"
+            form={form}
+            options={districts}
+            optionKeyValue={{ key: 'districtId', value: 'districtName' }}
+          />
+          <InputComboBox<AddressFormType, GhnWardDTO>
+            name="wardLevel"
+            label="Chọn Xã/Phường"
+            selectPlaceholder="Xã/Phường"
+            form={form}
+            options={wards}
+            optionKeyValue={{ key: 'wardCode', value: 'wardName' }}
           />
         </form>
       </Form>

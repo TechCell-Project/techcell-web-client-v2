@@ -24,6 +24,7 @@ import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { Check, ChevronDown } from 'lucide-react';
 import { useDebounceFn } from 'ahooks';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const languages = [
   { label: 'English', value: 'en' },
@@ -86,7 +87,6 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
   const [search, setSearch] = useState('');
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
 
-  console.log(search);
   // Handle search event
   const filteredOptions =
     search === ''
@@ -97,8 +97,6 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
             .replace(/\s+/g, '')
             .includes(search.toLowerCase().replace(/\s+/g, '')),
         );
-
-  console.log(filteredOptions);
 
   // Handle change event when an option is selected
   const handleSelect = (value: string | number, fieldType: string) => {
@@ -124,49 +122,43 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
     <FormField
       control={form.control}
       name={name}
-      render={({ field }) => {
-        console.log(field.value);
-
-        return (
-          <FormItem className={cn('w-full flex flex-col', className)}>
-            <FormLabel>{label}</FormLabel>
-            <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
-              <PopoverTrigger asChild>
-                <FormControl>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    className={cn(
-                      'w-full justify-between text-base',
-                      !field.value && 'text-muted-foreground',
-                    )}
-                  >
-                    {selectedLabel ?? selectPlaceholder}
-                    <ChevronDown className="ml-2 h-6 w-6 opacity-50" />
-                  </Button>
-                </FormControl>
-              </PopoverTrigger>
-              <PopoverContent align="center" className="popover-content-width-same-as-its-trigger">
-                {isLoading ? (
-                  <div className="h-24 w-full flex flex-col items-center">
-                    <Icons.spinner className="mr-2 h-5 w-5 animate-spin" />
-                  </div>
-                ) : (
-                  <Command
-                    className="w-full"
-                    filter={() => 1}
-                  >
-                    <CommandInput
-                      autoFocus
-                      placeholder={inputPlaceholder ?? 'Tìm kiếm...'}
-                      value={search}
-                      onValueChange={setSearch}
-                    />
-                    <CommandList>
+      render={({ field }) => (
+        <FormItem className={cn('w-full flex flex-col', className)}>
+          <FormLabel>{label}</FormLabel>
+          <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
+            <PopoverTrigger asChild>
+              <FormControl>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  className={cn(
+                    'w-full justify-between text-base',
+                    !field.value && 'text-muted-foreground',
+                  )}
+                >
+                  {selectedLabel ?? selectPlaceholder}
+                  <ChevronDown className="ml-2 h-6 w-6 opacity-50" />
+                </Button>
+              </FormControl>
+            </PopoverTrigger>
+            <PopoverContent align="center" className="popover-content-width-same-as-its-trigger">
+              {isLoading ? (
+                <div className="h-24 w-full flex flex-col items-center">
+                  <Icons.spinner className="mr-2 h-5 w-5 animate-spin" />
+                </div>
+              ) : (
+                <Command className="w-full" filter={() => 1}>
+                  <CommandInput
+                    autoFocus
+                    placeholder={inputPlaceholder ?? 'Tìm kiếm...'}
+                    value={search}
+                    onValueChange={setSearch}
+                  />
+                  <CommandList>
+                    <ScrollArea>
                       {filteredOptions.length === 0 && <CommandEmpty>Không tìm thấy.</CommandEmpty>}
                       <CommandGroup>
                         {filteredOptions.map((item) => {
-                          console.log(item);
                           const isSelected =
                             typeof field.value === 'object'
                               ? item[optionKeyValue.key] === field.value[optionKeyValue.key]
@@ -191,16 +183,16 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
                           );
                         })}
                       </CommandGroup>
-                    </CommandList>
-                  </Command>
-                )}
-              </PopoverContent>
-            </Popover>
-            {description && <FormDescription>{description}</FormDescription>}
-            <FormMessage />
-          </FormItem>
-        );
-      }}
+                    </ScrollArea>
+                  </CommandList>
+                </Command>
+              )}
+            </PopoverContent>
+          </Popover>
+          {description && <FormDescription>{description}</FormDescription>}
+          <FormMessage />
+        </FormItem>
+      )}
     />
   );
 };
