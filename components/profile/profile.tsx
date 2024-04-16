@@ -26,7 +26,7 @@ const Profile = ({ profile }: ProfileProps) => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const openAddressModal = useAddressModal((state) => state.onOpen);
-  
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -34,6 +34,8 @@ const Profile = ({ profile }: ProfileProps) => {
   if (!isMounted) {
     return <LoadingPage />;
   }
+
+  console.log(currentProfile);
 
   return (
     <MaxWidthWrapper className="sm:max-w-[960px] h-full rounded-md flex flex-col sm:flex-row gap-2.5 sm:gap-6">
@@ -88,6 +90,17 @@ const Profile = ({ profile }: ProfileProps) => {
               <Plus className="w-5" />
             </Button>
           </div>
+          {profile.address?.map((address, index) => (
+            <div
+              key={`${address.provinceLevel.provinceId}/${address.districtLevel.districtId}/${address.wardLevel.wardCode}/${index}`}
+              className="w-full flex flex-col text-base"
+            >
+              <div className="flex items-end w-fill">
+                <h5 className="w-1/5 font-semibold">{address.customerName}</h5>
+                <p className="w-4/5 text-zinc-500 font-normal">{address.phoneNumbers}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </MaxWidthWrapper>
