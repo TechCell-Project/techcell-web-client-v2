@@ -18,12 +18,11 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { FieldPath, FieldValues, Path, PathValue, UseFormReturn } from 'react-hook-form';
+import { FieldPath, FieldValues, PathValue, UseFormReturn } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { Check, ChevronDown } from 'lucide-react';
-import { useDebounceFn } from 'ahooks';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 const languages = [
@@ -43,8 +42,6 @@ type TKeyValue<TOption> = {
   value: keyof TOption;
 };
 
-type FieldValue<T> = T extends { [K: string]: infer U } ? U : never;
-
 type ComboBoxProps<TFieldValues extends FieldValues, OptionType> = {
   className?: string;
   name: FieldPath<TFieldValues>;
@@ -60,14 +57,6 @@ type ComboBoxProps<TFieldValues extends FieldValues, OptionType> = {
   optionKeyValue: TKeyValue<OptionType>;
 };
 
-// Utility function to get the type of a field in a form
-function getFieldTypeByName<TFieldValues extends FieldValues, K extends FieldPath<TFieldValues>>(
-  form: TFieldValues,
-  fieldName: K,
-): FieldValue<TFieldValues[K]> {
-  return form[fieldName];
-}
-
 export const InputComboBox = <T extends FieldValues, OptionType>({
   className,
   name,
@@ -81,7 +70,7 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
   options,
   optionKeyValue,
 }: ComboBoxProps<T, OptionType>) => {
-  const { register, setValue } = form;
+  const { setValue, watch } = form;
 
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
   const [search, setSearch] = useState('');
@@ -97,6 +86,14 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
             .replace(/\s+/g, '')
             .includes(search.toLowerCase().replace(/\s+/g, '')),
         );
+
+  const fieldWatch = watch(name);
+
+  useEffect(() => {
+    if (fieldWatch === undefined || fieldWatch === '') {
+      setSelectedLabel(null);
+    }
+  }, [fieldWatch])
 
   // Handle change event when an option is selected
   const handleSelect = (value: string | number, fieldType: string) => {

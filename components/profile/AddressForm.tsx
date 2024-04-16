@@ -1,31 +1,18 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { Form } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
 import { AddressFormType, AddressSchema } from '@/validationSchemas';
 import { InputComboBox } from '@/components/common/form/input-combobox';
 import { InputText } from '@/components/common/form/input-text';
 import { InputSelect } from '@/components/common/form/input-select';
 import { toast } from '@/components/ui/use-toast';
-import { Icons } from '@/components/icons';
-
-import { addressApiRequest, authApiRequest } from '@/apiRequests';
-
-import { AuthUpdateDto, GhnDistrictDTO, GhnProvinceDTO, GhnWardDTO } from '@techcell/node-sdk';
-import { ADDRESS_TYPES, AddressType, CASE_DEFAULT } from '@/constants';
-
-import { getErrorMsg, handleErrorApi } from '@/lib/utils';
-
-interface ProfileFormProps {
-  initialData: AddressFormType | null;
-  closeModal: () => void;
-}
+import { addressApiRequest } from '@/apiRequests';
+import { GhnDistrictDTO, GhnProvinceDTO, GhnWardDTO } from '@techcell/node-sdk';
+import { ADDRESS_TYPES, AddressType } from '@/constants/common';
+import { ProfileFormProps } from './address-form';
 
 export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
   const router = useRouter();
@@ -187,21 +174,21 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
             options={wards}
             optionKeyValue={{ key: 'wardCode', value: 'wardName' }}
           />
-          
+
           <InputText<AddressFormType>
             name="detail"
             label="Chi tiết"
             form={form}
-            placeholder='Địa chỉ chi tiết'
+            placeholder="Địa chỉ chi tiết"
             disabled={isSubmitting}
           />
 
-          <div className='grid grid-cols-2 gap-4'>
+          <div className="grid grid-cols-2 gap-4">
             <InputText<AddressFormType>
               name="customerName"
               label="Tên người nhận"
               form={form}
-              placeholder='Nhập tên người nhận'
+              placeholder="Nhập tên người nhận"
               disabled={isSubmitting}
             />
             <InputText<AddressFormType>
@@ -219,15 +206,6 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
             optionKeyValue={{ key: 'typeKey', value: 'typeValue' }}
             disabled={isSubmitting}
           />
-          <div className='flex justify-end items-center gap-4'>
-            <Button type="button" variant="secondary" onClick={closeModal}>
-              Hủy
-            </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-              Lưu
-            </Button>
-          </div>
         </form>
       </Form>
     </div>

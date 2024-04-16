@@ -3,7 +3,7 @@
 import React from 'react';
 import { Modal } from '@/components/ui/modal';
 import { useAddressModal } from '@/hooks/useAddressModal';
-import { AddressForm } from '@/components/profile/address-form';
+import { AddressForm } from '@/components/profile/AddressForm';
 
 const AddressModal = () => {
   const addressModal = useAddressModal();
