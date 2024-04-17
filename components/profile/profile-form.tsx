@@ -23,7 +23,7 @@ import { useForm } from 'react-hook-form';
 
 import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
-import { CASE_DEFAULT, RootPath } from '@/constants';
+import { CASE_DEFAULT } from '@/constants';
 import { AuthUpdateDto, User } from '@techcell/node-sdk';
 
 interface ProfileFormProps {
@@ -53,10 +53,10 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
   } = form;
 
   async function onSubmit(values: ProfileFormType) {
+    if (isSubmitting) return;
     try {
+      console.log(values);
       await authApiRequest.updateMe(values);
-
-      await authApiRequest.getMeClient();
 
       toast({
         variant: 'success',
@@ -64,7 +64,8 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
       });
 
       closeEdit();
-      router.push(RootPath.Profile);
+      console.log('go here if refresh!');
+      router.refresh();
     } catch (error) {
       console.log(error);
       const errorResponse = handleErrorApi({

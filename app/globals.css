@@ -48,7 +48,8 @@ iframe {
     --radius: 0.5rem;
   }
 
-  .dark {
+  /* Not using darkmode for now */
+  /* .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 0 0% 95%;
 
@@ -79,7 +80,7 @@ iframe {
     --input: 240 3.7% 15.9%;
 
     --ring: 0 83% 61%;
-  }
+  } */
 }
 
 @layer base {

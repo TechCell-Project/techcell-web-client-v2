@@ -63,11 +63,11 @@ export default async function RootLayout({
       <body className={myLocalFont.className}>
         <Toaster />
         <AppProvider initialSessionToken={sessionToken?.value} initialRefreshToken={refreshToken?.value} user={user}>
-          <ModalProvider />
+          {user && <ModalProvider userProfile={user} />}
           <Header user={user} />
           <div className="bg-slate-100">{children}</div>
-          <Footer />
           <AutoRefreshToken />
+          <Footer />
         </AppProvider>
       </body>
     </html>

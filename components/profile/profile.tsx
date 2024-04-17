@@ -21,16 +21,15 @@ interface ProfileProps {
 }
 
 const Profile = ({ profile }: ProfileProps) => {
-  const openAddressModal = useAddressModal((state) => state.onOpen);
-  const setAddressToModal = useAddressModal((state) => state.setAddress);
+  const { onOpen, setAddressIndex } = useAddressModal();
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   const handleOpenAddNewAddress = () => {
-    setAddressToModal(null);
-    openAddressModal();
+    setAddressIndex(null);
+    onOpen();
   }
 
   useEffect(() => {

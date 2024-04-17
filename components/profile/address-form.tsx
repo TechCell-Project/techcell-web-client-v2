@@ -29,20 +29,17 @@ import { ADDRESS_TYPES, AddressType, CASE_DEFAULT, RootPath } from '@/constants'
 
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
 
-import { useAddressModal } from '@/hooks/useAddressModal';
-
 interface ProfileFormProps {
   index: number | null;
   closeModal: () => void;
+  addressList: UserAddressSchema[];
 }
 
-export function AddressForm({ index, closeModal }: Readonly<ProfileFormProps>) {
+export function AddressForm({ index, closeModal, addressList }: Readonly<ProfileFormProps>) {
   const router = useRouter();
   const [provinces, setProvinces] = useState<GhnProvinceDTO[]>([]);
   const [districts, setDistricts] = useState<GhnDistrictDTO[]>([]);
   const [wards, setWards] = useState<GhnWardDTO[]>([]);
-
-  const { addressList, setAddressList } = useAddressModal();
 
   const form = useForm<AddressFormType>({
     mode: 'onChange',
@@ -150,14 +147,11 @@ export function AddressForm({ index, closeModal }: Readonly<ProfileFormProps>) {
         
       }
 
-      const newUser = await authApiRequest.getMeClient();
-
       toast({
         variant: 'success',
         title: `${index ? 'Cập nhật' : 'Thêm'} địa chỉ thành công`,
       });
 
-      setAddressList(newUser.payload.address ?? []);
       router.refresh();
       closeModal();
     } catch (error) {
