@@ -98,6 +98,16 @@ iframe {
     font-weight: 500;
     font-style: normal;
   }
+
+  .popover-content-width-same-as-its-trigger {
+    width: var(--radix-popover-trigger-width);
+    max-height: var(--radix-popover-content-available-height);
+  }
+
+  [aria-disabled='true'] {
+  }
+  [aria-disabled='false'] {
+  }
 }
 
 /* spin animation */
@@ -126,16 +136,16 @@ iframe {
   z-index: 10;
 }
 
-.swiper-button-prev, .swiper-button-next {
+.swiper-button-prev,
+.swiper-button-next {
   color: var(--primary);
   opacity: 50%;
-  
 }
 
-.swiper-button-prev, .swiper-button-next:hover {
+.swiper-button-prev,
+.swiper-button-next:hover {
   opacity: 100%;
 }
-
 
 @keyframes slideDown {
   from {

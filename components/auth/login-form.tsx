@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { CardWrapper } from './card-wrapper';
@@ -10,18 +10,40 @@ import { InputText } from '@/components/common/form/input-text';
 import { InputPassword } from '@/components/common/form/input-password';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 
 import { useForm } from 'react-hook-form';
 
 import { authApiRequest } from '@/apiRequests';
 import { LoginFormType, LoginSchema } from '@/validationSchemas';
-import { CASE_AUTH_LOGIN, RootPath } from '@/constants';
+import { CASE_AUTH_CONFIRM_EMAIL, CASE_AUTH_LOGIN, RootPath } from '@/constants';
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
 
 export const LoginForm = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const searchParams = useSearchParams();
+  const confirmEmail = searchParams.get('confirmEmail');
+  const statusCode = searchParams.get('error');
+
+  // useEffect(() => {
+  //   if (confirmEmail === 'success') {
+  //     toast({
+  //       variant: 'success',
+  //       title: 'Xác nhận Email thành công',
+  //       description: 'Chào mừng bạn đến với Techcell',
+  //     });
+  //   }
+
+  //   if (statusCode) {
+  //     toast({
+  //       variant: 'destructive',
+  //       title: 'Xác nhận email thất bại',
+  //       description: getErrorMsg(parseInt(statusCode), CASE_AUTH_CONFIRM_EMAIL),
+  //     });
+  //   }
+  // }, [toast, searchParams]);
+
   const callbackUrl = searchParams.get('callbackUrl');
 
   console.log(callbackUrl);
@@ -38,7 +60,7 @@ export const LoginForm = () => {
     formState: { isSubmitting },
     handleSubmit,
     setError,
-    watch
+    watch,
   } = form;
 
   async function onSubmit(values: LoginFormType) {
@@ -66,7 +88,7 @@ export const LoginForm = () => {
         variant: 'destructive',
         title: 'Đăng nhập thất bại',
         description: getErrorMsg(errorResponse.status, CASE_AUTH_LOGIN),
-      })
+      });
     }
   }
 

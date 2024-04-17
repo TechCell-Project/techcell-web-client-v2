@@ -1,5 +1,3 @@
-'use client';
-
 import HashLoader from 'react-spinners/HashLoader';
 
 const LoadingPage = () => {

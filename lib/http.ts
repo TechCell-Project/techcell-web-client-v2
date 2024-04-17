@@ -96,22 +96,37 @@ const request = async <Response>(
       : JSON.stringify(options.body)
     : undefined;
 
-  const baseHeaders =
+  const headersFromRequest =
     body instanceof FormData
       ? {
-          Authorization: clientSessionToken.accessValue ? `Bearer ${clientSessionToken.accessValue}` : '',
+          Authorization: clientSessionToken.accessValue
+            ? `Bearer ${clientSessionToken.accessValue}`
+            : '',
         }
       : {
           'Content-Type': 'application/json',
-          Authorization: clientSessionToken.accessValue ? `Bearer ${clientSessionToken.accessValue}` : '',
+          Authorization: clientSessionToken.accessValue
+            ? `Bearer ${clientSessionToken.accessValue}`
+            : '',
         };
+
+  const baseHeaders = options?.headers === undefined ? headersFromRequest : {};
+
+  // console.log('method:', method);
+  // console.log(clientSessionToken.accessValue);
+  // console.log('options-headers:', options?.headers);
+  // console.log('headersFromRequest:', headersFromRequest);
+  // console.log('headers:', baseHeaders);
 
   // if dont pass baseUrl (or baseUrl = undefined) then get it from envConfig.NEXT_PUBLIC_API_ENDPOINT
   // If pass baseUrl then get it, baseUrl = '' means call API to Next.js Server
   const baseUrl =
     options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl;
 
+
   const fullUrl = url.startsWith('/') ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
+
+  console.log(fullUrl);
 
   const res = await fetch(fullUrl, {
     ...options,
@@ -133,7 +148,7 @@ const request = async <Response>(
   };
 
   if (!res.ok) {
-    console.log('go entity');
+    console.log('entity error');
     if (res.status === ENTITY_ERROR_STATUS) {
       throw new EntityError(
         data as {
@@ -142,7 +157,7 @@ const request = async <Response>(
         },
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
-      console.log('go unauthorized');
+      console.log('unauthorized error');
       if (typeof window !== 'undefined') {
         if (!clientLogoutRequest) {
           clientLogoutRequest = fetch('/api/auth-client/logout', {
@@ -165,15 +180,17 @@ const request = async <Response>(
         redirect(`/dang-xuat?sessionToken=${sessionToken}`);
       }
     } else {
+      console.log(data);
+      console.log(res);
       throw new HttpError(data);
     }
   }
 
+  console.log('request success');
+
   // make sure that logics below only runs in client
   if (typeof window !== 'undefined') {
-    if (
-      [EMAIL_LOGIN_ENDPOINT, EMAIL_REGISTER_ENDPOINT].some((item) => item === normalizePath(url))
-    ) {
+    if (EMAIL_LOGIN_ENDPOINT === normalizePath(url)) {
       clientSessionToken.accessValue = (payload as LoginResponseDto).accessToken;
       clientSessionToken.refreshValue = (payload as LoginResponseDto).refreshToken;
       clientSessionToken.expiresAt = new Date(

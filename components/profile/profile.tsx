@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
 import { User } from '@techcell/node-sdk';
@@ -21,13 +21,18 @@ interface ProfileProps {
 }
 
 const Profile = ({ profile }: ProfileProps) => {
-  console.log(profile);
-  const [currentProfile, setCurrentProfile] = useState<User>(profile);
+  const openAddressModal = useAddressModal((state) => state.onOpen);
+  const setAddressToModal = useAddressModal((state) => state.setAddress);
+
   const [isEdit, setIsEdit] = useState<boolean>(false);
+
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
-  const openAddressModal = useAddressModal((state) => state.onOpen);
-  
+  const handleOpenAddNewAddress = () => {
+    setAddressToModal(null);
+    openAddressModal();
+  }
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -66,10 +71,9 @@ const Profile = ({ profile }: ProfileProps) => {
             <PencilLine className="w-5" />
           </Button>
           <UpdateProfile
-            initialData={currentProfile}
+            initialData={profile}
             editable={isEdit}
             closeEdit={() => setIsEdit(false)}
-            setUpdateUser={setCurrentProfile}
           />
         </div>
         <div className="w-full flex flex-col gap-4 text-base mt-4">
@@ -83,12 +87,23 @@ const Profile = ({ profile }: ProfileProps) => {
             <Button
               variant="outline"
               className="border-primary text-sm gap-2.5 text-primary hover:text-primary w-fit"
-              onClick={openAddressModal}
+              onClick={handleOpenAddNewAddress}
             >
               Thêm địa chỉ
               <Plus className="w-5" />
             </Button>
           </div>
+          {profile.address?.map((address, index) => (
+            <div
+              key={`${address.provinceLevel.provinceId}/${address.districtLevel.districtId}/${address.wardLevel.wardCode}/${index}`}
+              className="w-full flex flex-col text-base"
+            >
+              <div className="flex items-end w-fill">
+                <h5 className="w-1/5 font-semibold">{address.customerName}</h5>
+                <p className="w-4/5 text-zinc-500 font-normal">{address.phoneNumbers}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </MaxWidthWrapper>

@@ -24,7 +24,7 @@ export default function LogoutButton() {
     }
   };
   return (
-    <Button variant="ghost" className="gap-4 p-0 m-0 h-auto !hover:bg-none" onClick={handleLogout}>
+    <Button variant="ghost" className="gap-4 p-0 m-0 h-auto !hover:bg-none w-full justify-start" onClick={handleLogout}>
       <LogOut className="mr-2 h-5 w-5" />
       <span>Đăng xuất</span>
     </Button>

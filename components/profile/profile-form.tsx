@@ -23,22 +23,16 @@ import { useForm } from 'react-hook-form';
 
 import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
-import { CASE_DEFAULT } from '@/constants';
+import { CASE_DEFAULT, RootPath } from '@/constants';
 import { AuthUpdateDto, User } from '@techcell/node-sdk';
 
 interface ProfileFormProps {
   initialData: User;
   editable: boolean;
   closeEdit: () => void;
-  setUpdateUser: (user: User) => void;
 }
 
-export function UpdateProfile({
-  initialData,
-  editable,
-  closeEdit,
-  setUpdateUser,
-}: Readonly<ProfileFormProps>) {
+export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<ProfileFormProps>) {
   const router = useRouter();
 
   const form = useForm<ProfileFormType>({
@@ -47,7 +41,7 @@ export function UpdateProfile({
     defaultValues: {
       firstName: initialData.firstName,
       lastName: initialData.lastName,
-      avatarImageId: initialData.avatar ? initialData.avatar.publicId : '',
+      avatarImageId: initialData.avatar ? initialData.avatar.publicId : undefined,
     },
   });
 
@@ -60,11 +54,9 @@ export function UpdateProfile({
 
   async function onSubmit(values: ProfileFormType) {
     try {
-      await authApiRequest.updateMe(values as Partial<AuthUpdateDto>);
+      await authApiRequest.updateMe(values);
 
-      await authApiRequest.getMeClient().then((res) => {
-        setUpdateUser(res.payload);
-      });
+      await authApiRequest.getMeClient();
 
       toast({
         variant: 'success',
@@ -72,7 +64,7 @@ export function UpdateProfile({
       });
 
       closeEdit();
-      router.refresh();
+      router.push(RootPath.Profile);
     } catch (error) {
       console.log(error);
       const errorResponse = handleErrorApi({
@@ -88,10 +80,9 @@ export function UpdateProfile({
   }
 
   const handleCloseEdit = () => {
-    setUpdateUser(initialData);
     setValue('avatarImageId', initialData.avatar?.publicId);
     closeEdit();
-  }
+  };
 
   return (
     <div className="w-full">
@@ -109,7 +100,7 @@ export function UpdateProfile({
                       value={field.value ? [field.value] : []}
                       disabled={isSubmitting}
                       onChange={(url) => field.onChange(url)}
-                      onRemove={() => field.onChange('')}
+                      onRemove={() => field.onChange(undefined)}
                       changable={editable}
                     />
                   </div>

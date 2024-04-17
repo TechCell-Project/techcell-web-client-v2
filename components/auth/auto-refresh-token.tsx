@@ -11,13 +11,13 @@ export default function AutoRefreshToken() {
     const interval = setInterval(async () => {
       const now = new Date();
       const expiresAt = new Date(clientSessionToken.expiresAt);
-      if (differenceInMinutes(expiresAt, now) < 5) {
+      if (clientSessionToken.refreshValue !== '' && differenceInMinutes(expiresAt, now) < 5) {
         const res = await authApiRequest.refreshTokenFromNextClientToNextServer();
         clientSessionToken.expiresAt = new Date(res.payload.accessTokenExpires).toISOString();
         clientSessionToken.accessValue = res.payload.accessToken;
         clientSessionToken.refreshValue = res.payload.refreshToken;
       }
-    }, 1000 * 60 * 14);
+    }, 1000 * 60 * 10);
     return () => clearInterval(interval);
   }, []);
   return null;
