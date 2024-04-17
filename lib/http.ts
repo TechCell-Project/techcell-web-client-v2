@@ -112,12 +112,21 @@ const request = async <Response>(
 
   const baseHeaders = options?.headers === undefined ? headersFromRequest : {};
 
+  // console.log('method:', method);
+  // console.log(clientSessionToken.accessValue);
+  // console.log('options-headers:', options?.headers);
+  // console.log('headersFromRequest:', headersFromRequest);
+  // console.log('headers:', baseHeaders);
+
   // if dont pass baseUrl (or baseUrl = undefined) then get it from envConfig.NEXT_PUBLIC_API_ENDPOINT
   // If pass baseUrl then get it, baseUrl = '' means call API to Next.js Server
   const baseUrl =
     options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl;
 
+
   const fullUrl = url.startsWith('/') ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
+
+  console.log(fullUrl);
 
   const res = await fetch(fullUrl, {
     ...options,
@@ -181,9 +190,7 @@ const request = async <Response>(
 
   // make sure that logics below only runs in client
   if (typeof window !== 'undefined') {
-    if (
-      [EMAIL_LOGIN_ENDPOINT, EMAIL_REGISTER_ENDPOINT].some((item) => item === normalizePath(url))
-    ) {
+    if (EMAIL_LOGIN_ENDPOINT === normalizePath(url)) {
       clientSessionToken.accessValue = (payload as LoginResponseDto).accessToken;
       clientSessionToken.refreshValue = (payload as LoginResponseDto).refreshToken;
       clientSessionToken.expiresAt = new Date(

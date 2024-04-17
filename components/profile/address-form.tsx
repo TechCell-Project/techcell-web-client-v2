@@ -18,34 +18,43 @@ import { Icons } from '@/components/icons';
 
 import { addressApiRequest, authApiRequest } from '@/apiRequests';
 
-import { AuthUpdateDto, GhnDistrictDTO, GhnProvinceDTO, GhnWardDTO } from '@techcell/node-sdk';
-import { ADDRESS_TYPES, AddressType, CASE_DEFAULT } from '@/constants';
+import {
+  GhnDistrictDTO,
+  GhnProvinceDTO,
+  GhnWardDTO,
+  UserAddressSchema,
+  UserAddressSchemaDTO,
+} from '@techcell/node-sdk';
+import { ADDRESS_TYPES, AddressType, CASE_DEFAULT, RootPath } from '@/constants';
 
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
 
+import { useAddressModal } from '@/hooks/useAddressModal';
+
 interface ProfileFormProps {
-  initialData: AddressFormType | null;
+  index: number | null;
   closeModal: () => void;
 }
 
-export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
+export function AddressForm({ index, closeModal }: Readonly<ProfileFormProps>) {
   const router = useRouter();
   const [provinces, setProvinces] = useState<GhnProvinceDTO[]>([]);
   const [districts, setDistricts] = useState<GhnDistrictDTO[]>([]);
   const [wards, setWards] = useState<GhnWardDTO[]>([]);
 
+  const { addressList, setAddressList } = useAddressModal();
+
   const form = useForm<AddressFormType>({
     mode: 'onChange',
     resolver: zodResolver(AddressSchema),
-    defaultValues: initialData ?? {
+    defaultValues: index ? addressList[index] : {
       provinceLevel: { provinceId: undefined },
       districtLevel: { districtId: undefined },
       wardLevel: { wardCode: '' },
       detail: '',
       customerName: '',
-      phoneNumber: '',
+      phoneNumbers: '',
       type: 'home',
-      isDefault: undefined,
     },
   });
 
@@ -53,15 +62,12 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
     formState: { isSubmitting },
     handleSubmit,
     resetField,
-    setValue,
     setError,
-    watch,
     control,
   } = form;
 
   const provinceField = useWatch({ control, name: 'provinceLevel.provinceId' });
   const districtField = useWatch({ control, name: 'districtLevel.districtId' });
-  const wardField = useWatch({ control, name: 'wardLevel.wardCode' });
 
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -86,6 +92,7 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
       setWards([]);
       resetField('wardLevel');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provinces.length]);
 
   useEffect(() => {
@@ -109,6 +116,7 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
       setWards([]);
       resetField('wardLevel.wardCode');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provinceField]);
 
   useEffect(() => {
@@ -130,22 +138,28 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
       fetchWards(districtField.toString());
       resetField('wardLevel.wardCode');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [districtField]);
-
-  console.log(provinceField, districtField, wardField);
 
   async function onSubmit(values: AddressFormType) {
     try {
-      await authApiRequest.updateMe(values as Partial<AuthUpdateDto>);
+      if (!index) {
+        await authApiRequest.updateMe({
+          address: [...addressList, values] as Array<UserAddressSchemaDTO>,
+        });
+        
+      }
 
-      await authApiRequest.getMeClient();
+      const newUser = await authApiRequest.getMeClient();
 
       toast({
         variant: 'success',
-        title: 'Cập nhật hồ sơ thành công',
+        title: `${index ? 'Cập nhật' : 'Thêm'} địa chỉ thành công`,
       });
 
+      setAddressList(newUser.payload.address ?? []);
       router.refresh();
+      closeModal();
     } catch (error) {
       console.log(error);
       const errorResponse = handleErrorApi({
@@ -154,7 +168,7 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
       });
       toast({
         variant: 'destructive',
-        title: 'Cập nhật hồ sơ thất bại',
+        title: `${index ? 'Cập nhật' : 'Thêm'} địa chỉ thất bại`,
         description: getErrorMsg(errorResponse.status, CASE_DEFAULT),
       });
     }
@@ -206,7 +220,7 @@ export function AddressForm({ initialData, closeModal }: ProfileFormProps) {
               disabled={isSubmitting}
             />
             <InputText<AddressFormType>
-              name="phoneNumber"
+              name="phoneNumbers"
               label="Số Điện thoại"
               form={form}
               placeholder="Nhập SĐT"

@@ -35,13 +35,12 @@ export const AddressSchema = z.object({
     .string()
     .min(1, { message: 'Không được bỏ trống' })
     .min(3, { message: 'Cần ít nhất 3 kí tự' }),
-  phoneNumber: z
+  phoneNumbers: z
     .string()
     .min(1, { message: 'Không được bỏ trống' })
     .min(10, { message: 'Cần ít nhất 3 kí tự' })
     .max(12, { message: 'SDT nhiều nhất 12 kí tự' }),
   type: z.enum(AddressTypeEnum),
-  isDefault: z.boolean().optional(),
 });
 
 export type AddressFormType = z.infer<typeof AddressSchema>;
@@ -66,7 +65,6 @@ export const ProfileSchema = z.object({
     })
     .optional(),
   avatarImageId: z.string().optional(),
-  address: z.array(AddressSchema).optional(),
 });
 
 export type ProfileFormType = z.infer<typeof ProfileSchema>;

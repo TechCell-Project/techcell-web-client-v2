@@ -23,8 +23,6 @@ const ImageUpload: FC<ImageUploadProps> = ({ disabled, onChange, onRemove, value
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [resource, setResource] = useState<string | undefined>(undefined);
 
-  console.log(resource);
-
   useEffect(() => {
     setIsMounted(true);
   }, []);

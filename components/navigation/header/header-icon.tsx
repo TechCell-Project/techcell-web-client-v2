@@ -47,7 +47,7 @@ export const IconUser = ({ user }: { user: User }) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className="text-base h-9">
-            <Link href={RootPath.Profile} className="flex items-center gap-4">
+            <Link href={RootPath.Profile} className="flex items-center gap-4 w-full">
               <UserIcon className="mr-2 h-5 w-5" />
               <span>Hồ sơ</span>
             </Link>

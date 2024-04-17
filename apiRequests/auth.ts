@@ -63,5 +63,5 @@ export const authApiRequest = {
 
   getMeClient: () => http.get<User>(`${ApiPrefix}/me`),
 
-  updateMe: (body: AuthUpdateDto) => http.patch<User>(`${ApiPrefix}/me`, body),
+  updateMe: (body: Partial<AuthUpdateDto>) => http.patch<User>(`${ApiPrefix}/me`, body),
 };

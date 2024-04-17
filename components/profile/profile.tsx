@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
 import { User } from '@techcell/node-sdk';
@@ -21,11 +21,17 @@ interface ProfileProps {
 }
 
 const Profile = ({ profile }: ProfileProps) => {
-  const [currentProfile, setCurrentProfile] = useState<User>(profile);
+  const openAddressModal = useAddressModal((state) => state.onOpen);
+  const setAddressToModal = useAddressModal((state) => state.setAddress);
+
   const [isEdit, setIsEdit] = useState<boolean>(false);
+
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
-  const openAddressModal = useAddressModal((state) => state.onOpen);
+  const handleOpenAddNewAddress = () => {
+    setAddressToModal(null);
+    openAddressModal();
+  }
 
   useEffect(() => {
     setIsMounted(true);
@@ -34,8 +40,6 @@ const Profile = ({ profile }: ProfileProps) => {
   if (!isMounted) {
     return <LoadingPage />;
   }
-
-  console.log(currentProfile);
 
   return (
     <MaxWidthWrapper className="sm:max-w-[960px] h-full rounded-md flex flex-col sm:flex-row gap-2.5 sm:gap-6">
@@ -67,10 +71,9 @@ const Profile = ({ profile }: ProfileProps) => {
             <PencilLine className="w-5" />
           </Button>
           <UpdateProfile
-            initialData={currentProfile}
+            initialData={profile}
             editable={isEdit}
             closeEdit={() => setIsEdit(false)}
-            setUpdateUser={setCurrentProfile}
           />
         </div>
         <div className="w-full flex flex-col gap-4 text-base mt-4">
@@ -84,7 +87,7 @@ const Profile = ({ profile }: ProfileProps) => {
             <Button
               variant="outline"
               className="border-primary text-sm gap-2.5 text-primary hover:text-primary w-fit"
-              onClick={openAddressModal}
+              onClick={handleOpenAddNewAddress}
             >
               Thêm địa chỉ
               <Plus className="w-5" />
