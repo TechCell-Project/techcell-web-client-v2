@@ -5,6 +5,8 @@ import { MessageResType } from '@/validationSchemas/common.schema';
 import {
   AuthConfirmEmailDto,
   AuthEmailLoginDto,
+  AuthForgotPasswordDto,
+  AuthResetPasswordDto,
   AuthSignupDto,
   AuthUpdateDto,
   LoginResponseDto,
@@ -53,6 +55,12 @@ export const authApiRequest = {
         baseUrl: '',
       },
     ),
+
+  forgotPassword: (body: AuthForgotPasswordDto) =>
+    http.post(`${ApiPrefix}/forgot/password`, body),
+
+  resetPassword: (body: AuthResetPasswordDto) =>
+    http.post(`${ApiPrefix}/reset/password`, body),
 
   getMe: (sessionToken: string) =>
     http.get<User>(`${ApiPrefix}/me`, {

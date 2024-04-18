@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { CardWrapper } from './card-wrapper';
@@ -26,23 +27,23 @@ export const LoginForm = () => {
   const confirmEmail = searchParams.get('confirmEmail');
   const statusCode = searchParams.get('error');
 
-  // useEffect(() => {
-  //   if (confirmEmail === 'success') {
-  //     toast({
-  //       variant: 'success',
-  //       title: 'Xác nhận Email thành công',
-  //       description: 'Chào mừng bạn đến với Techcell',
-  //     });
-  //   }
+  useEffect(() => {
+    if (confirmEmail === 'success') {
+      toast({
+        variant: 'success',
+        title: 'Xác nhận Email thành công',
+        description: 'Chào mừng bạn đến với Techcell',
+      });
+    }
 
-  //   if (statusCode) {
-  //     toast({
-  //       variant: 'destructive',
-  //       title: 'Xác nhận email thất bại',
-  //       description: getErrorMsg(parseInt(statusCode), CASE_AUTH_CONFIRM_EMAIL),
-  //     });
-  //   }
-  // }, [toast, searchParams]);
+    if (statusCode) {
+      toast({
+        variant: 'destructive',
+        title: 'Xác nhận email thất bại',
+        description: getErrorMsg(parseInt(statusCode), CASE_AUTH_CONFIRM_EMAIL),
+      });
+    }
+  }, []);
 
   const callbackUrl = searchParams.get('callbackUrl');
 
@@ -107,6 +108,7 @@ export const LoginForm = () => {
             form={form}
             placeholder="Nhập email"
           />
+
           <InputPassword<LoginFormType>
             name="password"
             label="Password"
@@ -114,6 +116,15 @@ export const LoginForm = () => {
             placeholder="Nhập mật khẩu"
             disablePasswordEye={watch('password').length === 0}
           />
+
+          <div className="w-full">
+            <Link
+              href={RootPath.ForgotPassword}
+              className="float-right text-sm text-primary hover:underline"
+            >
+              Quên mật khẩu ?
+            </Link>
+          </div>
 
           <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
             {isSubmitting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}

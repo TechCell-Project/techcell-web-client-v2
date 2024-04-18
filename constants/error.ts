@@ -9,6 +9,7 @@ export const SERVER_ERROR = 500;
 export const CASE_AUTH_LOGIN = 'auth-login';
 export const CASE_AUTH_REGISTER = 'auth-register';
 export const CASE_AUTH_CONFIRM_EMAIL = 'auth-confirm-email';
+export const CASE_AUTH_FORGOT_PASSWORD = 'auth-forgot-password';
 export const CASE_CART = 'cart';
 export const CASE_ORDER = 'order';
 export const CASE_ORDER_CANCEL = 'order-cancel';
@@ -59,6 +60,7 @@ export const ERROR_MSG = new Map<number, Record<string, string>>([
         ENTITY_ERROR,
         {
             [CASE_AUTH_CONFIRM_EMAIL]: 'Mã xác thực không hợp lệ',
+            [CASE_AUTH_FORGOT_PASSWORD]: 'Email không đúng',
             [CASE_DEFAULT]: 'Form dữ liệu không hợp lệ',
         },
     ],
