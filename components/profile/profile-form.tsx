@@ -24,7 +24,7 @@ import { useForm } from 'react-hook-form';
 import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
 import { CASE_DEFAULT } from '@/constants';
-import { AuthUpdateDto, User } from '@techcell/node-sdk';
+import { User } from '@techcell/node-sdk';
 
 interface ProfileFormProps {
   initialData: User;
@@ -50,6 +50,7 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
     handleSubmit,
     setValue,
     setError,
+    reset,
   } = form;
 
   async function onSubmit(values: ProfileFormType) {
@@ -81,6 +82,7 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
   }
 
   const handleCloseEdit = () => {
+    reset();
     setValue('avatarImageId', initialData.avatar?.publicId);
     closeEdit();
   };

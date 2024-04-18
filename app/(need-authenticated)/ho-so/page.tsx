@@ -10,8 +10,6 @@ export default async function ProfilePage() {
   const sessionToken = cookieStore.get('sessionToken');
 
   const user = await authApiRequest.getMe(sessionToken?.value ?? '');
-  
-  console.log(user.payload);
 
   return (
     <Suspense fallback={<LoadingPage />}>
