@@ -40,7 +40,8 @@ const ListProduct = () => {
           {/*  */}
           <div className="text-xs p-2 rounded-md border border-solid border-slate-[#e5e7eb] bg-[#f3f4f6]">
             Giảm giá đến : <span className='text-sm text-[#ee4949] font-bold'>{calculateSaleOffPercentage(phone.price[0].base , phone.price[0].special)} %</span> và nhiều khuyến mại hấp dẫn khác
-          </div>
+          </div> 
+
 
           {/*  */}
           <div className="pb-2 pt-4 flex justify-between items-center">
