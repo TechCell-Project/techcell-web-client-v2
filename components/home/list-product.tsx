@@ -27,7 +27,7 @@ const ListProduct = () => {
               }}
             />
           </div>
-          <span className="font-bold text-sm">{phone.name}</span>
+          <span className="font-bold text-sm pt-4">{phone.modelName}</span>
           <span className="font-bold text-lg my-2 text-[#ee4949] font-semiblod">
             {currencyFormat(Number(phone.price[0].base))}
             <sup>đ</sup>
@@ -39,7 +39,7 @@ const ListProduct = () => {
 
           {/*  */}
           <div className="text-xs p-2 rounded-md border border-solid border-slate-[#e5e7eb] bg-[#f3f4f6]">
-            Giảm giá đến : <span className='text-sm text-[#ee4949] font-bold'>{calculateSaleOffPercentage(phone.price[0].base , phone.price[0].special)} %</span>
+            Giảm giá đến : <span className='text-sm text-[#ee4949] font-bold'>{calculateSaleOffPercentage(phone.price[0].base , phone.price[0].special)} %</span> và nhiều khuyến mại hấp dẫn khác
           </div>
 
           {/*  */}
