@@ -23,8 +23,8 @@ import { useForm } from 'react-hook-form';
 
 import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
-import { CASE_DEFAULT, RootPath } from '@/constants';
-import { AuthUpdateDto, User } from '@techcell/node-sdk';
+import { CASE_DEFAULT } from '@/constants';
+import { User } from '@techcell/node-sdk';
 
 interface ProfileFormProps {
   initialData: User;
@@ -50,13 +50,14 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
     handleSubmit,
     setValue,
     setError,
+    reset,
   } = form;
 
   async function onSubmit(values: ProfileFormType) {
+    if (isSubmitting) return;
     try {
+      console.log(values);
       await authApiRequest.updateMe(values);
-
-      await authApiRequest.getMeClient();
 
       toast({
         variant: 'success',
@@ -64,7 +65,8 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
       });
 
       closeEdit();
-      router.push(RootPath.Profile);
+      console.log('go here if refresh!');
+      router.refresh();
     } catch (error) {
       console.log(error);
       const errorResponse = handleErrorApi({
@@ -80,6 +82,7 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
   }
 
   const handleCloseEdit = () => {
+    reset();
     setValue('avatarImageId', initialData.avatar?.publicId);
     closeEdit();
   };

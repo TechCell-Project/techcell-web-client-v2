@@ -157,7 +157,7 @@ const request = async <Response>(
         },
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
-      console.log('unauthorized error');
+      console.log('unauthorized error', fullUrl);
       if (typeof window !== 'undefined') {
         if (!clientLogoutRequest) {
           clientLogoutRequest = fetch('/api/auth-client/logout', {
@@ -176,6 +176,7 @@ const request = async <Response>(
           location.reload();
         }
       } else {
+        console.log('unauthorized error', fullUrl);
         const sessionToken = (options?.headers as any)?.Authorization.split('Bearer ')[1];
         redirect(`/dang-xuat?sessionToken=${sessionToken}`);
       }

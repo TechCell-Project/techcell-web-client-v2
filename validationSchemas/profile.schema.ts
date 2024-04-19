@@ -68,3 +68,45 @@ export const ProfileSchema = z.object({
 });
 
 export type ProfileFormType = z.infer<typeof ProfileSchema>;
+
+export const UpdatePasswordSchema = z.object({
+  oldPassword: z
+    .string()
+    .min(1, {
+      message: 'Không được bỏ trống',
+    })
+    .min(8, {
+      message: 'Cần ít nhất 8 kí tự',
+    })
+    .max(24, {
+      message: 'Mật khẩu dài tối đa 24 kí tự',
+    }),
+  newPassword: z
+    .string()
+    .min(1, {
+      message: 'Mật khẩu mới không được bỏ trống',
+    })
+    .min(8, {
+      message: 'Mật khẩu mới cần ít nhất 8 kí tự',
+    })
+    .max(24, {
+      message: 'Mật khẩu mới dài tối đa 24 kí tự',
+    }),
+  confirmNewPassword: z
+    .string()
+    .min(1, {
+      message: 'Mật khẩu mới không được bỏ trống',
+    })
+    .min(8)
+    .max(24),
+}).superRefine(({ confirmNewPassword, newPassword }, ctx) => {
+  if (confirmNewPassword !== newPassword) {
+    ctx.addIssue({
+      code: 'custom',
+      message: 'Nhập lại mật khẩu không trùng khớp',
+      path: ['confirmNewPassword'],
+    });
+  }
+});
+
+export type UpdatePassFormType = z.infer<typeof UpdatePasswordSchema>;

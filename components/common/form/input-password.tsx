@@ -86,3 +86,12 @@ export const InputPassword = <T extends FieldValues>({
     />
   );
 };
+
+export const FakeInputPassword = () => {
+  return (
+    <FormItem className='text-base w-full mb-4'>
+      <FormLabel>Mật khẩu</FormLabel>
+      <Input type='password' value='********' readOnly />
+    </FormItem>
+  )
+}

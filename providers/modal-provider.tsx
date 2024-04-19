@@ -2,9 +2,13 @@
 
 import { useEffect, useState } from "react";
 import AddressModal from "@/components/common/modals/address-modal";
-import { useAddressModal } from "@/hooks/useAddressModal";
+import { User } from "@techcell/node-sdk";
 
-export const ModalProvider = () => {
+interface ModalProviderProps {
+    userProfile: User;
+}
+
+export const ModalProvider = ({ userProfile }: ModalProviderProps) => {
     const [isMounted, setIsMounted] = useState<boolean>(false);
 
     useEffect(() => {
@@ -17,7 +21,7 @@ export const ModalProvider = () => {
 
     return (
         <>
-            <AddressModal />
+            <AddressModal addressList={userProfile.address ?? []} />
         </>
     )
 }

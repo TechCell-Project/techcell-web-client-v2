@@ -70,3 +70,44 @@ export const RegisterSchema = z
   });
 
 export type RegisterFormType = z.infer<typeof RegisterSchema>;
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().min(1, 'Email không được bỏ trống').email({
+    message: 'Bạn cần nhập đúng định dạng email',
+  }),
+});
+
+export type ForgotPassFormType = z.infer<typeof ForgotPasswordSchema>;
+
+export const NewPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(1, {
+        message: 'Mật khẩu không được bỏ trống',
+      })
+      .min(8, {
+        message: 'Mật khẩu cần ít nhất 8 kí tự',
+      })
+      .max(24, {
+        message: 'Mật khẩu dài tối đa 24 kí tự',
+      }),
+    confirmPassword: z
+      .string()
+      .min(1, {
+        message: 'Mật khẩu không được bỏ trống',
+      })
+      .min(8)
+      .max(24),
+  })
+  .superRefine(({ confirmPassword, password }, ctx) => {
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Nhập lại mật khẩu không trùng khớp',
+        path: ['confirmPassword'],
+      });
+    }
+  });
+
+export type NewPassFormType = z.infer<typeof NewPasswordSchema>;
