@@ -39,7 +39,7 @@ const ListProduct = () => {
 
           {/*  */}
           <div className="text-xs p-2 rounded-md border border-solid border-slate-[#e5e7eb] bg-[#f3f4f6]">
-            Giảm giá đến : {calculateSaleOffPercentage(phone.price[0].base , phone.price[0].special)}
+            Giảm giá đến : <span className='text-sm text-[#ee4949] font-bold'>{calculateSaleOffPercentage(phone.price[0].base , phone.price[0].special)} %</span>
           </div>
 
           {/*  */}
@@ -62,3 +62,5 @@ const ListProduct = () => {
     </div>
   );
 };
+
+export default ListProduct;
