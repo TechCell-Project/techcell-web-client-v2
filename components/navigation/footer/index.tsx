@@ -5,6 +5,7 @@ import Image from "next/image";
 import Logo from '@/public/logo-red.png';
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { title } from "process";
 
 const links = [
   {
@@ -33,13 +34,26 @@ const links = [
   },
 ];
 
-const socialsIcon = [Facebook, Github, Linkedin];
+const socialsIcon = [
+  {
+    icon: Facebook,
+    title: 'Facebook'
+  },
+  {
+    icon: Github,
+    title: 'Github'
+  },
+  {
+    icon: Linkedin,
+    title: 'Linkedin'
+  }
+];
 
 
 const Footer = () => {
   return (
 
-    <div className="pt-12 px-[100px]">
+    <div className="container pt-12">
       <div className="flex flex-row">
         <div className="basis-3/6">
           <Image src={Logo} alt="logo" width={150} height={54} />
@@ -50,9 +64,9 @@ const Footer = () => {
             Techcell - Nơi Thăng Hoa Công Nghệ!
           </article>
 
-          {socialsIcon.map((Icon, i) => (
-            <Button key={i} className="mr-2">
-              <Icon />
+          {socialsIcon.map((social) => (
+            <Button key={social.title} className="mr-2">
+              <social.icon />
             </Button>
           ))}
 
@@ -64,7 +78,7 @@ const Footer = () => {
             </div>
             <ul>
               {link.children.map((item) => (
-                <li key={item.href} className="hover:text-[#ee4949]">
+                <li key={item.title} className="hover:text-[#ee4949]">
                   <Link href={item.href} >
                     {item.title}
                   </Link>

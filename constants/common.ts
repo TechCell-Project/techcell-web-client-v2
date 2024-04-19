@@ -45,6 +45,33 @@ export const BENEFIT_SECTION: Array<{
         },
     ];
 
+
+export const BRAND: Array<{
+    id: string;
+    name: string;
+    desc: string;
+}> = [
+        {
+            id: '1',
+            name: 'Apple',
+            desc: '',
+        },
+        {
+            id: '2',
+            name: 'Sam sung',
+            desc: '',
+        },
+        {
+            id: '3',
+            name: 'Xiaomi',
+            desc: '',
+        },
+        {
+            id: '4',
+            name: 'OPPO',
+            desc: '',
+        },
+    ];
 export type AddressType = {
     typeKey: string;
     typeValue: string;
