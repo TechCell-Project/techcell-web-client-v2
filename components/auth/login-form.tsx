@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { CardWrapper } from './card-wrapper';
@@ -10,18 +11,40 @@ import { InputText } from '@/components/common/form/input-text';
 import { InputPassword } from '@/components/common/form/input-password';
 import { Button } from '@/components/ui/button';
 import { Icons } from '@/components/icons';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 
 import { useForm } from 'react-hook-form';
 
 import { authApiRequest } from '@/apiRequests';
 import { LoginFormType, LoginSchema } from '@/validationSchemas';
-import { CASE_AUTH_LOGIN, RootPath } from '@/constants';
+import { CASE_AUTH_CONFIRM_EMAIL, CASE_AUTH_LOGIN, RootPath } from '@/constants';
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
 
 export const LoginForm = () => {
   const router = useRouter();
+  const { toast } = useToast();
   const searchParams = useSearchParams();
+  const confirmEmail = searchParams.get('confirmEmail');
+  const statusCode = searchParams.get('error');
+
+  useEffect(() => {
+    if (confirmEmail === 'success') {
+      toast({
+        variant: 'success',
+        title: 'Xác nhận Email thành công',
+        description: 'Chào mừng bạn đến với Techcell',
+      });
+    }
+
+    if (statusCode) {
+      toast({
+        variant: 'destructive',
+        title: 'Xác nhận email thất bại',
+        description: getErrorMsg(parseInt(statusCode), CASE_AUTH_CONFIRM_EMAIL),
+      });
+    }
+  }, []);
+
   const callbackUrl = searchParams.get('callbackUrl');
 
   console.log(callbackUrl);
@@ -38,7 +61,7 @@ export const LoginForm = () => {
     formState: { isSubmitting },
     handleSubmit,
     setError,
-    watch
+    watch,
   } = form;
 
   async function onSubmit(values: LoginFormType) {
@@ -47,6 +70,7 @@ export const LoginForm = () => {
 
       await authApiRequest.auth({
         sessionToken: res.payload.accessToken,
+        refreshToken: res.payload.refreshToken,
         expiresAt: res.payload.accessTokenExpires,
       });
 
@@ -65,7 +89,7 @@ export const LoginForm = () => {
         variant: 'destructive',
         title: 'Đăng nhập thất bại',
         description: getErrorMsg(errorResponse.status, CASE_AUTH_LOGIN),
-      })
+      });
     }
   }
 
@@ -84,6 +108,7 @@ export const LoginForm = () => {
             form={form}
             placeholder="Nhập email"
           />
+
           <InputPassword<LoginFormType>
             name="password"
             label="Password"
@@ -91,6 +116,15 @@ export const LoginForm = () => {
             placeholder="Nhập mật khẩu"
             disablePasswordEye={watch('password').length === 0}
           />
+
+          <div className="w-full">
+            <Link
+              href={RootPath.ForgotPassword}
+              className="float-right text-sm text-primary hover:underline"
+            >
+              Quên mật khẩu ?
+            </Link>
+          </div>
 
           <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
             {isSubmitting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}

@@ -20,28 +20,20 @@ import { Icons } from '@/components/icons';
 import { ProfileFormType, ProfileSchema } from '@/validationSchemas/profile.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useProfileModal } from '@/hooks/useProfileModal';
 
 import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
 import { CASE_DEFAULT } from '@/constants';
-import { AuthUpdateDto, User } from '@techcell/node-sdk';
+import { User } from '@techcell/node-sdk';
 
 interface ProfileFormProps {
   initialData: User;
   editable: boolean;
   closeEdit: () => void;
-  setUpdateUser: (user: User) => void;
 }
 
-export function UpdateProfile({
-  initialData,
-  editable,
-  closeEdit,
-  setUpdateUser,
-}: Readonly<ProfileFormProps>) {
+export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<ProfileFormProps>) {
   const router = useRouter();
-  const onClose = useProfileModal((state) => state.onClose);
 
   const form = useForm<ProfileFormType>({
     mode: 'onChange',
@@ -49,23 +41,23 @@ export function UpdateProfile({
     defaultValues: {
       firstName: initialData.firstName,
       lastName: initialData.lastName,
-      avatarImageId: initialData.avatar ? initialData.avatar.publicId : '',
+      avatarImageId: initialData.avatar ? initialData.avatar.publicId : undefined,
     },
   });
 
   const {
     formState: { isSubmitting },
     handleSubmit,
+    setValue,
     setError,
+    reset,
   } = form;
 
   async function onSubmit(values: ProfileFormType) {
+    if (isSubmitting) return;
     try {
-      await authApiRequest.updateMe(values as Partial<AuthUpdateDto>);
-
-      await authApiRequest.getMeClient().then((res) => {
-        setUpdateUser(res.payload);
-      });
+      console.log(values);
+      await authApiRequest.updateMe(values);
 
       toast({
         variant: 'success',
@@ -73,8 +65,10 @@ export function UpdateProfile({
       });
 
       closeEdit();
+      console.log('go here if refresh!');
       router.refresh();
     } catch (error) {
+      console.log(error);
       const errorResponse = handleErrorApi({
         error,
         setError,
@@ -84,10 +78,14 @@ export function UpdateProfile({
         title: 'Cập nhật hồ sơ thất bại',
         description: getErrorMsg(errorResponse.status, CASE_DEFAULT),
       });
-    } finally {
-      onClose();
     }
   }
+
+  const handleCloseEdit = () => {
+    reset();
+    setValue('avatarImageId', initialData.avatar?.publicId);
+    closeEdit();
+  };
 
   return (
     <div className="w-full">
@@ -105,7 +103,7 @@ export function UpdateProfile({
                       value={field.value ? [field.value] : []}
                       disabled={isSubmitting}
                       onChange={(url) => field.onChange(url)}
-                      onRemove={() => field.onChange('')}
+                      onRemove={() => field.onChange(undefined)}
                       changable={editable}
                     />
                   </div>
@@ -143,7 +141,7 @@ export function UpdateProfile({
             />
           </FormItem>
           <div className={cn('justify-end items-center gap-4', editable ? 'flex' : 'hidden')}>
-            <Button type="button" variant="secondary" onClick={closeEdit}>
+            <Button type="button" variant="secondary" onClick={handleCloseEdit}>
               Hủy
             </Button>
             <Button type="submit" disabled={isSubmitting}>

@@ -17,6 +17,8 @@ import localFont from 'next/font/local';
 import Header from '@/components/navigation/header';
 
 import Footer from '@/components/navigation/footer';
+import { ModalProvider } from '@/providers/modal-provider';
+import AutoRefreshToken from '@/components/auth/auto-refresh-token';
 
 //import { Nunito as FontSans } from 'next/font/google';
 // const fontSans = FontSans({
@@ -28,7 +30,7 @@ import Footer from '@/components/navigation/footer';
 const myLocalFont = localFont({
   src: '../public/font/Nunito-VariableFont_wght.ttf',
   display: 'swap',
-})
+});
 
 export const metadata: Metadata = {
   title: 'TechCell - Điện thoại, phụ kiện chính hãng',
@@ -42,6 +44,7 @@ export default async function RootLayout({
 }>) {
   const storedCookie = cookies();
   const sessionToken = storedCookie.get('sessionToken');
+  const refreshToken = storedCookie.get('refreshToken');
   let user: User | null = null;
   if (sessionToken) {
     const userData = await authApiRequest.getMe(sessionToken.value);
@@ -55,11 +58,11 @@ export default async function RootLayout({
       </head>
       <body className={myLocalFont.className}>
         <Toaster />
-        <AppProvider inititalSessionToken={sessionToken?.value} user={user}>
+        <AppProvider initialSessionToken={sessionToken?.value} initialRefreshToken={refreshToken?.value} user={user}>
+          {user && <ModalProvider userProfile={user} />}
           <Header user={user} />
-          <div className='bg-slate-100'>
-            {children}
-          </div>
+          <div className="bg-slate-100">{children}</div>
+          <AutoRefreshToken />
           <Footer />
         </AppProvider>
       </body>

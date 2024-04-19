@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "en-US"
+early_access: true
+reviews:
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    ignore_title_keywords:
+      - "[skip review]"
+      - "Automatic PR"
+    drafts: false
+    base_branches:
+      - "development"
+  path_instructions:
+    - path: "**/*.tsx"
+      instructions: "Review the Next.js TypeScript code for consistency, readability, type annotations, Next.js features implementation, performance, security, testing, documentation, adherence to best practices, and provide constructive feedback accordingly"
+    - path: "hooks/**/*.ts"
+      instructions: "Review the Next.js Hooks code for consistency, readability, type annotations, and documentation"
+    - path: "**/*.ts"
+      instructions: "Review the Next.js code for consistency, readability, type annotations, and documentation"
+    - path: "**/*.js"
+      instructions: "Review the Next.js code for consistency, readability, type annotations, and documentation"
+chat:
+  auto_reply: true

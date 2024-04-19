@@ -48,7 +48,8 @@ iframe {
     --radius: 0.5rem;
   }
 
-  .dark {
+  /* Not using darkmode for now */
+  /* .dark {
     --background: 20 14.3% 4.1%;
     --foreground: 0 0% 95%;
 
@@ -79,7 +80,7 @@ iframe {
     --input: 240 3.7% 15.9%;
 
     --ring: 0 83% 61%;
-  }
+  } */
 }
 
 @layer base {
@@ -97,6 +98,16 @@ iframe {
     font-optical-sizing: auto;
     font-weight: 500;
     font-style: normal;
+  }
+
+  .popover-content-width-same-as-its-trigger {
+    width: var(--radix-popover-trigger-width);
+    max-height: var(--radix-popover-content-available-height);
+  }
+
+  [aria-disabled='true'] {
+  }
+  [aria-disabled='false'] {
   }
 }
 
@@ -126,16 +137,16 @@ iframe {
   z-index: 10;
 }
 
-.swiper-button-prev, .swiper-button-next {
+.swiper-button-prev,
+.swiper-button-next {
   color: var(--primary);
   opacity: 50%;
-  
 }
 
-.swiper-button-prev, .swiper-button-next:hover {
+.swiper-button-prev,
+.swiper-button-next:hover {
   opacity: 100%;
 }
-
 
 @keyframes slideDown {
   from {

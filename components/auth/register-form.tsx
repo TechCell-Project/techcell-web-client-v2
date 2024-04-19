@@ -18,8 +18,11 @@ import { useForm } from 'react-hook-form';
 import { CASE_AUTH_REGISTER, RootPath } from '@/constants';
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
+import { useRouter } from 'next/navigation';
 
 export const RegisterForm = () => {
+  const { push } = useRouter();
+
   const form = useForm<RegisterFormType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -51,6 +54,7 @@ export const RegisterForm = () => {
         variant: 'success',
         title: 'Tạo tài khoản thành công. Kiểm tra email để hoàn thành đăng ký.',
       });
+      push(RootPath.Login);
     } catch (error) {
       const errorResponse = handleErrorApi({
         error,
@@ -78,17 +82,14 @@ export const RegisterForm = () => {
               name="firstName"
               label="Tên"
               form={form}
-              inputAttributes={{
-                placeholder: 'Nhập tên',
-              }}
+              placeholder='Nhập tên'
             />
+
             <InputText<RegisterFormType>
               name="lastName"
               label="Họ"
               form={form}
-              inputAttributes={{
-                placeholder: 'Nhập họ',
-              }}
+              placeholder='Nhập họ'
             />
           </div>
 
@@ -96,9 +97,7 @@ export const RegisterForm = () => {
             name="email"
             label="Email"
             form={form}
-            inputAttributes={{
-              placeholder: 'Nhập email',
-            }}
+            placeholder='Nhập Email'
           />
 
           {/* <InputText<RegisterFormType>

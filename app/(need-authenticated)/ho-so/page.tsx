@@ -5,7 +5,6 @@ import { authApiRequest } from '@/apiRequests';
 import Profile from '@/components/profile/profile';
 import LoadingPage from '@/app/loading';
 
-
 export default async function ProfilePage() {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get('sessionToken');

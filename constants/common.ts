@@ -72,3 +72,22 @@ export const BRAND: Array<{
             desc: '',
         },
     ];
+export type AddressType = {
+    typeKey: string;
+    typeValue: string;
+}
+
+export const ADDRESS_TYPES: AddressType[] = [
+    {
+        typeKey: 'home',
+        typeValue: 'Nhà',
+    },
+    {
+        typeKey: 'office',
+        typeValue: 'Cơ quan',
+    },
+    {
+        typeKey: 'other',
+        typeValue: 'Khác',
+    },
+]

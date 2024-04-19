@@ -1,14 +1,19 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { ProfileModal } from "@/components/profile/profile-modal";
+import AddressModal from "@/components/common/modals/address-modal";
+import { User } from "@techcell/node-sdk";
 
-export const ModalProvider = () => {
+interface ModalProviderProps {
+    userProfile: User;
+}
+
+export const ModalProvider = ({ userProfile }: ModalProviderProps) => {
     const [isMounted, setIsMounted] = useState<boolean>(false);
 
     useEffect(() => {
         setIsMounted(true);
-    });
+    }, []);
 
     if (!isMounted) {
         return null;
@@ -16,7 +21,7 @@ export const ModalProvider = () => {
 
     return (
         <>
-            <ProfileModal />
+            <AddressModal addressList={userProfile.address ?? []} />
         </>
     )
 }
