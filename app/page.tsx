@@ -1,5 +1,4 @@
-import { LoginButton } from '@/components/auth/login-button';
-import { Button } from '@/components/ui/button';
+
 import { BENEFIT_SECTION, HOME_SLOGAN, IMAGE_CAROUSEL } from '@/constants/common';
 import { SwiperCarousel } from '@/components/home/swiper-carousel';
 import HomePage from '@/components/home/home-page';
@@ -13,12 +12,8 @@ export default function Home() {
 
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
-      <p>This is home page</p>
-      <LoginButton>
-        <Button>Button</Button>
-      </LoginButton>
-      <div className="px-[100px] xs:px-[20px]">
 
+      <div className='container'>
         <HomePage />
 
         <div className="bg-[#fafafa] py-[48px]">
@@ -38,7 +33,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+
       </div>
+
     </main>
   );
 }

@@ -33,13 +33,6 @@ const myLocalFont = localFont({
 export const metadata: Metadata = {
   title: 'TechCell - Điện thoại, phụ kiện chính hãng',
   description: 'Khám phá ngay với Techcell - Nơi Thăng Hoa Công Nghệ!',
-  icons: {
-    icon: {
-      url: Favicon.src,
-      type: 'image/png',
-    },
-    shortcut: { url: Favicon.src, type: 'image/png' },
-  },
 };
 
 export default async function RootLayout({
@@ -57,6 +50,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel='icon' href={Favicon.src} />
+      </head>
       <body className={myLocalFont.className}>
         <Toaster />
         <AppProvider inititalSessionToken={sessionToken?.value} user={user}>

@@ -13,6 +13,7 @@ export enum RootPath {
 
 export enum ApiTags {
   Auth = '/auth',
+  Brand = '/brands',
   Profile = '/profile',
   Images = '/images',
   Products = '/products',
