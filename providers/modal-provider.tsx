@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import AddressModal from "@/components/common/modals/address-modal";
-import { User } from "@techcell/node-sdk";
+import { GetMeResponseDto } from "@techcell/node-sdk";
 
 interface ModalProviderProps {
-    userProfile: User;
+    userProfile: GetMeResponseDto;
 }
 
 export const ModalProvider = ({ userProfile }: ModalProviderProps) => {
