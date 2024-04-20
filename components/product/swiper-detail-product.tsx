@@ -47,7 +47,7 @@ export const SwiperDetailProduct = ({ imgLabels }: CarouselProps) => {
       </Swiper>
 
       <Swiper
-        onSwiper={setActiveThumbs}
+        onSwiper={()=>setActiveThumbs}
         spaceBetween={10}
         slidesPerView={4}
         freeMode={true}

@@ -7,15 +7,21 @@ import { CircleCheck } from 'lucide-react';
 import { IMAGE_SWIPER_DETAILS } from '@/constants';
 import { SwiperDetailProduct } from './swiper-detail-product';
 
+import OutstandingFeatures from './outstanding-features-product';
+import TableSpecification from './table-specifications';
+
 const DetailProductPage = () => {
   return (
     <div className="container py-4">
       <div className="text-lg font-bold pb-4">iPhone 13 128GB | Chính hãng VN/A</div>
       <div className="w-full h-[3px] bg-slate-200"></div>
+      {/* ảnh sản phẩm và btn chọn màu sản phẩm */}
       <div className="w-full flex justify-between my-2">
         {/* left */}
         <div className="w-3/5 h-auto">
           <SwiperDetailProduct imgLabels={IMAGE_SWIPER_DETAILS} />
+          {/* Đặc điểm nổi bật */}
+          <OutstandingFeatures />
         </div>
         {/* right */}
         <div className="w-2/5 h-auto ml-4">
@@ -240,6 +246,11 @@ const DetailProductPage = () => {
                 </Link>
               </li>
             </ul>
+          </div>
+
+          {/* Thông số kỹ thuật */}
+          <div className="w-full">
+            <TableSpecification />
           </div>
         </div>
       </div>
