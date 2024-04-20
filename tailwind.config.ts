@@ -21,7 +21,8 @@ const config = {
       fontFamily: {
         sans: ['var(--font-sans)'],
       },
-      colors: {
+      colors: { 
+        'background-color' : '#fde2e2',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
