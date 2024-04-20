@@ -639,6 +639,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@radix-ui/react-checkbox@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@radix-ui/react-checkbox@npm:1.0.4"
+  dependencies:
+    "@babel/runtime": "npm:^7.13.10"
+    "@radix-ui/primitive": "npm:1.0.1"
+    "@radix-ui/react-compose-refs": "npm:1.0.1"
+    "@radix-ui/react-context": "npm:1.0.1"
+    "@radix-ui/react-presence": "npm:1.0.1"
+    "@radix-ui/react-primitive": "npm:1.0.3"
+    "@radix-ui/react-use-controllable-state": "npm:1.0.1"
+    "@radix-ui/react-use-previous": "npm:1.0.1"
+    "@radix-ui/react-use-size": "npm:1.0.1"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-dom": "*"
+    react: ^16.8 || ^17.0 || ^18.0
+    react-dom: ^16.8 || ^17.0 || ^18.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-dom":
+      optional: true
+  checksum: 10c0/a4bd259a7e15ad88f72524190ddcc2db0688d439aad954e06d0adf6038b2e17397ed8ae0ea26ab09bf6981f1b9dd883904b2b7e74b307b5c6b1a3765d27fe737
+  languageName: node
+  linkType: hard
+
 "@radix-ui/react-collapsible@npm:^1.0.3":
   version: 1.0.3
   resolution: "@radix-ui/react-collapsible@npm:1.0.3"
@@ -3421,6 +3448,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"immer@npm:^10.0.4":
+  version: 10.0.4
+  resolution: "immer@npm:10.0.4"
+  checksum: 10c0/da9da59d6e71cf3f2875024b5cfb58874baef3eefec6425483e53163e31ed0ab24bae85cd2829cb7812acb9723075eedb5946654f8bd47ecf38663388e04d3bd
+  languageName: node
+  linkType: hard
+
 "import-fresh@npm:^3.2.1":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
@@ -5613,6 +5647,7 @@ __metadata:
   dependencies:
     "@hookform/resolvers": "npm:^3.3.4"
     "@radix-ui/react-avatar": "npm:^1.0.4"
+    "@radix-ui/react-checkbox": "npm:^1.0.4"
     "@radix-ui/react-collapsible": "npm:^1.0.3"
     "@radix-ui/react-dialog": "npm:^1.0.5"
     "@radix-ui/react-dropdown-menu": "npm:^2.0.6"
@@ -5642,6 +5677,7 @@ __metadata:
     date-fns: "npm:^3.6.0"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.1.4"
+    immer: "npm:^10.0.4"
     lucide-react: "npm:^0.364.0"
     next: "npm:14.1.4"
     next-cloudinary: "npm:^6.5.0"
