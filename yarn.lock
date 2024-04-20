@@ -1482,12 +1482,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@techcell/node-sdk@npm:0.0.1-e676dd0":
-  version: 0.0.1-e676dd0
-  resolution: "@techcell/node-sdk@npm:0.0.1-e676dd0"
+"@techcell/node-sdk@npm:0.0.1-718cb91":
+  version: 0.0.1-718cb91
+  resolution: "@techcell/node-sdk@npm:0.0.1-718cb91"
   dependencies:
     axios: "npm:^1.6.1"
-  checksum: 10c0/ab34a5b984f10c565fbbb8e9b9ab823ee5269478f3c6e1c6b33657a4a13c5d44a8bc7243a1a2ac98ef6b8758ace39437697bdc041adefeec6714e4cbc79fac91
+  checksum: 10c0/1d7e11ed19ec7fcb80ae367eb0b87bf6a4ac8ab4c9a0a154b9b5dcf686119403fa392c805df71b31c0eacab0783393949446469e62d37580b165a904220c0cbc
   languageName: node
   linkType: hard
 
@@ -5662,7 +5662,7 @@ __metadata:
     "@radix-ui/react-tooltip": "npm:^1.0.7"
     "@tanstack/eslint-plugin-query": "npm:^5.28.11"
     "@tanstack/react-query": "npm:^5.28.14"
-    "@techcell/node-sdk": "npm:0.0.1-e676dd0"
+    "@techcell/node-sdk": "npm:0.0.1-718cb91"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
