@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import Favicon from '@/public/favicon.ico';
 import './globals.css';
 
-import { User } from '@techcell/node-sdk';
+import { GetMeResponseDto } from '@techcell/node-sdk';
 
 import AppProvider from '@/providers/app-provider';
 
@@ -52,7 +52,7 @@ export default async function RootLayout({
   const storedCookie = cookies();
   const sessionToken = storedCookie.get('sessionToken');
   const refreshToken = storedCookie.get('refreshToken');
-  let user: User | null = null;
+  let user: GetMeResponseDto | null = null;
   if (sessionToken) {
     const userData = await authApiRequest.getMe(sessionToken.value);
     user = userData.payload;

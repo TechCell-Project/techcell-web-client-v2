@@ -9,11 +9,11 @@ import {
   AuthResetPasswordDto,
   AuthSignupDto,
   AuthUpdateDto,
+  GetMeResponseDto,
   LoginResponseDto,
   RefreshTokenDto,
   RefreshTokenResponseDto,
   ResendConfirmEmail,
-  User,
 } from '@techcell/node-sdk';
 
 const ApiPrefix = ApiTags.Auth;
@@ -63,13 +63,13 @@ export const authApiRequest = {
     http.post(`${ApiPrefix}/reset/password`, body),
 
   getMe: (sessionToken: string) =>
-    http.get<User>(`${ApiPrefix}/me`, {
+    http.get<GetMeResponseDto>(`${ApiPrefix}/me`, {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
     }),
 
-  getMeClient: () => http.get<User>(`${ApiPrefix}/me`),
+  getMeClient: () => http.get<GetMeResponseDto>(`${ApiPrefix}/me`),
 
-  updateMe: (body: Partial<AuthUpdateDto>) => http.patch<User>(`${ApiPrefix}/me`, body),
+  updateMe: (body: Partial<AuthUpdateDto>) => http.patch<MessageResType>(`${ApiPrefix}/me`, body),
 };

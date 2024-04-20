@@ -24,10 +24,11 @@ import { useForm } from 'react-hook-form';
 import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
 import { CASE_DEFAULT } from '@/constants';
-import { User } from '@techcell/node-sdk';
+import { GetMeResponseDto } from '@techcell/node-sdk';
+import { clientSessionToken } from '@/lib/http';
 
 interface ProfileFormProps {
-  initialData: User;
+  initialData: GetMeResponseDto;
   editable: boolean;
   closeEdit: () => void;
 }
@@ -52,11 +53,11 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
     setError,
     reset,
   } = form;
-
+  
+  console.log(clientSessionToken.accessValue);
   async function onSubmit(values: ProfileFormType) {
     if (isSubmitting) return;
     try {
-      console.log(values);
       await authApiRequest.updateMe(values);
 
       toast({

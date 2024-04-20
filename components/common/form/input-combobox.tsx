@@ -87,14 +87,6 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
             .includes(search.toLowerCase().replace(/\s+/g, '')),
         );
 
-  const fieldWatch = watch(name);
-
-  useEffect(() => {
-    if (fieldWatch === undefined || fieldWatch === '') {
-      setSelectedLabel(null);
-    }
-  }, [fieldWatch])
-
   // Handle change event when an option is selected
   const handleSelect = (value: string | number, fieldType: string) => {
     const selectedOption = options.find(
@@ -115,11 +107,32 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
     }
   };
 
+  const fieldWatch = watch(name);
+
+  useEffect(() => {
+    if (fieldWatch === undefined || fieldWatch === '') {
+      setSelectedLabel(null);
+    }
+  }, [fieldWatch]);
+
+  useEffect(() => {
+    if (options.length > 0) {
+      if (fieldWatch) {
+        handleSelect(fieldWatch, 'string');
+      }
+    }
+  }, [options, fieldWatch])
+
+  console.log(fieldWatch);
+
   return (
     <FormField
       control={form.control}
       name={name}
-      render={({ field }) => (
+      render={({ field }) => {
+        console.log(field.value);
+
+        return (
         <FormItem className={cn('w-full flex flex-col', className)}>
           <FormLabel>{label}</FormLabel>
           <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -189,7 +202,7 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
-      )}
+      )}}
     />
   );
 };
