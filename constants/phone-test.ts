@@ -1,20 +1,10 @@
-import ipbase from "@/public/phone-test/15-base.jpg";
-import ippro from "@/public/phone-test/15-pro.jpg";
-import ippromax from "@/public/phone-test/15-promax.jpg";
-import flipbase from "@/public/phone-test/flip5-base.jpg";
-import flipplus from "@/public/phone-test/flip5-plus.jpg";
-import flipultra from "@/public/phone-test/flip5-ultra.jpg";
-
 
 export type PhoneProps = {
     name: string;
-    description: string;
-    spuId?: string;
-    spuModelSlug?: string;
-    price: PriceChildren[];
+    modelName: string;
+    brandName: string;
     image: ImgChildren[];
-    status: string;
-    attributes: AttributesChildren[];
+    price: PriceChildren[];
     tags: string[];
 };
 
@@ -28,228 +18,273 @@ export type ImgChildren = {
     url: string;
 };
 
-export type AttributesChildren = {
-    name: string;
-    k: string;
-    v: string;
-    u?: string;
-};
+
 
 export const PHONE_TEST: PhoneProps[] = [
     {
-        name: "iPhone 15 128GB 8GB RAM",
-        description: "This is iPhone 15 128GB 8GB RAM",
-        spuId: "",
-        spuModelSlug: "base",
-        price: [
-            {
-                base: 20000000,
-                special: 19000000
-            }
-        ],
-        image: [
-            {
-                publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
-                url: ipbase.src
-            }
-        ],
-        status: "selling",
-        attributes: [
-            {
-                name: "RAM",
-                k: "ram",
-                v: "8",
-                u: "GB",
-            },
-            {
-                name: "Bộ nhớ trong",
-                k: "ram",
-                v: "128",
-                u: "GB",
-            }
-        ],
-        tags: [
-            "5f9a7f5d9d8f6d7f5d8f6d7"
-        ]
+        name:'iPhone X',
+        modelName:"iPhone X",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ipX.webp"
+        }],
+        price:[{
+            special :3990000,
+            base:4990000
+        }],
+        tags:[]
     },
     {
-        name: "iPhone 15 Pro 256GB 12GB RAM",
-        description: "This is iPhone 15 Pro 256GB 12GB RAM",
-        spuId: "",
-        spuModelSlug: "pro",
-        price: [
-            {
-                base: 23000000,
-                special: 20000000
-            }
-        ],
-        image: [
-            {
-                publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
-                url: ippro.src
-            }
-        ],
-        status: "selling",
-        attributes: [
-            {
-                name: "RAM",
-                k: "ram",
-                v: "12",
-                u: "GB",
-            },
-            {
-                name: "Bộ nhớ trong",
-                k: "ram",
-                v: "256",
-                u: "GB",
-            }
-        ],
-        tags: [
-            "5f9a7f5d9d8f6d7f5d8f6d7"
-        ]
+        name:'iPhone X',
+        modelName:"iPhone XS",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/IpXS.webp"
+        }],
+        price:[{
+            special :7990000,
+            base:8990000
+        }],
+        tags:[]
     },
     {
-        name: "iPhone 15 Pro Max 512GB 16GB RAM",
-        description: "This is iPhone 15 Pro Max 512GB 16GB RAM",
-        spuId: "",
-        spuModelSlug: "pro",
-        price: [
-            {
-                base: 25000000,
-                special: 22000000
-            }
-        ],
-        image: [
-            {
-                publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
-                url: ippromax.src
-            }
-        ],
-        status: "selling",
-        attributes: [
-            {
-                name: "RAM",
-                k: "ram",
-                v: "16",
-                u: "GB",
-            },
-            {
-                name: "Bộ nhớ trong",
-                k: "ram",
-                v: "512",
-                u: "GB",
-            }
-        ],
-        tags: [
-            "5f9a7f5d9d8f6d7f5d8f6d7"
-        ]
+        name:'iPhone X',
+        modelName:"iPhone XS",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/IpXS.webp"
+        }],
+        price:[{
+            special :8990000,
+            base:9990000
+        }],
+        tags:[]
     },
     {
-        name: "Samsung Galaxy Z Flip5 128GB 8GB RAM",
-        description: "This is Samsung Galaxy Z Flip5 128GB 8GB RAM",
-        spuId: "",
-        spuModelSlug: "base",
-        price: [
-            {
-                base: 22000000,
-                special: 20000000
-            }
-        ],
-        image: [
-            {
-                publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
-                url: flipbase.src
-            }
-        ],
-        status: "selling",
-        attributes: [
-            {
-                name: "RAM",
-                k: "ram",
-                v: "8",
-                u: "GB",
-            },
-            {
-                name: "Bộ nhớ trong",
-                k: "ram",
-                v: "128",
-                u: "GB",
-            }
-        ],
-        tags: [
-            "5f9a7f5d9d8f6d7f5d8f6d7"
-        ]
+        name:'iPhone X',
+        modelName:"iPhone XR",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ipXR.webp"
+        }],
+        price:[{
+            special :7690000,
+            base:20000000
+        }],
+        tags:[]
     },
     {
-        name: "Samsung Galaxy Z Flip5+ 256GB 12GB RAM",
-        description: "This is Samsung Galaxy Z Flip5+ 256GB 12GB RAM",
-        spuId: "",
-        spuModelSlug: "plus",
-        price: [
-            {
-                base: 25000000,
-                special: 23000000
-            }
-        ],
-        image: [
-            {
-                publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
-                url: flipplus.src
-            }
-        ],
-        status: "selling",
-        attributes: [
-            {
-                name: "RAM",
-                k: "ram",
-                v: "12",
-                u: "GB",
-            },
-            {
-                name: "Bộ nhớ trong",
-                k: "ram",
-                v: "256",
-                u: "GB",
-            }
-        ],
-        tags: [
-            "5f9a7f5d9d8f6d7f5d8f6d7"
-        ]
+        name:'iPhone 13 series',
+        modelName:"iPhone 13",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip13.webp"
+        }],
+        price:[{
+            special :13190000,
+            base:18990000
+        }],
+        tags:[]
     },
     {
-        name: "Samsung Galaxy Z Flip5 Ultra 512GB 16GB RAM",
-        description: "This is Samsung Galaxy Z Flip5 Ultra 512GB 16GB RAM",
-        spuId: "",
-        spuModelSlug: "ultra",
-        price: [
-            {
-                base: 29000000,
-                special: 28000000
-            }
-        ],
-        image: [
-            {
-                publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
-                url: flipultra.src
-            }
-        ],
-        status: "selling",
-        attributes: [
-            {
-                name: "RAM",
-                k: "ram",
-                v: "16",
-                u: "GB",
-            },
-            {
-                name: "Bộ nhớ trong",
-                k: "ram",
-                v: "512",
-                u: "GB",
-            }
-        ],
-        tags: [
-            "5f9a7f5d9d8f6d7f5d8f6d7"
-        ]
-    }
+        name:'iPhone 13 series',
+        modelName:"iPhone 13 Mini",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip13mini.webp"
+        }],
+        price:[{
+            special :11190000,
+            base:21990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 13 series',
+        modelName:"iPhone 13 Pro",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip13pro.webp"
+        }],
+        price:[{
+            special :25190000,
+            base:30990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 13 series',
+        modelName:"iPhone 13 Pro Max",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip13pro.webp"
+        }],
+        price:[{
+            special :16890000,
+            base:31990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 12 series',
+        modelName:"iPhone 12",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip12.webp"
+        }],
+        price:[{
+            special :12190000,
+            base:15990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 12 series',
+        modelName:"iPhone 12 Mini",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip12mini.webp"
+        }],
+        price:[{
+            special :7190000,
+            base:8990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 12 series',
+        modelName:"iPhone 12 Pro",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip12pro.webp"
+        }],
+        price:[{
+            special :9690000,
+            base:27990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 12 series',
+        modelName:"iPhone 12 Pro Max",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip12pro.webp"
+        }],
+        price:[{
+            special :16890000,
+            base:31990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 11 series',
+        modelName:"iPhone 11",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip11.webp"
+        }],
+        price:[{
+            special :8990000,
+            base:11790000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 11 series',
+        modelName:"iPhone 11 Pro",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip11pro.webp"
+        }],
+        price:[{
+            special :12990000,
+            base:15790000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 11 series',
+        modelName:"iPhone 11 Pro Max",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip11pro.webp"
+        }],
+        price:[{
+            special :17990000,
+            base:20790000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 14 series',
+        modelName:"iPhone 14",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip14.webp"
+        }],
+        price:[{
+            special :17990000,
+            base:23990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 14 series',
+        modelName:"iPhone 14 Plus",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip14Plus.webp"
+        }],
+        price:[{
+            special :24990000,
+            base:32990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 14 series',
+        modelName:"iPhone 14 Pro",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip14pro.webp"
+        }],
+        price:[{
+            special :17390000,
+            base:33990000
+        }],
+        tags:[]
+    },
+    {
+        name:'iPhone 14 series',
+        modelName:"iPhone 14 Pro",
+        brandName:"Apple",
+        image:[{
+            publicId:'5f9a7f5d9d8f6d7f5d8f6d7',
+            url:"/phone-test/ip14pro.webp"
+        }],
+        price:[{
+            special :27390000,
+            base:37990000
+        }],
+        tags:[]
+    },
 ];

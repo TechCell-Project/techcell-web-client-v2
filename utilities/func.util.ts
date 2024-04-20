@@ -52,6 +52,8 @@ export const getFieldChanges = <T extends Record<string, any>>(
   return output;
 };
 
+
+
 /**
  * User Service Func - getShortName
  */
@@ -83,3 +85,25 @@ export const convertToSnakeCase = (input: string): string => {
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '');
 };
+
+//format currency
+export const currencyFormat = (price: number | null): string => {
+  if (typeof price !== 'number') {
+      throw new Error('Invalid input. Please provide a number.');
+  }
+
+  // Convert the number to a string
+  const numberString: string = price.toString();
+
+  // Format the integer part with dots every three digits
+  const formattedIntegerPart: string = numberString.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+  return formattedIntegerPart;
+};
+
+
+export function calculateSaleOffPercentage(base: number, special: number): number {
+  const difference = base - special;
+  const percentage = (difference / base) * 100;
+  return Math.round(percentage);
+}
