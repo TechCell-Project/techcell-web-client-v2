@@ -4,7 +4,7 @@ import { ProductInListDto } from '@techcell/node-sdk';
 
 const ApiProduct = ApiTags.Products;
 
-export const productApiRequest = [
-
+export const productApiRequest: ProductInListDto[]= [
+    
 
 ];
