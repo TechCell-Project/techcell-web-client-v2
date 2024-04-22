@@ -2,6 +2,12 @@ import Img1 from '@/public/carousel-img/img1.png';
 import Img2 from '@/public/carousel-img/img2.png';
 import Img3 from '@/public/carousel-img/img3.png';
 import Img4 from '@/public/carousel-img/img4.png';
+// img details product
+import Img5 from '@/public/phone-test/ip11.webp';
+import Img6 from '@/public/phone-test/ip12.webp';
+import Img7 from '@/public/phone-test/ip12mini.webp';
+import Img8 from '@/public/phone-test/ip12pro.webp';
+import Img9 from '@/public/phone-test/ip13.webp';
 import { Phone, RefreshCw, Rocket, WalletCards } from 'lucide-react';
 
 export const HOME_SLOGAN =
@@ -17,6 +23,14 @@ export const IMAGE_CAROUSEL: ImageLabel[] = [
   { src: Img2.src, alt: 'second' },
   { src: Img3.src, alt: 'third' },
   { src: Img4.src, alt: 'fourth' },
+];
+
+export const IMAGE_SWIPER_DETAILS: ImageLabel[] = [
+    { src: Img5.src, alt: '' },
+    { src: Img6.src, alt: '' },
+    { src: Img7.src, alt: '' },
+    { src: Img8.src, alt: '' },
+    { src: Img9.src, alt: '' },
 ];
 
 export const BENEFIT_SECTION: Array<{

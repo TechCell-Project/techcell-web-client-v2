@@ -1,3 +1,5 @@
+import { VariationProps } from "@/constants/product-detail";
+
 /**
  * Generates a URL query string from an object of parameters.
  *
@@ -107,3 +109,11 @@ export function calculateSaleOffPercentage(base: number, special: number): numbe
   const percentage = (difference / base) * 100;
   return Math.round(percentage);
 }
+
+
+// Function to get unique attribute keys from all variations
+export const getUniqueAttributeKeys = (variations: VariationProps[]) =>
+  Array.from(
+      new Set(variations.flatMap((variation) => variation.attributes.map((attr) => attr.k))),
+  );
+

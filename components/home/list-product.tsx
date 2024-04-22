@@ -4,12 +4,15 @@ import { PHONE_TEST } from '@/constants/phone-test';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { currencyFormat, calculateSaleOffPercentage } from '@/utilities/func.util';
+import Link from 'next/link';
+
 
 const ListProduct = () => {
   return (
     <div className="grid grid-cols-5 gap-2">
       {PHONE_TEST.map((phone) => (
-        <div
+        <Link
+          href={'../product/detail-product.tsx'}
           key={phone.name}
           className="flex flex-col bg-white p-2 justify-center rounded-xl cursor-pointer hover:scale-105 hover:transition duration-150 ease-in-out"
         >
@@ -58,7 +61,7 @@ const ListProduct = () => {
               Mua ngay
             </Button>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
