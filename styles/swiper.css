@@ -1,0 +1,13 @@
+.swiper-slide-visible {
+    width: 60px !important;
+}
+
+.mySwiperThumbs {
+    cursor: pointer;
+}
+
+.mySwiperThumbs .swiper-slide-active{
+    border: 1px solid #ee4949;
+    padding: 2px;
+    border-radius: 5px;
+}
