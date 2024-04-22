@@ -30,7 +30,7 @@ const BrandPage = ({ brand }: BrandProps) => {
     if (!isMounted) {
         return <LoadingPage />;
     }
-    
+
     console.log(currentBrand);
 
     return (
