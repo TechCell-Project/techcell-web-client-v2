@@ -43,6 +43,7 @@ export const LoginForm = () => {
         description: getErrorMsg(parseInt(statusCode), CASE_AUTH_CONFIRM_EMAIL),
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const callbackUrl = searchParams.get('callbackUrl');

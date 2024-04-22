@@ -121,6 +121,7 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
         handleSelect(fieldWatch, 'string');
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, fieldWatch])
 
   console.log(fieldWatch);
