@@ -9,12 +9,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 export async function BrandScrolling() {
   const res = await brandApiRequest.getListBrand();
 
-  const brandList = res.payload.data
-    .map((brand) => {
-      const brandWithImg = BRANDS_MAP.get(brand.slug);
-      if (brandWithImg) return brandWithImg;
-    })
-    .filter((brand) => brand !== undefined) as BrandLabel[];
+  const brandList = res.payload.data.reduce((acc: BrandLabel[], brand) => {
+    const brandWithImg = BRANDS_MAP.get(brand.slug);
+    if (brandWithImg) acc.push(brandWithImg);
+    return acc;
+  }, []);
 
   return (
     <Suspense fallback={<Skeleton className="h-[34px] w-full" />}>
