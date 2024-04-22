@@ -9,10 +9,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import TableSpecificationDetail from './table-specification-detail';
+import { FC } from 'react';
+import { AttributeProps, ProductDetail } from '@/constants/product-detail';
 
-export function DialogSpecification() {
+const DialogSpecification = ({ productData }: { productData: ProductDetail }) => {
   return (
-    <div className="w-full text-center">
+    <div className="w-full text-center absolute bottom-4">
       <Dialog>
         <DialogTrigger asChild>
           <Button
@@ -28,7 +30,7 @@ export function DialogSpecification() {
             <DialogTitle>Thông số kỹ thuật</DialogTitle>
           </DialogHeader>
           <div>
-            <TableSpecificationDetail />
+            <TableSpecificationDetail techInfo={productData.attributes} />
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -45,4 +47,5 @@ export function DialogSpecification() {
       </Dialog>
     </div>
   );
-}
+};
+export default DialogSpecification;

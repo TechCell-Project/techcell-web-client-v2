@@ -1,5 +1,6 @@
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
-import { DialogSpecification } from './dialog-specifications';
+import { AttributeProps } from '@/constants/product-detail';
+import { FC } from 'react';
 
 const specifications = [
   {
@@ -32,9 +33,11 @@ const specifications = [
   },
 ];
 
-const TableSpecification = () => {
+
+
+const TableSpecification  = () => {
   return (
-    <div className="w-full bg-white p-3 mt-3 rounded-md">
+    <div className="w-full relative bg-white p-3 mt-3 rounded-md">
       <div className="text-lg font-bold">Thông số kỹ thuật</div>
       <Table className="border-[1px] border-solid border-gray-300 rounded-md my-3">
         <TableBody>
@@ -46,7 +49,6 @@ const TableSpecification = () => {
           ))}
         </TableBody>
       </Table>
-      <DialogSpecification />
     </div>
   );
 };
