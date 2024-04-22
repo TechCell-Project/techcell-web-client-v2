@@ -1485,9 +1485,6 @@ __metadata:
 "@techcell/node-sdk@npm:0.0.1-36827b0":
   version: 0.0.1-36827b0
   resolution: "@techcell/node-sdk@npm:0.0.1-36827b0"
-"@techcell/node-sdk@npm:0.0.1-36827b0":
-  version: 0.0.1-36827b0
-  resolution: "@techcell/node-sdk@npm:0.0.1-36827b0"
   dependencies:
     axios: "npm:^1.6.1"
   checksum: 10c0/d555c36be456553e477d89f87867552c2b6b9d13d732432d3aaf28693ef46a54ebca8bb87f5f37c7e6365c9a6feeb10fc4687de2d092bf8f12b5ee05d7fb7245
