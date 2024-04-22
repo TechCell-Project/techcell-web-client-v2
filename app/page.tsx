@@ -1,8 +1,23 @@
+'use client';
+
 import { BENEFIT_SECTION, HOME_SLOGAN, IMAGE_CAROUSEL } from '@/constants/common';
 import { SwiperCarousel } from '@/components/home/swiper-carousel';
 import HomePage from '@/components/home/home-page';
+import { useEffect, useState } from 'react';
+import LoadingPage from './loading';
 
 export default function Home() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+
+  if (!isMounted) {
+    return <LoadingPage />;
+  }
+
   return (
     <main>
       <h2 className="w-full hidden sm:block text-base uppercase bg-[#ee4949] text-white py-2.5 text-center">
@@ -11,7 +26,6 @@ export default function Home() {
 
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
-      <p>This is home page</p>
       <div className="px-[100px] xs:px-[20px]" />
 
       <div className="container">

@@ -1,46 +1,47 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import LoadingPage from "@/app/loading";
-import { Brand } from "@/components/brands/models";
-import { getListBrandApi } from "@/apiRequests/brand";
+import { useEffect, useState } from 'react';
+import { brandApi } from '@/apiRequests/brand';
+import { Brand } from './models';
+import LoadingPage from '@/app/loading';
+import Link from 'next/link';
+import { Button } from '../ui/button';
 
-interface BrandProps {
-    brand: Brand;
-}
+const BrandPage = () => {
+    const [brands, setBrands] = useState<Brand[]>([]);
 
-const BrandPage = ({ brand }: BrandProps) => {
-    const [isMounted, setIsMounted] = useState<boolean>(false);
-    const [currentBrand, setCurrentBrand] = useState<Brand>(brand);
+    const fetchData = async () => {
+        try {
+            const res = await brandApi.getListBrands();
+            setBrands(res.payload.data);
+        } catch (error) {
+            console.error('Error fetching brands:', error);
+        }
+    };
 
     useEffect(() => {
-        getBrand();
-        setIsMounted(true);
+        fetchData();
     }, []);
 
-    async function getBrand() {
-        try {
-            const res = await getListBrandApi();
-            setCurrentBrand(res.payload);
-        } catch (error) {
-            console.error("Error fetching brand:", error);
-        }
-    }
-
-    if (!isMounted) {
-        return <LoadingPage />;
-    }
-    
-    console.log(currentBrand);
-
     return (
-        <div className="my-[40px] flex flex-row items-center">
-            <span className="text-[25px] mr-[20px] font-bold uppercase">Thương hiệu</span>
-            <div>
-                <h2 className="text-[25px]">{currentBrand?.name}</h2>
+        <div className="my-[40px] flex flex-row justify-between items-center">
+            <div className="text-[25px] font-bold uppercase">Thương hiệu</div>
+            {brands.slice(0, 10).map(brand => (
+                <div key={brand._id} className="flex flex-row">
+                    <Link href={'/'}>
+                        <Button size="default">
+                            {brand.name}
+                        </Button>
+                    </Link>
+                </div>
+            ))}
+            <div className="text-[20px] font-semibold underline">
+                <Link href={''}>
+                    Xem tất cả
+                </Link>
             </div>
         </div>
     );
-}
+};
 
 export default BrandPage;
