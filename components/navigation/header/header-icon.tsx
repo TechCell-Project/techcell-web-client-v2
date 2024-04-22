@@ -18,14 +18,15 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import LogoutButton from './button-logout';
 
 import { User as UserIcon } from 'lucide-react';
+import { LiaShippingFastSolid } from 'react-icons/lia';
 
-import { User } from '@techcell/node-sdk';
+import { GetMeResponseDto } from '@techcell/node-sdk';
 
 import { IconProps, RootPath } from '@/constants';
 
 import AlternativeAvatar from '@/public/temp/avatarColor.webp';
 
-export const IconUser = ({ user }: { user: User }) => {
+export const IconUser = ({ user }: { user: GetMeResponseDto }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -43,13 +44,19 @@ export const IconUser = ({ user }: { user: User }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel className="text-base">Tài khoản</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-base text-primary">{user.firstName}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className="text-base h-9">
             <Link href={RootPath.Profile} className="flex items-center gap-4 w-full">
               <UserIcon className="mr-2 h-5 w-5" />
               <span>Hồ sơ</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="text-base h-9">
+            <Link href={RootPath.Order} className="flex items-center gap-4 w-full">
+              <LiaShippingFastSolid className="mr-2 h-5 w-5" />
+              <span>Đơn hàng</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -64,7 +71,13 @@ export const IconUser = ({ user }: { user: User }) => {
   );
 };
 
-export const Icon = ({ icon, name, desc, href, user }: IconProps & { user: User | null }) => {
+export const Icon = ({
+  icon,
+  name,
+  desc,
+  href,
+  user,
+}: IconProps & { user: GetMeResponseDto | null }) => {
   return (
     <TooltipProvider delayDuration={0.5}>
       <Tooltip>

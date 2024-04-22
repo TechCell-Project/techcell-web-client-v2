@@ -10,12 +10,12 @@ import { LeftNav } from './left-nav';
 
 import { NAV_CATEGORIES, RIGHT_NAV, RootPath } from '@/constants';
 
-import { User } from '@techcell/node-sdk';
+import { GetMeResponseDto } from '@techcell/node-sdk';
 
 import Logo from '@/public/logo-red.png';
 
 interface HeaderProps {
-  user: User | null;
+  user: GetMeResponseDto | null;
 }
 
 const Header = ({ user }: HeaderProps) => {

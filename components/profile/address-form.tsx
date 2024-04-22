@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { useForm, useWatch } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Form } from '@/components/ui/form';
@@ -22,17 +22,33 @@ import {
   GhnDistrictDTO,
   GhnProvinceDTO,
   GhnWardDTO,
-  UserAddressSchema,
+  UserAddressResponseDto,
   UserAddressSchemaDTO,
+  UserAddressSchemaDTOTypeEnum,
 } from '@techcell/node-sdk';
-import { ADDRESS_TYPES, AddressType, CASE_DEFAULT, RootPath } from '@/constants';
+import { ADDRESS_TYPES, AddressType, CASE_DEFAULT } from '@/constants';
 
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
+import { useUpdateEffect } from 'ahooks';
+
+const getUserAddressData = (index: number, addressList: UserAddressResponseDto[]) => {
+  const currentAddressData = {
+    provinceLevel: { provinceId: undefined },
+    districtLevel: { districtId: undefined },
+    wardLevel: { wardCode: '' },
+    detail: addressList[index].detail,
+    customerName: addressList[index].customerName,
+    phoneNumbers: addressList[index].phoneNumbers,
+    type: addressList[index].type,
+  };
+
+  return currentAddressData;
+};
 
 interface ProfileFormProps {
   index: number | null;
   closeModal: () => void;
-  addressList: UserAddressSchema[];
+  addressList: UserAddressResponseDto[];
 }
 
 export function AddressForm({ index, closeModal, addressList }: Readonly<ProfileFormProps>) {
@@ -44,107 +60,173 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
   const form = useForm<AddressFormType>({
     mode: 'onChange',
     resolver: zodResolver(AddressSchema),
-    defaultValues: index ? addressList[index] : {
-      provinceLevel: { provinceId: undefined },
-      districtLevel: { districtId: undefined },
-      wardLevel: { wardCode: '' },
-      detail: '',
-      customerName: '',
-      phoneNumbers: '',
-      type: 'home',
-    },
+    defaultValues:
+      index !== null && index !== undefined && index >= 0
+        ? getUserAddressData(index, addressList)
+        : {
+            provinceLevel: { provinceId: undefined },
+            districtLevel: { districtId: undefined },
+            wardLevel: { wardCode: '' },
+            detail: '',
+            customerName: '',
+            phoneNumbers: '',
+            type: 'home',
+          },
   });
 
   const {
     formState: { isSubmitting },
     handleSubmit,
     resetField,
+    watch,
+    reset,
+    setValue,
     setError,
-    control,
   } = form;
 
-  const provinceField = useWatch({ control, name: 'provinceLevel.provinceId' });
-  const districtField = useWatch({ control, name: 'districtLevel.districtId' });
+  // Fetch provinces
+  const fetchProvinces = async () => {
+    try {
+      const res = await addressApiRequest.getProvinces();
+
+      setProvinces(res.payload);
+    } catch (error) {
+      console.error('Failed to fetch provinces:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Lấy dữ liệu Tỉnh thành thất bại',
+      });
+    }
+  };
+
+  // Fetch districts
+  const fetchDistricts = async (provinceId: string) => {
+    try {
+      const res = await addressApiRequest.getDistricts(provinceId);
+
+      setDistricts(res.payload);
+    } catch (error) {
+      console.error('Failed to fetch districts:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Lấy dữ liệu Quận Huyện thất bại',
+      });
+    }
+  };
+
+  // Fetch wards
+  const fetchWards = async (districtId: string) => {
+    try {
+      const res = await addressApiRequest.getWards(districtId);
+
+      setWards(res.payload);
+    } catch (error) {
+      console.error('Failed to fetch districts:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Lấy dữ liệu Xã Phường thất bại',
+      });
+    }
+  };
+
+  const provinceField = watch('provinceLevel.provinceId');
+  const districtField = watch('districtLevel.districtId');
 
   useEffect(() => {
-    const fetchProvinces = async () => {
-      try {
-        const res = await addressApiRequest.getProvinces();
-
-        setProvinces(res.payload);
-      } catch (error) {
-        console.error('Failed to fetch provinces:', error);
-        toast({
-          variant: 'destructive',
-          title: 'Lấy dữ liệu Tỉnh thành thất bại',
-        });
-      }
-    };
-
     if (provinces.length === 0) {
       fetchProvinces();
       resetField('provinceLevel.provinceId');
       setDistricts([]);
       resetField('districtLevel.districtId');
       setWards([]);
-      resetField('wardLevel');
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [provinces.length]);
+      resetField('wardLevel.wardCode');
 
-  useEffect(() => {
-    const fetchDistricts = async (provinceId: string) => {
-      try {
-        const res = await addressApiRequest.getDistricts(provinceId);
-
-        setDistricts(res.payload);
-      } catch (error) {
-        console.error('Failed to fetch districts:', error);
-        toast({
-          variant: 'destructive',
-          title: 'Lấy dữ liệu Quận Huyện thất bại',
-        });
+      if (index !== null && index !== undefined && index >= 0) {
+        setValue('provinceLevel.provinceId', addressList[index].provinceLevel.provinceId);
       }
-    };
+    }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // useEffect(() => {
+  //   if (index !== null && index !== undefined && index >= 0) {
+  //     const currentAddressData = {
+  //       provinceLevel: { provinceId: addressList[index].provinceLevel.provinceId },
+  //       districtLevel: { districtId: addressList[index].districtLevel.districtId },
+  //       wardLevel: { wardCode: addressList[index].wardLevel.wardCode },
+  //       detail: addressList[index].detail,
+  //       customerName: addressList[index].customerName,
+  //       phoneNumbers: addressList[index].phoneNumbers,
+  //       type: addressList[index].type,
+  //     };
+
+  //     reset(currentAddressData, { keepDefaultValues: true });
+  //     resetField('provinceLevel.provinceId', { defaultValue: currentAddressData.provinceLevel.provinceId});
+  //     resetField('districtLevel.districtId', { defaultValue: currentAddressData.districtLevel.districtId});
+  //     resetField('wardLevel.wardCode', { defaultValue: currentAddressData.wardLevel.wardCode});
+  //   }
+  // }, []);
+
+  useUpdateEffect(() => {
     if (provinceField) {
       fetchDistricts(provinceField.toString());
       resetField('districtLevel.districtId');
       setWards([]);
       resetField('wardLevel.wardCode');
+      if (index !== null && index !== undefined && index >= 0) {
+        setValue('districtLevel.districtId', addressList[index].districtLevel.districtId);
+        if (watch('provinceLevel.provinceId') !== addressList[index].provinceLevel.provinceId) {
+          resetField('districtLevel.districtId');
+        } else {
+          setValue('districtLevel.districtId', addressList[index].districtLevel.districtId);
+        }
+      }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [provinceField]);
 
-  useEffect(() => {
-    const fetchWards = async (districtId: string) => {
-      try {
-        const res = await addressApiRequest.getWards(districtId);
-
-        setWards(res.payload);
-      } catch (error) {
-        console.error('Failed to fetch districts:', error);
-        toast({
-          variant: 'destructive',
-          title: 'Lấy dữ liệu Xã Phường thất bại',
-        });
-      }
-    };
-
+  useUpdateEffect(() => {
     if (districtField) {
       fetchWards(districtField.toString());
       resetField('wardLevel.wardCode');
+      if (index !== null && index !== undefined && index >= 0) {
+        setValue('wardLevel.wardCode', addressList[index].wardLevel.wardCode);
+        if (watch('districtLevel.districtId') !== addressList[index].districtLevel.districtId) {
+          resetField('wardLevel.wardCode');
+        } else {
+          setValue('wardLevel.wardCode', addressList[index].wardLevel.wardCode);
+        }
+      }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [districtField]);
 
   async function onSubmit(values: AddressFormType) {
     try {
+      console.log(values);
       if (!index) {
         await authApiRequest.updateMe({
           address: [...addressList, values] as Array<UserAddressSchemaDTO>,
         });
-        
+      } else {
+        let payload: UserAddressSchemaDTO[] = addressList.map((address) => {
+          return {
+            ...address,
+            provinceLevel: { provinceId: address.provinceLevel.provinceId },
+            districtLevel: { districtId: address.districtLevel.districtId },
+            wardLevel: { wardCode: address.wardLevel.wardCode },
+          } as unknown as UserAddressSchemaDTO;
+        });
+        payload[index] = {
+          ...values,
+          type: values.type as UserAddressSchemaDTOTypeEnum,
+          isDefault: addressList[index].isDefault,
+        };
+        console.log(payload[index]);
+        await authApiRequest.updateMe({
+          address: payload,
+        });
       }
 
       toast({
@@ -180,6 +262,7 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
             options={provinces}
             optionKeyValue={{ key: 'provinceId', value: 'provinceName' }}
           />
+
           <InputComboBox<AddressFormType, GhnDistrictDTO>
             name="districtLevel.districtId"
             label="Chọn Quận/huyện"
@@ -188,6 +271,7 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
             options={districts}
             optionKeyValue={{ key: 'districtId', value: 'districtName' }}
           />
+
           <InputComboBox<AddressFormType, GhnWardDTO>
             name="wardLevel.wardCode"
             label="Chọn Xã/Phường"
@@ -224,17 +308,17 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
           <InputSelect<AddressFormType, AddressType>
             name="type"
             label="Loại Địa chỉ"
-            options={ADDRESS_TYPES}
+            options={Array.from(ADDRESS_TYPES, ([, value]) => value)}
             optionKeyValue={{ key: 'typeKey', value: 'typeValue' }}
             disabled={isSubmitting}
           />
           <div className="flex justify-end items-center gap-4">
+            <Button type="button" variant="secondary" onClick={closeModal}>
+              Hủy
+            </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
               Lưu
-            </Button>
-            <Button type="button" variant="secondary" onClick={closeModal}>
-              Hủy
             </Button>
           </div>
         </form>

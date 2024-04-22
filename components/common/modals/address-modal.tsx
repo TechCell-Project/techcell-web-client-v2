@@ -4,10 +4,10 @@ import React from 'react';
 import { Modal } from '@/components/ui/modal';
 import { useAddressModal } from '@/hooks/useAddressModal';
 import { AddressForm } from '@/components/profile/address-form';
-import { UserAddressSchema } from '@techcell/node-sdk';
+import { UserAddressResponseDto } from '@techcell/node-sdk';
 
 interface AddressModalProps {
-  addressList: UserAddressSchema[];
+  addressList: UserAddressResponseDto[];
 }
 
 const AddressModal = ({ addressList }: AddressModalProps) => {

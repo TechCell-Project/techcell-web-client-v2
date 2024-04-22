@@ -1,10 +1,10 @@
 'use client';
 
 import { clientSessionToken } from '@/lib/http';
-import { User } from '@techcell/node-sdk';
-import { createContext, useContext, useState } from 'react';
+import { GetMeResponseDto } from '@techcell/node-sdk';
+import { createContext, useContext, useEffect, useState } from 'react';
 
-const AppContext = createContext<{ user: User | null; setUser: (user: User | null) => void }>({
+const AppContext = createContext<{ user: GetMeResponseDto | null; setUser: (user: GetMeResponseDto | null) => void }>({
   user: null,
   setUser: () => {},
 });
@@ -24,16 +24,16 @@ export default function AppProvider({
   children: React.ReactNode;
   initialSessionToken?: string;
   initialRefreshToken?: string;
-  user: User | null;
+  user: GetMeResponseDto | null;
 }>) {
-  const [user, setUser] = useState<User | null>(userProp);
-  
-  useState(() => {
+  const [user, setUser] = useState<GetMeResponseDto | null>(userProp);
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       clientSessionToken.accessValue = initialSessionToken;
       clientSessionToken.refreshValue = initialRefreshToken;
     }
-  });
+  }, []);
 
   return <AppContext.Provider value={{ user, setUser }}>{children}</AppContext.Provider>;
 }

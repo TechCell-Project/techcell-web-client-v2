@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { User } from '@techcell/node-sdk';
+import { GetMeResponseDto } from '@techcell/node-sdk';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -11,15 +11,16 @@ import { Separator } from '@/components/ui/separator';
 import MaxWidthWrapper from '@/components/common/max-width-wrapper';
 import LoadingPage from '@/app/loading';
 import { UpdateProfile } from './profile-form';
+import { UpdatePassword } from './password-form';
+import { UserAddressList } from './address-list';
 
 import LogoText from '@/public/logo-text-red.png';
 import { cn } from '@/lib/utils';
 import { PencilLine, Plus } from 'lucide-react';
 import { useAddressModal } from '@/hooks/useAddressModal';
-import { UpdatePassword } from './password-form';
 
 interface ProfileProps {
-  profile: User;
+  profile: GetMeResponseDto;
 }
 
 const Profile = ({ profile }: ProfileProps) => {
@@ -34,6 +35,11 @@ const Profile = ({ profile }: ProfileProps) => {
     setAddressIndex(null);
     onOpen();
   };
+
+  const handleOpenUpdateAddress = (index: number) => {
+    setAddressIndex(index);
+    onOpen();
+  }
 
   useEffect(() => {
     setIsMounted(true);
@@ -105,17 +111,7 @@ const Profile = ({ profile }: ProfileProps) => {
                 <Plus className="w-5" />
               </Button>
             </div>
-            {profile.address?.map((address, index) => (
-              <div
-                key={`${address.provinceLevel.provinceId}/${address.districtLevel.districtId}/${address.wardLevel.wardCode}/${index}`}
-                className="w-full flex flex-col text-base"
-              >
-                <div className="flex items-end w-fill">
-                  <h5 className="w-1/5 font-semibold">{address.customerName}</h5>
-                  <p className="w-4/5 text-zinc-500 font-normal">{address.phoneNumbers}</p>
-                </div>
-              </div>
-            ))}
+            {profile.address && <UserAddressList list={profile.address} onOpenUpdateModal={handleOpenUpdateAddress} />}
           </div>
         </TabsContent>
         <TabsContent
