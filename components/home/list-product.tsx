@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 const ListProduct = () => {
   return (
-    <div className="grid grid-cols-5 gap-2">
+    <div className="grid grid-cols-5 gap-4">
       {PHONE_TEST.map((phone) => (
         <Link
           href={'../product/detail-product.tsx'}
@@ -32,10 +32,10 @@ const ListProduct = () => {
           </div>
           <span className="font-bold text-sm pt-4">{phone.modelName}</span>
           <span className="font-bold text-lg my-2 text-[#ee4949] font-semiblod">
-            {currencyFormat(Number(phone.price[0].base))}
+            {currencyFormat(Number(phone.price[0].special))}
             <sup>đ</sup>
             <span className="ml-2 text-sm text-slate-500 text-base line-through">
-              {currencyFormat(Number(phone.price[0].special))}
+              {currencyFormat(Number(phone.price[0].base))}
               <sup>đ</sup>
             </span>
           </span>

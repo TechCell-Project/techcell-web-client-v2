@@ -25,4 +25,5 @@ export enum ApiTags {
   OrdersMnt = '/orders-mnt',
   Users = '/users',
   Notifications = '/notifications',
+  Cart = '/carts',
 }
