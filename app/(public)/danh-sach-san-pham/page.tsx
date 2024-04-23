@@ -12,6 +12,7 @@ import { filterSearchParams } from '@/lib/utils';
 
 import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-sdk';
 import { productApiRequest } from '@/apiRequests/product';
+import BlockFilterSort from '@/components/filter/filter-sort';
 
 const productsPageLocation: BreadcrumbProps = {
   links: [
