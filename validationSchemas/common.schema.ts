@@ -8,3 +8,9 @@ export const MessageRes = z
   .strict();
 
 export type MessageResType = z.TypeOf<typeof MessageRes>;
+
+export const SearchSchema = z.object({
+  keyword: z.string().min(1, { message: 'Tìm kiếm cần ít nhất 1 kí tự' }),
+});
+
+export type SearchType = z.TypeOf<typeof SearchSchema>;

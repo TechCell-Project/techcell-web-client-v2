@@ -17,3 +17,5 @@ export const VALID_GET_PRODUCTS_PARAMS = [
   FILTERS_PARAM,
   SORT_PARAM,
 ];
+
+export const DEFAULT_LIMIT = 16;
