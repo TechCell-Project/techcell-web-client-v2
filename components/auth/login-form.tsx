@@ -19,6 +19,7 @@ import { authApiRequest } from '@/apiRequests';
 import { LoginFormType, LoginSchema } from '@/validationSchemas';
 import { CASE_AUTH_CONFIRM_EMAIL, CASE_AUTH_LOGIN, RootPath } from '@/constants';
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
+import { hardSetClientSessionToken } from '@/lib/http';
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -43,12 +44,10 @@ export const LoginForm = () => {
         description: getErrorMsg(parseInt(statusCode), CASE_AUTH_CONFIRM_EMAIL),
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const callbackUrl = searchParams.get('callbackUrl');
-
-  console.log(callbackUrl);
 
   const form = useForm<LoginFormType>({
     resolver: zodResolver(LoginSchema),
@@ -64,7 +63,7 @@ export const LoginForm = () => {
     setError,
     watch,
   } = form;
-  
+
   async function onSubmit(values: LoginFormType) {
     try {
       const res = await authApiRequest.loginEmail(values);
@@ -74,7 +73,9 @@ export const LoginForm = () => {
         refreshToken: res.payload.refreshToken,
         expiresAt: res.payload.accessTokenExpires,
       });
-      
+
+      hardSetClientSessionToken(res.payload);
+
       toast({
         variant: 'success',
         title: 'Đăng nhập thành công',

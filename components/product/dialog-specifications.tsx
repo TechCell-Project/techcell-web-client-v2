@@ -9,33 +9,37 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import TableSpecificationDetail from './table-specification-detail';
-import { FC } from 'react';
-import { AttributeProps, ProductDetail } from '@/constants/product-detail';
+import { AttributeInProductDto } from '@techcell/node-sdk';
+import { ScrollArea } from '../ui/scroll-area';
 
-const DialogSpecification = ({ productData }: { productData: ProductDetail }) => {
+interface DialogSpecificationProps {
+  productSpecifications: AttributeInProductDto[];
+}
+
+const DialogSpecification = ({ productSpecifications }: DialogSpecificationProps) => {
   return (
-    <div className="w-full text-center absolute bottom-4">
+    <div className="text-center bottom-4">
       <Dialog>
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="text-[#ee4949] border-[#ee4949] bg-white rounded-md hover:text-[#ee4949] hover:bg-white"
+            className="text-primary border-primary bg-white rounded-md hover:text-primary hover:bg-white"
           >
             Xem thêm chi tiết
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] h-[90vh]">
           <DialogHeader>
             <DialogTitle>Thông số kỹ thuật</DialogTitle>
           </DialogHeader>
-          <div>
-            <TableSpecificationDetail techInfo={productData.attributes} />
-          </div>
+          <ScrollArea>
+            <TableSpecificationDetail techInfo={productSpecifications} />
+          </ScrollArea>
           <DialogFooter>
             <DialogClose asChild>
               <Button
-                className="bg-[#ee4949] text-white hover:text-white hover:bg-[#ee4949]"
+                className="bg-primary text-white hover:text-white hover:bg-primary"
                 type="button"
                 variant="secondary"
               >
