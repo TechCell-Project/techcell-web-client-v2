@@ -5,7 +5,6 @@ import { productApiRequest } from '@/apiRequests/product';
 import { getErrorMsg } from '@/lib/utils';
 import { CASE_PRODUCT_FETCH, FILTERS_BRANDS, FILTERS_PARAM, INVALID, RootPath } from '@/constants';
 
-import DetailProductPage from '@/components/product/detail-product-page';
 import NotFound from '@/components/common/not-found';
 import LoadingPage from '@/app/loading';
 import ProductDetailSection from '@/components/product/product-detail';

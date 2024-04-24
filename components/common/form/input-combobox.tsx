@@ -124,8 +124,6 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [options, fieldWatch])
 
-  console.log(fieldWatch);
-
   return (
     <FormField
       control={form.control}

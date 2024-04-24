@@ -1,25 +1,25 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    typescript: {
-        ignoreBuildErrors: true,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  output: 'standalone',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '**',
       },
-      output: 'standalone',
-      images: {
-        remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'res.cloudinary.com',
-            port: '',
-            pathname: '**',
-          },
-          {
-            protocol: 'https',
-            hostname: 'images.techcell.cloud',
-            port: '',
-            pathname: '**',
-          },
-        ],
+      {
+        protocol: 'https',
+        hostname: 'images.techcell.cloud',
+        port: '',
+        pathname: '**',
       },
+    ],
+  },
 };
 
 export default nextConfig;
