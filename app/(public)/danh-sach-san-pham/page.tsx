@@ -75,6 +75,8 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
 
   const res = await Promise.all(promises);
 
+  console.log(res[0].payload.data);
+
   return (
     <div className="w-full h-fit pb-5 sm:pb-8">
       <Breadcrumb links={productsPageLocation.links} />
