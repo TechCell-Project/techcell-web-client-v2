@@ -114,7 +114,7 @@ const Profile = ({ profile }: ProfileProps) => {
                 <Plus className="w-5" />
               </Button>
             </div>
-            {profile.address && <UserAddressList list={profile.address} onOpenUpdateModal={handleOpenUpdateAddress} />}
+            <UserAddressList list={profile.address} onOpenUpdateModal={handleOpenUpdateAddress} />
           </div>
         </TabsContent>
         <TabsContent
