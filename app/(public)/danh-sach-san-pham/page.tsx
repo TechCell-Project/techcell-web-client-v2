@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { Metadata, ResolvingMetadata } from 'next';
+import { Metadata, ResolvingMetadata } from 'next';
 
 import { BrandScrolling } from '@/components/brands/brandscrolling';
 import { Breadcrumb, BreadcrumbProps } from '@/components/common/breadcrumbs';
@@ -9,12 +10,13 @@ import { NormalCard } from '@/components/common/product-card/normal-card';
 
 import { VALID_GET_PRODUCTS_PARAMS } from '@/constants';
 import { filterSearchParams, findKeyword } from '@/lib/utils';
+import { filterSearchParams, findKeyword } from '@/lib/utils';
 
 import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-sdk';
 import { productApiRequest } from '@/apiRequests/product';
 import { PaginationBar } from '@/components/common/pagination/pagination-bar';
 import SearchingResult from '@/components/products/result-search';
-
+import BlockFilterSort from '@/components/filter/filter-sort';
 type Props = {
   searchParams?: { [key: string]: string | undefined };
 };
@@ -39,7 +41,6 @@ export async function generateMetadata(
     },
   };
 }
-
 const productsPageLocation: BreadcrumbProps = {
   links: [
     {
@@ -75,11 +76,10 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
 
   const res = await Promise.all(promises);
 
-  console.log(res[0].payload.data);
-
   return (
     <div className="w-full h-fit pb-5 sm:pb-8">
       <Breadcrumb links={productsPageLocation.links} />
+      <BlockFilterSort />
       <MaxWidthWrapper className="my-6 space-y-6">
         {isFilterWithKeyword ? (
           <SearchingResult
@@ -89,6 +89,8 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
         ) : (
           <BrandScrolling />
         )}
+        <BlockFilterSort />
+
         <Suspense fallback={<LoadingPageServer />}>
           <div className="w-full flex flex-col items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {res[0].payload.data.map((product) => (

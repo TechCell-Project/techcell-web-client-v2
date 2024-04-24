@@ -1,11 +1,11 @@
 'use client';
 
-import { Facebook, Github, Linkedin } from "lucide-react";
-import Image from "next/image";
+import { Facebook, Github, Linkedin } from 'lucide-react';
+import Image from 'next/image';
 import Logo from '@/public/logo-red.png';
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { title } from "process";
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { title } from 'process';
 
 const links = [
   {
@@ -37,18 +37,17 @@ const links = [
 const socialsIcon = [
   {
     icon: Facebook,
-    title: 'Facebook'
+    title: 'Facebook',
   },
   {
     icon: Github,
-    title: 'Github'
+    title: 'Github',
   },
   {
     icon: Linkedin,
-    title: 'Linkedin'
-  }
+    title: 'Linkedin',
+  },
 ];
-
 
 const Footer = () => {
   return (
@@ -56,11 +55,10 @@ const Footer = () => {
       <div className="flex flex-row">
         <div className="basis-3/6">
           <Image src={Logo} alt="logo" width={150} height={54} />
-          <article className="text-sm pr-[90px] py-3">
-            Tận hưởng Cuộc Sống Kỹ Thuật Số với Techcell - Nơi Nâng Tầm Trải Nghiệm
-            Điện Thoại. Sự hoàn hảo gặp gỡ thiết kế đẳng cấp, để mỗi cuộc gọi, mỗi
-            cử chỉ đều trở thành một trải nghiệm không thể quên. Khám phá ngay với
-            Techcell - Nơi Thăng Hoa Công Nghệ!
+          <article className="text-sm sm:pr-[90px] py-3">
+            Tận hưởng Cuộc Sống Kỹ Thuật Số với Techcell - Nơi Nâng Tầm Trải Nghiệm Điện Thoại. Sự
+            hoàn hảo gặp gỡ thiết kế đẳng cấp, để mỗi cuộc gọi, mỗi cử chỉ đều trở thành một trải
+            nghiệm không thể quên. Khám phá ngay với Techcell - Nơi Thăng Hoa Công Nghệ!
           </article>
 
           {socialsIcon.map((social) => (
@@ -68,19 +66,14 @@ const Footer = () => {
               <social.icon />
             </Button>
           ))}
-
         </div>
         {links.map((link) => (
           <div className="basis-1/6" key={link.title}>
-            <div className="py-3 text-lg font-semibold">
-              {link.title}
-            </div>
+            <div className="py-3 text-lg font-semibold">{link.title}</div>
             <ul>
               {link.children.map((item) => (
                 <li key={item.title} className="hover:text-[#ee4949]">
-                  <Link href={item.href} >
-                    {item.title}
-                  </Link>
+                  <Link href={item.href}>{item.title}</Link>
                 </li>
               ))}
             </ul>
@@ -88,33 +81,33 @@ const Footer = () => {
         ))}
       </div>
       <hr className="my-6" />
-      <div className="flex justify-between pb-5">
-        <span className="text-sm"> © 2023, made with ❤️ by <b>Techcell Team</b></span>
-        <div className="flex flex-row gap-5">
+      <div className="flex flex-col sm:justify-between pb-5">
+        <span className="text-sm">
+          {' '}
+          © 2023, made with ❤️ by <b>Techcell Team</b>
+        </span>
+        <div className="flex justify-around sm:flex-row gap-5">
           <Link
-            href='https://admin.techcell.cloud'
-            target='_blank'
+            href="https://admin.techcell.cloud"
+            target="_blank"
             style={{ fontWeight: 600, fontSize: '14px' }}
           >
             Admin
           </Link>
           <Link
-            href='https://docs.techcell.cloud'
-            target='_blank'
+            href="https://docs.techcell.cloud"
+            target="_blank"
             style={{ fontWeight: 600, fontSize: '14px' }}
           >
             Documentation
           </Link>
-          <Link
-            href='mailto:teams@techcell.cloud'
-            style={{ fontWeight: 600, fontSize: '14px' }}
-          >
+          <Link href="mailto:teams@techcell.cloud" style={{ fontWeight: 600, fontSize: '14px' }}>
             Contact
           </Link>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Footer;

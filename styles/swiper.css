@@ -1,3 +1,8 @@
+/* .swiper-wrapper{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+} */
+
 .swiper-slide-visible {
     width: 60px !important;
 }
