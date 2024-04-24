@@ -19,7 +19,7 @@ import { authApiRequest } from '@/apiRequests';
 import { LoginFormType, LoginSchema } from '@/validationSchemas';
 import { CASE_AUTH_CONFIRM_EMAIL, CASE_AUTH_LOGIN, RootPath } from '@/constants';
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
-import { clientSessionToken } from '@/lib/http';
+import { hardSetClientSessionToken } from '@/lib/http';
 
 export const LoginForm = () => {
   const router = useRouter();
@@ -74,9 +74,7 @@ export const LoginForm = () => {
         expiresAt: res.payload.accessTokenExpires,
       });
 
-      clientSessionToken.accessValue = res.payload.accessToken;
-      clientSessionToken.refreshValue = res.payload.refreshToken;
-      clientSessionToken.expiresAt = new Date(res.payload.accessTokenExpires).toISOString();
+      hardSetClientSessionToken(res.payload);
 
       toast({
         variant: 'success',
