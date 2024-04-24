@@ -45,6 +45,14 @@ export const Social = () => {
         });
       }
     },
+    onError: (error) => {
+      const errorResponse = handleErrorApi({ error });
+      toast({
+        variant: 'destructive',
+        title: 'Đăng nhập thất bại',
+        description: getErrorMsg(errorResponse.status, CASE_AUTH_LOGIN),
+      });
+    },
   });
 
   const onClick = (provider: 'google' | 'facebook') => {
