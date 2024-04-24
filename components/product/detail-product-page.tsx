@@ -245,7 +245,7 @@ const DetailProductPage = () => {
 
               {/* Thông số kỹ thuật */}
               <div className="w-full h-[550px] relative bg-white">
-                <TableSpecification />
+                <TableSpecification techInfo={product.attributes}/>
                 <DialogSpecification productData={product} />
               </div>
             </div>

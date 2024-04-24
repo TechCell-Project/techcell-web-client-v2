@@ -6,17 +6,16 @@ import Image from 'next/image';
 import { currencyFormat, calculateSaleOffPercentage } from '@/utilities/func.util';
 import Link from 'next/link';
 
-
 const ListProduct = () => {
   return (
-    <div className="grid grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-4">
       {PHONE_TEST.map((phone) => (
         <Link
-          href={'../product/detail-product.tsx'}
+          href={''}
           key={phone.name}
           className="flex flex-col bg-white p-2 justify-center rounded-xl cursor-pointer hover:scale-105 hover:transition duration-150 ease-in-out"
         >
-          <div className="w-[180px] h-[180px] m-auto">
+          <div className="w-[100px] h-[100px] sm:w-[180px] sm:h-[180px] m-auto">
             <Image
               src={phone.image[0].url}
               alt={phone.name}
@@ -31,26 +30,31 @@ const ListProduct = () => {
             />
           </div>
           <span className="font-bold text-sm pt-4">{phone.modelName}</span>
-          <span className="font-bold text-lg my-2 text-[#ee4949] font-semiblod">
-            {currencyFormat(Number(phone.price[0].special))}
-            <sup>đ</sup>
-            <span className="ml-2 text-sm text-slate-500 text-base line-through">
+          <div className="w-full flex flex-col sm:flex sm:flex-row sm:items-center ">
+            <div className="text-md font-bold sm:text-lg my-2 text-[#ee4949] font-semiblod">
+              {currencyFormat(Number(phone.price[0].special))}
+              <sup>đ</sup>
+            </div>
+            <div className="text-xs mb-2 sm:ml-2 sm:text-sm sm:my-2 text-slate-500 line-through">
               {currencyFormat(Number(phone.price[0].base))}
               <sup>đ</sup>
-            </span>
-          </span>
+            </div>
+          </div>
 
           {/*  */}
           <div className="text-xs p-2 rounded-md border border-solid border-slate-[#e5e7eb] bg-[#f3f4f6]">
-            Giảm giá đến : <span className='text-sm text-[#ee4949] font-bold'>{calculateSaleOffPercentage(phone.price[0].base , phone.price[0].special)} %</span> và nhiều khuyến mại hấp dẫn khác
-          </div> 
-
+            Giảm giá đến :{' '}
+            <span className="text-sm text-[#ee4949] font-bold">
+              {calculateSaleOffPercentage(phone.price[0].base, phone.price[0].special)} %
+            </span>{' '}
+            và nhiều khuyến mại hấp dẫn khác
+          </div>
 
           {/*  */}
           <div className="pb-2 pt-4 flex justify-between items-center">
             <Button
               variant="default"
-              className="text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white"
+              className="hidden sm:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
             >
               Thêm giỏ hàng
             </Button>

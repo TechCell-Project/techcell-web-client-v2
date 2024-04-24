@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { EntityError, HttpError } from './http';
 import { ERROR_MSG } from '@/constants/error';
 import { UserAddressResponseDto } from '@techcell/node-sdk';
+import { PHONE_CATEGORIES } from '@/constants';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -132,4 +133,13 @@ export function filterSearchParams(
   });
 
   return filteredParams;
+}
+
+export function findKeyword(input: string): string | null {
+  for (const keyword of PHONE_CATEGORIES) {
+      if (input.includes(keyword)) {
+          return keyword;
+      }
+  }
+  return null;
 }
