@@ -24,6 +24,7 @@ import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { Check, ChevronDown } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { generateRegexQuery } from 'regex-vietnamese';
 
 const languages = [
   { label: 'English', value: 'en' },
@@ -77,15 +78,11 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
 
   // Handle search event
-  const filteredOptions =
-    search === ''
-      ? options
-      : options.filter((option) =>
-          String(option[optionKeyValue.value])
-            .toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(search.toLowerCase().replace(/\s+/g, '')),
-        );
+  const filteredOptions = (() => {
+    if (search === '') return options;
+    const searchRegex = generateRegexQuery(search);
+    return options.filter((option) => searchRegex.test(String(option[optionKeyValue.value])));
+  })();
 
   // Handle change event when an option is selected
   const handleSelect = (value: string | number, fieldType: string) => {
