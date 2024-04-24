@@ -27,8 +27,8 @@ export default function ProductDetailSection({ detail }: ProductDetailProps) {
           <ProductImgSlider images={IMAGE_SWIPER_DETAILS} />
           <div className="w-full flex flex-col gap-3 mb-5">
             <h3 className="text-xl font-bold text-primary">{detail.productName}</h3>
-            <p className="text-base">{detail.brandName} - Điện thoại</p>
-            <SelectProductVariation variations={detail.variations} />
+            <p className="text-base">{detail.brand.name} - Điện thoại</p>
+            <SelectProductVariation productId={detail.productId} variations={detail.variations} />
             <MoreOver />
           </div>
         </div>

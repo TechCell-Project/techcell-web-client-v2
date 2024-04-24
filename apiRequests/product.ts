@@ -6,7 +6,7 @@ import {
   ProductsApiProductsControllerGetProductByIdRequest,
   ProductsApiProductsControllerGetProductsRequest,
 } from '@techcell/node-sdk';
-import { publicHeaders } from '@/apiRequests';
+import { publicHeaders, revalidateRequest } from '@/apiRequests';
 
 const ApiProduct = ApiTags.Products;
 
@@ -17,7 +17,7 @@ export const productApiRequest = {
     let url = `${ApiProduct}`;
 
     url += `?limit=${limit ?? DEFAULT_LIMIT}`;
-    
+
     if (page || filters || sort) {
       if (page) {
         url += `&page=${page}`;
@@ -30,10 +30,15 @@ export const productApiRequest = {
       }
     }
 
-
-    return http.get<ProductInfinityPaginationResult>(url, { headers: publicHeaders });
+    return http.get<ProductInfinityPaginationResult>(url, {
+      headers: publicHeaders,
+      next: revalidateRequest,
+    });
   },
 
   getProductById: (payload: ProductsApiProductsControllerGetProductByIdRequest) =>
-    http.get<ProductDto>(`${ApiProduct}/${payload.productId}`, { headers: publicHeaders }),
+    http.get<ProductDto>(`${ApiProduct}/${payload.productId}`, {
+      headers: publicHeaders,
+      next: revalidateRequest,
+    }),
 };

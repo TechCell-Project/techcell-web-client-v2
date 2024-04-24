@@ -73,6 +73,7 @@ const ImageUpload: FC<ImageUploadProps> = ({ disabled, onChange, onRemove, value
         options={{ sources: ['local', 'url'] }}
         signatureEndpoint="/api/sign-cloudinary-params"
         onSuccess={(result) => onUploadImg(result)}
+        uploadPreset='techcell-public-image'
       >
         {({ open }) => {
           const onClick = () => {
