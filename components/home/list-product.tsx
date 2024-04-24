@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 const ListProduct = () => {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mb-4">
       {PHONE_TEST.map((phone) => (
         <Link
           href={''}
@@ -54,7 +54,7 @@ const ListProduct = () => {
           <div className="pb-2 pt-4 flex justify-between items-center">
             <Button
               variant="default"
-              className="hidden sm:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
+              className="hidden sm:hidden md:hidden xl:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
             >
               Thêm giỏ hàng
             </Button>

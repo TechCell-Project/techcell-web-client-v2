@@ -4,6 +4,10 @@ export const LIMIT_PARAM = 'limit';
 export const FILTERS_PARAM = 'filters';
 export const SORT_PARAM = 'sort';
 
+export const FILTERS_KEYWORD = 'keyword';
+export const FILTERS_TAGS = 'tagIds';
+export const FILTERS_BRANDS = 'brandIds';
+
 export const CATEGORY_IPHONE = 'iphone';
 export const CATEGORY_SAMSUNG = 'samsung';
 export const CATEGORY_XIAOMI = 'xiaomi';

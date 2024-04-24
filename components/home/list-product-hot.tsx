@@ -27,6 +27,7 @@ interface ListProductHotProps {
 
 export const ListProductHot = ({ phone }: ListProductHotProps) => {
   return (
+
     <div className="flex flex-col sm:flex sm:flex-row items-center sm:py-7 gap-2">
       <div className="text-center flex flex-row items-end sm:flex sm:flex-col sm:items-center">
         <div className="w-[100px] h-full sm:w-[200px] sm:h-full m-auto ">
@@ -45,7 +46,6 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
         </div>
         <div className="text-[16px] sm:text-[25px] font-bold uppercase">Giảm giá</div>
       </div>
-
       <Swiper
         slidesPerView={window.innerWidth < 1024 ? 2 : 4}
         spaceBetween={10}
@@ -59,6 +59,7 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
           <SwiperSlide key={phone.name}>
             <Link
               href={''}
+
               key={phone.name}
               className="flex flex-col bg-white p-2 justify-center rounded-xl cursor-pointer hover:scale-105 hover:transition duration-150 ease-in-out"
             >
@@ -101,7 +102,7 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
               <div className="pb-2 pt-4 flex justify-between items-center">
                 <Button
                   variant="default"
-                  className="hidden sm:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
+                  className="hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
                 >
                   Thêm giỏ hàng
                 </Button>

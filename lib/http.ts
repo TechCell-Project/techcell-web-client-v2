@@ -123,7 +123,6 @@ const request = async <Response>(
   const baseUrl =
     options?.baseUrl === undefined ? envConfig.NEXT_PUBLIC_API_ENDPOINT : options.baseUrl;
 
-
   const fullUrl = url.startsWith('/') ? `${baseUrl}${url}` : `${baseUrl}/${url}`;
 
   console.log(fullUrl);
@@ -160,6 +159,11 @@ const request = async <Response>(
       console.log('unauthorized error', fullUrl);
       if (typeof window !== 'undefined') {
         if (!clientLogoutRequest) {
+          if (!clientSessionToken.accessValue) {
+            location.assign(
+              `${RootPath.Login}?callbackUrl=${encodeURIComponent(location.pathname)}`,
+            );
+          }
           clientLogoutRequest = fetch('/api/auth-client/logout', {
             method: 'POST',
             body: JSON.stringify({ force: true }),
@@ -205,6 +209,12 @@ const request = async <Response>(
   }
   return data;
 };
+
+export function hardSetClientSessionToken(data: LoginResponseDto) {
+  clientSessionToken.accessValue = data.accessToken;
+  clientSessionToken.refreshValue = data.refreshToken;
+  clientSessionToken.expiresAt = new Date(data.accessTokenExpires).toISOString();
+}
 
 const http = {
   get<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {

@@ -3,6 +3,7 @@
 import React, { createElement } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 import {
   DropdownMenu,
@@ -78,6 +79,18 @@ export const Icon = ({
   href,
   user,
 }: IconProps & { user: GetMeResponseDto | null }) => {
+  const pathname = usePathname();
+
+  const setLoginCallbackParams = (href: string) => {
+    if (href === RootPath.Login) {
+      const params = new URLSearchParams();
+      params.set('callbackUrl', pathname);
+      return `${RootPath.Login}?${params.toString()}`;
+    }
+
+    return href;
+  };
+
   return (
     <TooltipProvider delayDuration={0.5}>
       <Tooltip>
@@ -85,7 +98,7 @@ export const Icon = ({
           {name === 'account' && user !== null ? (
             <IconUser user={user} />
           ) : (
-            <Link href={href ?? '#'}>
+            <Link href={href ? setLoginCallbackParams(href) : '#'}>
               <Button
                 variant="ghost"
                 className="rounded-full bg-gray-200 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center p-0"
