@@ -23,7 +23,7 @@ interface CarouselProps {
 
 export const SwiperCarousel = ({ imgLabels }: CarouselProps) => {
     return (
-        <div className='relative max-h[650px]'>
+        <div className='relative max-h-[650px]'>
             <Swiper
                 pagination={{
                     clickable: true,
