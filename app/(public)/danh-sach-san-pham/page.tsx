@@ -87,6 +87,8 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
         ) : (
           <BrandScrolling />
         )}
+      <BlockFilterSort />
+
         <Suspense fallback={<LoadingPageServer />}>
           <div className="w-full flex flex-col items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {res[0].payload.data.map((product) => (
