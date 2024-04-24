@@ -18,6 +18,7 @@ import LogoText from '@/public/logo-text-red.png';
 import { cn } from '@/lib/utils';
 import { PencilLine, Plus } from 'lucide-react';
 import { useAddressModal } from '@/hooks/useAddressModal';
+import { clientSessionToken } from '@/lib/http';
 
 interface ProfileProps {
   profile: GetMeResponseDto;
@@ -48,6 +49,8 @@ const Profile = ({ profile }: ProfileProps) => {
   if (!isMounted) {
     return <LoadingPage />;
   }
+
+  console.log(clientSessionToken.accessValue);
 
   return (
     <MaxWidthWrapper className="sm:max-w-[960px]">
