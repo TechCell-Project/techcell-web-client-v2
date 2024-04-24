@@ -1,11 +1,13 @@
+'use client';
+
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 const OutstandingFeatures = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="my-24 text-center bg-white rounded-md">
-      <div className="text-xl font-bold text-[#ee4949] uppercase py-4">Đặc Điểm Nổi Bật</div>
+    <div className="w-full text-center bg-white rounded-md h-fit">
+      <div className="text-xl font-bold text-primary uppercase py-4">Đặc Điểm Nổi Bật</div>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleContent className="space-y-2">
           <div className="w-full text-left py-2">
@@ -18,8 +20,12 @@ const OutstandingFeatures = () => {
             thiết kế vuông vắn (đã từng có mặt trên iPhone 4 đến iPhone 5S, SE).
           </div>
         </CollapsibleContent>
-        <CollapsibleTrigger asChild className='my-4'>
-          <Button variant="ghost" size="sm" className="w-18 p-4 text-white bg-[#ee4949] hover:bg-[#ee4949] hover:text-white">
+        <CollapsibleTrigger asChild className="my-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="w-18 p-4 text-white bg-primary hover:bg-primary hover:text-white"
+          >
             {isOpen ? 'Thu lại' : 'Xem thêm'}
           </Button>
         </CollapsibleTrigger>

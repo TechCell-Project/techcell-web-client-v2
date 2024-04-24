@@ -14,8 +14,7 @@ export default function SearchingResult({ isFound, keyword }: Readonly<Searching
     <div className="w-full text-primary flex items-center justify-center gap-4">
       {isFound ? <SearchCheck /> : <SearchX />}
       <h4 className="text-lg font-semibold">
-        {message}
-        {' '}<span className="underline font-bold">{keyword}</span>
+        {message} <span className="underline font-bold">{keyword}</span>
       </h4>
     </div>
   );

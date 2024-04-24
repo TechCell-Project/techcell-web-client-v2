@@ -1,21 +1,23 @@
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { AttributeProps } from '@/constants/product-detail';
+import { AttributeInProductDto } from '@techcell/node-sdk';
 import { FC } from 'react';
-
-interface TechnologyInformation {
-  techInfo: AttributeProps[];
+interface TableProps {
+  specifications: AttributeInProductDto[];
 }
 
-const TableSpecification: FC<TechnologyInformation>  = ({techInfo}) => {
+const TableSpecification = ({ specifications }: TableProps) => {
   return (
-    <div className="w-full relative bg-white p-3 mt-3 rounded-md">
-      <div className="text-lg font-bold">Thông số kỹ thuật</div>
+    <div className="w-full">
+      <div className="text-lg font-bold text-center">Thông số kỹ thuật</div>
       <Table className="border-[1px] border-solid border-gray-300 rounded-md my-3">
         <TableBody>
-          {techInfo.slice(0,8).map((specification, index) => (
-            <TableRow key={index}>
+          {specifications.map((specification) => (
+            <TableRow key={specification.k}>
               <TableCell>{specification.name}</TableCell>
-              <TableCell>{specification.v}</TableCell>
+              <TableCell>
+                {specification.v} {specification.u && specification.u.toUpperCase()}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

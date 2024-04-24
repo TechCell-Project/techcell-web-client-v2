@@ -90,6 +90,11 @@ const config = {
       backgroundImage: {
         login: "url('/backgrounds/techcell-bg-login.webp')",
       },
+      gridTemplateColumns: {
+        // Complex site-specific column configuration
+        'product-detail': '54% 1fr',
+        'product-desc-info': '64% 1fr'
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],
