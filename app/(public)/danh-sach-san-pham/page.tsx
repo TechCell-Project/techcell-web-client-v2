@@ -14,7 +14,7 @@ import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-
 import { productApiRequest } from '@/apiRequests/product';
 import { PaginationBar } from '@/components/common/pagination/pagination-bar';
 import SearchingResult from '@/components/products/result-search';
-
+import BlockFilterSort from '@/components/filter/filter-sort';
 type Props = {
   searchParams?: { [key: string]: string | undefined };
 };
@@ -39,7 +39,6 @@ export async function generateMetadata(
     },
   };
 }
-
 const productsPageLocation: BreadcrumbProps = {
   links: [
     {
@@ -78,6 +77,7 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
   return (
     <div className="w-full h-fit pb-5 sm:pb-8">
       <Breadcrumb links={productsPageLocation.links} />
+      <BlockFilterSort />
       <MaxWidthWrapper className="my-6 space-y-6">
         {isFilterWithKeyword ? (
           <SearchingResult

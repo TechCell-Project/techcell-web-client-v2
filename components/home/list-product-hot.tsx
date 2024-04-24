@@ -27,8 +27,8 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
 
     return (
         <div className='flex flex-row justify-center items-center py-7'>
-            <div className="flex flex-col w-[500px] items-center">
-                <div className="h-[100px] m-auto">
+            <div className="flex flex-col w-[500px] items-center sm:w-[200px] sm:hidden">
+                <div className=" sm:h-[118px] h-[100px] m-auto ">
                     <Image
                         src={'/hot-sale.jpg'}
                         alt={'hot-sale'}
