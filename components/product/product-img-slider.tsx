@@ -96,7 +96,7 @@ export const ProductImgSlider = ({ images }: SliderProps) => {
             <p className="text-sm">Mới, đầy đủ phụ kiện từ nhà sản xuất.</p>
           </div>
           <div className="flex w-full items-center gap-4">
-            <div className='w-5 h-5 flex items-center justify-center'>
+            <div className="w-5 h-5 flex items-center justify-center">
               <ShieldCheck className="!w-5 h-full text-gray-500" />
             </div>
             <p className="text-sm">
