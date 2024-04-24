@@ -111,47 +111,4 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
   );
 };
 
-// const SwiperNavButtons = () => {
-//   const swiper = useSwiper();
-//   const [isFirstSlide, setIsFirstSlide] = useState(true);
-//   const [isEndSlide, setIsEndSlide] = useState(false);
 
-//   useEffect(() => {
-//     const updateSlideStatus = () => {
-//       setIsFirstSlide(swiper.isBeginning);
-//       setIsEndSlide(swiper.isEnd);
-//     };
-
-//     swiper.on('slideChange', updateSlideStatus);
-//     updateSlideStatus();
-
-//     return () => {
-//       swiper.off('slideChange', updateSlideStatus);
-//     };
-//   }, [swiper]);
-
-//   return (
-//     <div className="swiper-nav-btns w-full flex justify-between px-0 sm:px-2.5 absolute left-0 top-1/2 z-10 -translate-y-1/2">
-//       <div className="flex items-center">
-//         {!isFirstSlide && (
-//           <Button
-//             className="w-[30px] sm:w-[50px] h-[30px] sm:h-[50px] rounded-full p-0 bg-transparent hover:bg-rose-50"
-//             onClick={() => swiper.slidePrev()}
-//           >
-//             <ChevronLeft className="size-[35px] text-[#ee4949]" />
-//           </Button>
-//         )}
-//       </div>
-//       <div className="flex items-center">
-//         {!isEndSlide && (
-//           <Button
-//             className="w-[30px] sm:w-[50px] h-[30px] sm:h-[50px] rounded-full p-0 bg-transparent hover:bg-red-50"
-//             onClick={() => swiper.slideNext()}
-//           >
-//             <ChevronRight className="size-[35px] text-[#ee4949]" />
-//           </Button>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
