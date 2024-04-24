@@ -77,7 +77,6 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
   return (
     <div className="w-full h-fit pb-5 sm:pb-8">
       <Breadcrumb links={productsPageLocation.links} />
-      <BlockFilterSort />
       <MaxWidthWrapper className="my-6 space-y-6">
         {isFilterWithKeyword ? (
           <SearchingResult
@@ -87,7 +86,7 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
         ) : (
           <BrandScrolling />
         )}
-      <BlockFilterSort />
+        <BlockFilterSort />
 
         <Suspense fallback={<LoadingPageServer />}>
           <div className="w-full flex flex-col items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

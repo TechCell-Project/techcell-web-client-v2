@@ -1,44 +1,36 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { brandApiRequest } from '@/apiRequests/brand';
 import { Button } from '@/components/ui/button';
-import { Brand } from '@techcell/node-sdk';
+import { BRANDS_MAP, BrandLabel, RootPath } from '@/constants';
 
-const BrandPage = () => {
-  const [brands, setBrands] = useState<Brand[]>([]);
+const BrandHomePage = async () => {
+  const res = await brandApiRequest.getListBrand();
 
-  const fetchData = async () => {
-    try {
-      const res = await brandApiRequest.getListBrand();
-      setBrands(res.payload.data);
-    } catch (error) {
-      console.error('Error fetching brands:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
+  const brandList = res.payload.data.reduce((acc: BrandLabel[], brand) => {
+    const brandWithImg = BRANDS_MAP.get(brand.slug);
+    if (brandWithImg) acc.push(brandWithImg);
+    return acc;
   }, []);
 
   return (
     <div className="my-[40px] flex flex-row justify-between items-center">
-      <div className="text-[18px] sm:text-[25px] font-bold uppercase">Thương hiệu</div>
+      <div className="text-[16px] sm:text-[25px] font-bold uppercase">Thương hiệu</div>
       <div className='hidden sm:flex gap-7 '>
-        {brands.slice(0, 10).map((brand) => (
-          <div key={brand.slug} className="flex flex-row">
+        {brandList.slice(0,10).map((brand) => (
+          <div key={brand.key} className="flex flex-row">
             <Link href={'/'}>
-              <Button size="default">{brand.name}</Button>
+              <Button size="default">{brand.label}</Button>
             </Link>
           </div>
         ))}
       </div>
       <div className="text-[14px] sm:text-[20px] font-semibold underline">
-        <Link href={''}>Xem tất cả</Link>
+        <Link href={RootPath.Brand}>Xem tất cả</Link>
       </div>
     </div>
   );
 };
 
-export default BrandPage;
+export default BrandHomePage;

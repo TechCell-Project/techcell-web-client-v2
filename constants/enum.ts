@@ -11,6 +11,7 @@ export enum RootPath {
   ProductDetails = '/chi-tiet-san-pham',
   Profile = '/ho-so',
   Order = '/don-hang',
+  Brand = '/thuong-hieu'
 }
 
 export enum ApiTags {

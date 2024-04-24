@@ -19,6 +19,7 @@ import { PHONE_TEST, PhoneProps } from '@/constants/phone-test';
 import { calculateSaleOffPercentage, currencyFormat } from '@/utilities/func.util';
 import { Navigation } from 'swiper/modules';
 import { ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
+import Link from 'next/link';
 
 interface ListProductHotProps {
   phone: PhoneProps[];
@@ -27,11 +28,11 @@ interface ListProductHotProps {
 export const ListProductHot = ({ phone }: ListProductHotProps) => {
   return (
     <div className="flex flex-col sm:flex sm:flex-row items-center sm:py-7 gap-2">
-      <div className="text-center">
-        <div className="w-full h-[100px] sm:w-[200px] sm:h-[118px] m-auto ">
+      <div className="text-center flex flex-row items-end sm:flex sm:flex-col sm:items-center">
+        <div className="w-[100px] h-full sm:w-[200px] sm:h-full m-auto ">
           <Image
             src={'/hot-sale.jpg'}
-            alt={'hot-sale'}
+            alt={'hot-sale'}  
             width={200}
             height={200}
             style={{
@@ -42,14 +43,24 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
             }}
           />
         </div>
-        <div className="text-[18px] my-2 sm:text-[25px] font-bold uppercase">Giảm giá</div>
+        <div className="text-[16px] sm:text-[25px] font-bold uppercase">Giảm giá</div>
       </div>
-      <div className="grid grid-cols-2 sm:flex sm:justify-between gap-3">
-        {PHONE_TEST.slice(0, 4).map((phone) => (
-          <div key={phone.name} className="w-full">
-            <div
+
+      <Swiper
+        slidesPerView={window.innerWidth < 1024 ? 2 : 4}
+        spaceBetween={10}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Navigation]}
+        className="w-full"
+      >
+        {PHONE_TEST.slice(0, 10).map((phone) => (
+          <SwiperSlide key={phone.name}>
+            <Link
+              href={''}
               key={phone.name}
-              className="w-full flex flex-col bg-white p-2 justify-center rounded-xl cursor-pointer hover:scale-105 hover:transition duration-150 ease-in-out"
+              className="flex flex-col bg-white p-2 justify-center rounded-xl cursor-pointer hover:scale-105 hover:transition duration-150 ease-in-out"
             >
               <div className="w-[100px] h-[100px] sm:w-[180px] sm:h-[180px] m-auto">
                 <Image
@@ -66,7 +77,7 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
                 />
               </div>
               <span className="font-bold text-sm pt-4">{phone.modelName}</span>
-              <div className='w-full flex flex-col sm:flex sm:flex-row sm:items-center '>
+              <div className="w-full flex flex-col sm:flex sm:flex-row sm:items-center ">
                 <div className="text-md font-bold sm:text-lg my-2 text-[#ee4949] font-semiblod">
                   {currencyFormat(Number(phone.price[0].special))}
                   <sup>đ</sup>
@@ -87,12 +98,11 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
               </div>
 
               {/*  */}
-              <div className=" w-full pb-2 pt-4 flex items-center gap-2">
+              <div className="pb-2 pt-4 flex justify-between items-center">
                 <Button
                   variant="default"
                   className="hidden sm:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
                 >
-                  <ShoppingCart />
                   Thêm giỏ hàng
                 </Button>
                 <Button
@@ -102,13 +112,55 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
                   Mua ngay
                 </Button>
               </div>
-            </div>
-          </div>
+            </Link>
+          </SwiperSlide>
         ))}
-        {/* <SwiperNavButtons /> */}
-      </div>
+        <SwiperNavButtons />
+      </Swiper>
     </div>
   );
 };
 
+const SwiperNavButtons = () => {
+  const swiper = useSwiper();
+  const [isFirstSlide, setIsFirstSlide] = useState(true);
+  const [isLastSlide, setIsLastSlide] = useState(false);
 
+  useEffect(() => {
+    const updateSlideStatus = () => {
+      setIsFirstSlide(swiper.isBeginning);
+      setIsLastSlide(swiper.isEnd);
+    };
+
+    updateSlideStatus(); // Initial check
+
+    swiper.on('slideChange', updateSlideStatus);
+
+    return () => {
+      swiper.off('slideChange', updateSlideStatus);
+    };
+  }, [swiper]);
+
+  return (
+    <div className='swiper-nav-btns w-full flex justify-between items-center px-0 sm:px-2.5 absolute left-0 top-1/2 z-10 -translate-y-1/2'>
+      {!isFirstSlide && (
+        <Button
+          className='w-[30px] sm:w-[50px] h-[30px] sm:h-[50px] rounded-full p-0 bg-transparent hover:bg-rose-50'
+          onClick={() => swiper.slidePrev()}
+        >
+          <ChevronLeft className='size-[35px] text-[#ee4949]' />
+        </Button>
+      )}
+      <div className="flex-grow"></div>
+      {!isLastSlide && (
+        <Button
+          className='w-[30px] sm:w-[50px] h-[30px] sm:h-[50px] rounded-full p-0 bg-transparent hover:bg-red-50'
+          onClick={() => swiper.slideNext()}
+        >
+          <ChevronRight className='size-[35px] text-[#ee4949]' />
+        </Button>
+      )}
+    </div>
+
+  );
+};
