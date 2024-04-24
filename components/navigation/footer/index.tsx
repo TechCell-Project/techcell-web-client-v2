@@ -53,10 +53,10 @@ const socialsIcon = [
 const Footer = () => {
   return (
     <div className="container pt-10 mt-auto">
-      <div className="flex flex-row">
+      <div className="flex flex-col sm:flex-row">
         <div className="basis-3/6">
           <Image src={Logo} alt="logo" width={150} height={54} />
-          <article className="text-sm pr-[90px] py-3">
+          <article className="text-sm sm:pr-[90px] py-3">
             Tận hưởng Cuộc Sống Kỹ Thuật Số với Techcell - Nơi Nâng Tầm Trải Nghiệm
             Điện Thoại. Sự hoàn hảo gặp gỡ thiết kế đẳng cấp, để mỗi cuộc gọi, mỗi
             cử chỉ đều trở thành một trải nghiệm không thể quên. Khám phá ngay với
@@ -88,9 +88,9 @@ const Footer = () => {
         ))}
       </div>
       <hr className="my-6" />
-      <div className="flex justify-between pb-5">
+      <div className="flex flex-col sm:justify-between pb-5">
         <span className="text-sm"> © 2023, made with ❤️ by <b>Techcell Team</b></span>
-        <div className="flex flex-row gap-5">
+        <div className="flex justify-around sm:flex-row gap-5">
           <Link
             href='https://admin.techcell.cloud'
             target='_blank'

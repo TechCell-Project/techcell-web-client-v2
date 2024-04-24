@@ -24,15 +24,17 @@ const BrandPage = () => {
 
   return (
     <div className="my-[40px] flex flex-row justify-between items-center">
-      <div className="text-[25px] font-bold uppercase">Thương hiệu</div>
-      {brands.slice(0, 10).map((brand) => (
-        <div key={brand.slug} className="flex flex-row">
-          <Link href={'/'}>
-            <Button size="default">{brand.name}</Button>
-          </Link>
-        </div>
-      ))}
-      <div className="text-[20px] font-semibold underline">
+      <div className="text-[18px] sm:text-[25px] font-bold uppercase">Thương hiệu</div>
+      <div className='hidden sm:flex gap-7 '>
+        {brands.slice(0, 10).map((brand) => (
+          <div key={brand.slug} className="flex flex-row">
+            <Link href={'/'}>
+              <Button size="default">{brand.name}</Button>
+            </Link>
+          </div>
+        ))}
+      </div>
+      <div className="text-[14px] sm:text-[20px] font-semibold underline">
         <Link href={''}>Xem tất cả</Link>
       </div>
     </div>
