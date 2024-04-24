@@ -1,4 +1,4 @@
-import { ApiTags } from '@/constants';
+import { ApiTags, DEFAULT_LIMIT } from '@/constants';
 import http from '@/lib/http';
 import {
   ProductDto,
@@ -16,21 +16,20 @@ export const productApiRequest = {
 
     let url = `${ApiProduct}`;
 
-    if (page || limit || filters || sort) {
-      url += `?`;
+    url += `?limit=${limit ?? DEFAULT_LIMIT}`;
+    
+    if (page || filters || sort) {
       if (page) {
-        url += `page=${page}&`;
-      }
-      if (limit) {
-        url += `limit=${limit}&`;
+        url += `&page=${page}`;
       }
       if (filters) {
-        url += `filters=${filters}&`;
+        url += `&filters=${filters}`;
       }
       if (sort) {
-        url += `sort=${sort}&`;
+        url += `&sort=${sort}`;
       }
     }
+
 
     return http.get<ProductInfinityPaginationResult>(url, { headers: publicHeaders });
   },

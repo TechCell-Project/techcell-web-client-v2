@@ -52,8 +52,7 @@ const socialsIcon = [
 
 const Footer = () => {
   return (
-
-    <div className="container pt-12">
+    <div className="container pt-10 mt-auto">
       <div className="flex flex-row">
         <div className="basis-3/6">
           <Image src={Logo} alt="logo" width={150} height={54} />
