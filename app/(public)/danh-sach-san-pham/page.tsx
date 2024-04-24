@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { Metadata, ResolvingMetadata } from 'next';
-import { Metadata, ResolvingMetadata } from 'next';
 
 import { BrandScrolling } from '@/components/brands/brandscrolling';
 import { Breadcrumb, BreadcrumbProps } from '@/components/common/breadcrumbs';
@@ -9,7 +8,6 @@ import LoadingPageServer from '@/components/common/loading-server';
 import { NormalCard } from '@/components/common/product-card/normal-card';
 
 import { VALID_GET_PRODUCTS_PARAMS } from '@/constants';
-import { filterSearchParams, findKeyword } from '@/lib/utils';
 import { filterSearchParams, findKeyword } from '@/lib/utils';
 
 import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-sdk';
@@ -79,7 +77,6 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
   return (
     <div className="w-full h-fit pb-5 sm:pb-8">
       <Breadcrumb links={productsPageLocation.links} />
-      <BlockFilterSort />
       <MaxWidthWrapper className="my-6 space-y-6">
         {isFilterWithKeyword ? (
           <SearchingResult
