@@ -71,7 +71,7 @@ const Footer = () => {
 
         </div>
         {links.map((link) => (
-          <div className="basis-1/6" key={link.title}>
+          <div className="basis-1/3" key={link.title}>
             <div className="py-3 text-lg font-semibold">
               {link.title}
             </div>
@@ -88,7 +88,7 @@ const Footer = () => {
         ))}
       </div>
       <hr className="my-6" />
-      <div className="flex flex-col sm:justify-between pb-5">
+      <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row 2xl:flex-row pb-5">
         <span className="text-sm"> © 2023, made with ❤️ by <b>Techcell Team</b></span>
         <div className="flex justify-around sm:flex-row gap-5">
           <Link
