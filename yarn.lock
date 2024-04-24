@@ -1437,6 +1437,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-oauth/google@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "@react-oauth/google@npm:0.12.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/fe23e3c0a4d0b9999fcd7b932b1a42bf94fdab526473931d780d08742455b8861fc647857b3b491e258ecef4a407dbf7321440c0d00890e23059d487795f92fb
+  languageName: node
+  linkType: hard
+
 "@rushstack/eslint-patch@npm:^1.3.3":
   version: 1.10.1
   resolution: "@rushstack/eslint-patch@npm:1.10.1"
@@ -1482,12 +1492,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@techcell/node-sdk@npm:0.0.1-36827b0":
-  version: 0.0.1-36827b0
-  resolution: "@techcell/node-sdk@npm:0.0.1-36827b0"
+"@techcell/node-sdk@npm:0.0.1-7a45eeb":
+  version: 0.0.1-7a45eeb
+  resolution: "@techcell/node-sdk@npm:0.0.1-7a45eeb"
   dependencies:
     axios: "npm:^1.6.1"
-  checksum: 10c0/d555c36be456553e477d89f87867552c2b6b9d13d732432d3aaf28693ef46a54ebca8bb87f5f37c7e6365c9a6feeb10fc4687de2d092bf8f12b5ee05d7fb7245
+  checksum: 10c0/398b467dae7f1440904952873cab4f74e31104358b2cf6463cab6c5c13fe7927eacc92a6c162c04266c59e607bbf479239597ed88eb5085235044d85fa9c2091
   languageName: node
   linkType: hard
 
@@ -5680,9 +5690,10 @@ __metadata:
     "@radix-ui/react-tabs": "npm:^1.0.4"
     "@radix-ui/react-toast": "npm:^1.1.5"
     "@radix-ui/react-tooltip": "npm:^1.0.7"
+    "@react-oauth/google": "npm:^0.12.1"
     "@tanstack/eslint-plugin-query": "npm:^5.28.11"
     "@tanstack/react-query": "npm:^5.28.14"
-    "@techcell/node-sdk": "npm:0.0.1-36827b0"
+    "@techcell/node-sdk": "npm:0.0.1-7a45eeb"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
