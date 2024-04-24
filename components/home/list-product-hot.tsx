@@ -26,7 +26,7 @@ interface ListProductHotProps {
 
 export const ListProductHot = ({ phone }: ListProductHotProps) => {
   return (
-    <div className="flex flex-col sm:flex sm:flex-row items-center sm:py-7 gap-2">
+    <div className="flex flex-col sm:flex sm:flex-col md:flex md:flex-col lg:flex-row items-center sm:py-7 gap-2">
       <div className="text-center">
         <div className="w-full h-[100px] sm:w-[200px] sm:h-[118px] m-auto ">
           <Image
@@ -44,7 +44,7 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
         </div>
         <div className="text-[18px] my-2 sm:text-[25px] font-bold uppercase">Giảm giá</div>
       </div>
-      <div className="grid grid-cols-2 sm:flex sm:justify-between gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {PHONE_TEST.slice(0, 4).map((phone) => (
           <div key={phone.name} className="w-full">
             <div
@@ -90,7 +90,7 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
               <div className=" w-full pb-2 pt-4 flex items-center gap-2">
                 <Button
                   variant="default"
-                  className="hidden sm:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
+                  className="hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
                 >
                   <ShoppingCart />
                   Thêm giỏ hàng
