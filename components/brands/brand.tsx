@@ -25,7 +25,7 @@ const BrandPage = () => {
   return (
     <div className="my-[40px] flex flex-row justify-between items-center">
       <div className="text-[18px] sm:text-[25px] font-bold uppercase">Thương hiệu</div>
-      <div className='hidden sm:flex gap-7 '>
+      <div className="hidden sm:flex gap-7 ">
         {brands.slice(0, 10).map((brand) => (
           <div key={brand.slug} className="flex flex-row">
             <Link href={'/'}>

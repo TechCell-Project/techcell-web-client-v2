@@ -26,7 +26,7 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@react-oauth/google": "^0.12.1",
     "@tanstack/react-query": "^5.28.14",
-    "@techcell/node-sdk": "0.0.1-7a45eeb",
+    "@techcell/node-sdk": "0.0.1-b6804a3",
     "ahooks": "^3.7.11",
     "axios": "^1.6.8",
     "axios-retry": "^4.1.0",
