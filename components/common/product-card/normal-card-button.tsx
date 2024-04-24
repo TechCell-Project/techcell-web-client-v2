@@ -4,10 +4,9 @@ import { Button } from '@/components/ui/button';
 
 interface ButtonProps {
   productId: string;
-  skuId: string | null;
 }
 
-export const BuyingButton = ({ productId, skuId }: ButtonProps) => {
+export const BuyingButton = ({ productId }: ButtonProps) => {
     const handleAddToCart = () => {
         console.log(productId);
     }

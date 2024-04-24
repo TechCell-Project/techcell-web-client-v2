@@ -18,7 +18,7 @@ export const NormalCard = ({ product }: { product: ProductInListDto}) => {
       <div className="w-[180px] h-[180px] m-auto flex items-center">
         <Image
           src={TempProductImg.src}
-          alt={product.name}
+          alt={product.modelName}
           width={180}
           height={180}
           className="w-full h-auto max-h-[180px] object-cover object-center"
