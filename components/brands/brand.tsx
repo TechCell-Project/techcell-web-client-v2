@@ -27,7 +27,7 @@ const BrandHomePage = async () => {
         ))}
       </div>
       <div className="text-[14px] sm:text-[20px] font-semibold underline">
-        <Link href={RootPath.Brand}>Xem tất cả</Link>
+        <Link href={''}>Xem tất cả</Link>
       </div>
     </div>
   );

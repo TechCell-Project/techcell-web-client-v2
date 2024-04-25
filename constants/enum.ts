@@ -10,7 +10,7 @@ export enum RootPath {
   ProductList = '/danh-sach-san-pham',
   ProductDetails = '/chi-tiet-san-pham',
   Profile = '/ho-so',
-  Order = '/don-hang',
+  Order = '/don-hang'
 }
 
 export enum ApiTags {
