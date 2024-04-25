@@ -3,66 +3,115 @@
 import { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { Trash2, Plus, Minus } from 'lucide-react';
-import { ProductCartProps } from './product-cart';
+import { ProductCartProps } from './card-product-cart';
 import { useDebounceFn } from 'ahooks';
 import { cartApiRequest } from '@/apiRequests/cart';
 import { useRouter } from 'next/navigation';
+import { ProductCartSchema } from '@techcell/node-sdk';
+import { toast } from '@/components/ui/use-toast';
+import { Modal } from '@/components/ui/modal';
+import { DialogFooter } from '../ui/dialog';
 
-export type UpdateProductCartProps = ProductCartProps;
+interface UpdateProductCartProps {
+  product: ProductCartSchema;
+}
 
-export default function UpdateProductCart({ products, index }: UpdateProductCartProps) {
-  const product = products[index];
+export default function UpdateProductCart({ product }: Readonly<UpdateProductCartProps>) {
+  const { refresh } = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
 
-  const router = useRouter();
-  const { productId, skuId, quantity: initialQuantity } = product;
-  const [quantity, setQuantity] = useState(initialQuantity);
-
-  const updateCart = useDebounceFn(
-    async () => {
-      products[index].quantity = quantity;
+  const handleUpdateQuantity = async (quantityUpdate: number) => {
+    if (product.quantity === 1 && quantityUpdate === -1) return;
+    setIsLoading(true);
+    try {
       await cartApiRequest.updateCartClient({
-        products: products,
+        products: [
+          {
+            productId: product.productId,
+            skuId: product.skuId,
+            quantity: quantityUpdate,
+          },
+        ],
       });
-    },
-    {
-      wait: 1000,
-    },
-  );
-
-  useEffect(() => {
-    if (quantity !== initialQuantity) {
-      updateCart.run();
+      refresh();
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'destructive',
+        title: 'Cập nhật số lượng thất bại',
+      });
+    } finally {
+      setIsLoading(false);
     }
-  }, [updateCart, quantity, initialQuantity]);
-
-  const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1);
   };
 
-  const handleDecreaseQuantity = () => {
-    if (quantity === 1) return;
-    setQuantity(quantity - 1);
+  const handleDeleteProduct = async () => {
+    setIsLoading(true);
+    try {
+      await cartApiRequest.updateCartClient({
+        products: [
+          {
+            productId: product.productId,
+            skuId: product.skuId,
+            quantity: 0,
+          },
+        ],
+      });
+      toast({
+        variant: 'success',
+        title: 'Đã xóa sản phẩm',
+      });
+      refresh();
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'destructive',
+        title: 'Xóa sản phẩm thất bại',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <>
+    <div className="w-full flex flex-col items-center sm:flex-row gap-3 sm:justify-center">
       <div className="flex flex-row">
         <Button
           variant="outline"
           size="icon"
-          onClick={handleDecreaseQuantity}
-          disabled={quantity === 1}
+          onClick={() => handleUpdateQuantity(-1)}
+          disabled={product.quantity === 1 || isLoading}
         >
           <Minus className="h-4 w-4" />
         </Button>
-        <span className="mx-4">{quantity}</span>
-        <Button variant="outline" size="icon" onClick={handleIncreaseQuantity}>
+        <span className="mx-4">{product.quantity}</span>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => handleUpdateQuantity(1)}
+          disabled={isLoading}
+        >
           <Plus className="h-4 w-4" />
         </Button>
       </div>
-      <div className="cursor-pointer">
+      <Button variant="destructive" onClick={() => setOpenDelete(true)} className="cursor-pointer p-2">
         <Trash2 />
-      </div>
-    </>
+      </Button>
+      <Modal
+        title="Xác nhận xóa sản phẩm này khỏi giỏ hàng?"
+        isOpen={openDelete}
+        onClose={() => setOpenDelete(false)}
+      >
+        <DialogFooter className='mt-5'>
+          <Button variant="default" onClick={handleDeleteProduct} disabled={isLoading}>
+            Xác nhận
+          </Button>
+          <Button variant="secondary" onClick={() => setOpenDelete(false)}>
+            Đóng
+          </Button>
+        </DialogFooter>
+      </Modal>
+    </div>
   );
 }
