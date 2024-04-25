@@ -5,7 +5,6 @@ import { Cart as CartDto, ProductCartSchema, UpdateCartDto } from '@techcell/nod
 import { MessageResType } from '@/validationSchemas';
 import { revalidateRequest } from '.';
 
-
 const ApiPrefix = ApiTags.Cart;
 
 export const cartApiRequest = {
@@ -16,8 +15,6 @@ export const cartApiRequest = {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
-      cache: 'no-store',
-      next: revalidateRequest,
     }),
 
   getCartsFromNextClientToServer: () => http.get<CartDto>(ApiPrefix),

@@ -3,7 +3,7 @@
 import React, { createElement } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import {
   DropdownMenu,
@@ -28,6 +28,8 @@ import { IconProps, RootPath } from '@/constants';
 import AlternativeAvatar from '@/public/temp/avatarColor.webp';
 
 export const IconUser = ({ user }: { user: GetMeResponseDto }) => {
+  const { push } = useRouter();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -49,16 +51,16 @@ export const IconUser = ({ user }: { user: GetMeResponseDto }) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className="text-base h-9">
-            <Link href={RootPath.Profile} className="flex items-center gap-4 w-full">
+            <Button variant="ghost" onClick={() => push(RootPath.Profile)} className="justify-start pl-0 gap-4 w-full">
               <UserIcon className="mr-2 h-5 w-5" />
               <span>Hồ sơ</span>
-            </Link>
+            </Button>
           </DropdownMenuItem>
           <DropdownMenuItem className="text-base h-9">
-            <Link href={RootPath.Order} className="flex items-center gap-4 w-full">
+            <Button variant="ghost" onClick={() => push(RootPath.Order)} className="justify-start pl-0 gap-4 w-full">
               <LiaShippingFastSolid className="mr-2 h-5 w-5" />
               <span>Đơn hàng</span>
-            </Link>
+            </Button>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -79,6 +81,7 @@ export const Icon = ({
   href,
   user,
 }: IconProps & { user: GetMeResponseDto | null }) => {
+  const { push } = useRouter();
   const pathname = usePathname();
 
   const setLoginCallbackParams = (href: string) => {
@@ -98,15 +101,14 @@ export const Icon = ({
           {name === 'account' && user !== null ? (
             <IconUser user={user} />
           ) : (
-            <Link href={href ? setLoginCallbackParams(href) : '#'}>
-              <Button
-                variant="ghost"
-                className="rounded-full bg-gray-200 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center p-0"
-                id={name}
-              >
-                {createElement(icon, { className: 'w-5 h-auto text-slate-500' })}
-              </Button>
-            </Link>
+            <Button
+              id={name}
+              variant="ghost"
+              className="rounded-full bg-gray-200 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center p-0"
+              onClick={() => push(href ? setLoginCallbackParams(href) : '#')}
+            >
+              {createElement(icon, { className: 'w-5 h-auto text-slate-500' })}
+            </Button>
           )}
         </TooltipTrigger>
         <TooltipContent>
