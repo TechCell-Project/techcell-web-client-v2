@@ -12,6 +12,7 @@ import { CircleCheck } from 'lucide-react';
 import OutstandingFeatures from './outstanding-features-product';
 import TableSpecification from './table-specifications';
 import DialogSpecification from './dialog-specifications';
+import { ProductSimilar } from './similar-product';
 
 interface ProductDetailProps {
   detail: ProductDto;
@@ -44,6 +45,7 @@ export default function ProductDetailSection({ detail }: ProductDetailProps) {
           </div>
         </MaxWidthWrapper>
       </div>
+      <ProductSimilar productSimilar={detail.brand.name}/>
     </>
   );
 }

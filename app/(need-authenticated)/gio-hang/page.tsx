@@ -12,7 +12,7 @@ export default async function Cart() {
 
   return (
     <Suspense fallback={<LoadingPage />}>
-      <CartPage cart={payload} />
+      {/* <CartPage cart={payload} /> */}
     </Suspense>
   );
 }

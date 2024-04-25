@@ -53,7 +53,7 @@ export default async function SecProductDetailSection({ params }: Readonly<Props
       {
         title: 'Apple',
         link: `${RootPath.ProductList}?${FILTERS_PARAM}=${JSON.stringify({
-          [FILTERS_BRANDS]: ['661681dde3e5984cfc2c28cc'],
+          [FILTERS_BRANDS]: ['6612cc2e5edb561eb8e263d7'],
         })}`,
       },
       {
