@@ -11,22 +11,25 @@ export default function Logout() {
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const sessionToken = searchParams.get('sessionToken');
+  console.log(sessionToken);
 
   if (!sessionToken) {
-    push(RootPath.Login);
+    push(RootPath.Home);
   }
 
   useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    if (sessionToken === clientSessionToken.accessValue) {
-      authApiRequest.logoutFromNextClientToNextServer(true, signal).then(() => {
-        push(RootPath.Login);
-      });
+    if (typeof window !== 'undefined') {
+      const controller = new AbortController();
+      const signal = controller.signal;
+      if (sessionToken === clientSessionToken.accessValue) {
+        authApiRequest.logoutFromNextClientToNextServer(true, signal).then(() => {
+          push(RootPath.Login);
+        });
+      }
+      return () => {
+        controller.abort();
+      };
     }
-    return () => {
-      controller.abort();
-    };
   }, [sessionToken, push]);
 
   return <LoadingPage />;

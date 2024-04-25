@@ -5,5 +5,5 @@ export const metadata: Metadata = {
 };
 
 export default function OrderLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return <div className='w-full h-full bg-slate-100'>{children}</div>;
+    return <div className='w-full h-full'>{children}</div>;
 }

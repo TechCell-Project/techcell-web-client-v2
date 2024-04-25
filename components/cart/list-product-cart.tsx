@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,8 @@ import { currencyFormat } from '@/utilities/func.util';
 import { scrollToTop } from '@/lib/utils';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
+import { authApiRequest } from '@/apiRequests';
+
 export type ListProductCartProps = {
   products: ProductCart[];
 };
@@ -20,6 +22,19 @@ export default function ListProductCart({ products }: Readonly<ListProductCartPr
   const [selectedSku, setSelectedSku] = useState<string[]>([]);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
+  const [defaultAddressIndex, setDefaultAddressIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const getDefaultIndex = async () => {
+      const { payload } = await authApiRequest.getMeClient();
+
+      if (payload.address) {
+        setDefaultAddressIndex(payload.address.findIndex((address) => address.isDefault));
+      }
+    };
+
+    getDefaultIndex();
+  }, []);
 
   const handleSelectAll = () => {
     if (selectedSku.length === 0 || selectedSku.length !== products.length) {
@@ -58,6 +73,26 @@ export default function ListProductCart({ products }: Readonly<ListProductCartPr
     setCurrentPrice(total);
   }, [selectedSku]);
 
+  const { run } = useDebounceFn(
+    () => {
+      const matchedProduct = products.filter((product) =>
+        selectedSku.includes(product.variation.skuId),
+      );
+
+      const productsToPreview = matchedProduct.map((product) => {
+        return `${product.variation.skuId}-${product.quantity}`;
+      });
+
+      localStorage.setItem(
+        'selected-sku',
+        productsToPreview.toString() + '/' + defaultAddressIndex?.toString(),
+      );
+    },
+    {
+      wait: 1000,
+    },
+  );
+
   const handleClickCheckout = () => {
     if (selectedSku.length === 0) {
       setShowUncheckMsg(true);
@@ -65,7 +100,7 @@ export default function ListProductCart({ products }: Readonly<ListProductCartPr
       return;
     }
 
-    localStorage.setItem('selected-sku', selectedSku.toString());
+    run();
   };
 
   return (

@@ -20,6 +20,7 @@ interface AddressListProps {
   list: UserAddressResponseDto[] | undefined;
   onOpenUpdateModal: (index: number) => void;
   onSelectIndex?: (index: number) => void;
+  currentIndex?: number;
 }
 
 type DeleteAddressDialog = {
@@ -27,9 +28,14 @@ type DeleteAddressDialog = {
   index: number | null;
 };
 
-export function UserAddressList({ list, onOpenUpdateModal, onSelectIndex }: Readonly<AddressListProps>) {
+export function UserAddressList({
+  list,
+  onOpenUpdateModal,
+  onSelectIndex,
+  currentIndex,
+}: Readonly<AddressListProps>) {
   const { refresh } = useRouter();
-  const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>(0);
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>(currentIndex ?? 0);
   const [openSetDefault, setOpenSetDefault] = useState<boolean>(false);
   const [openDeleteAddress, setOpenDeleteAddress] = useState<DeleteAddressDialog>({
     isOpen: false,
@@ -37,11 +43,13 @@ export function UserAddressList({ list, onOpenUpdateModal, onSelectIndex }: Read
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  console.log(currentIndex);
+
   useEffect(() => {
     if (onSelectIndex) {
       onSelectIndex(selectedAddressIndex);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAddressIndex]);
 
   if (!list) {
@@ -114,7 +122,7 @@ export function UserAddressList({ list, onOpenUpdateModal, onSelectIndex }: Read
   return (
     <RadioGroup
       className="w-full flex flex-col"
-      defaultValue="0"
+      defaultValue={String(selectedAddressIndex)}
       onValueChange={(value) => setSelectedAddressIndex(Number(value))}
     >
       <Button
@@ -142,7 +150,9 @@ export function UserAddressList({ list, onOpenUpdateModal, onSelectIndex }: Read
                   {address.isDefault && <Badge className="bg-primary">Mặc định</Badge>}
                 </div>
               </div>
-              <p className="text-zinc-500 text-sm">{ADDRESS_TYPES.get(address.type)?.typeValue}</p>
+              <p className="text-zinc-500 text-sm">
+                {ADDRESS_TYPES.get(address.type as 'home' | 'office' | 'other')?.typeValue}
+              </p>
               <div className="flex items-center w-full">
                 <p className="text-zinc-500 truncate">{buildAddressString(address)}</p>
               </div>

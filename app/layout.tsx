@@ -51,7 +51,6 @@ export default async function RootLayout({
     const userData = await authApiRequest.getMe(sessionToken.value);
     user = userData.payload;
   }
-  console.log(sessionToken);
 
   return (
     <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID ?? ''}>
