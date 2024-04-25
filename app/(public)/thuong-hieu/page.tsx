@@ -1,6 +1,6 @@
 import { BrandScrolling } from "@/components/brands/brandscrolling";
 import BannerSection from "@/components/home/banner-page";
-import ListProduct from "@/components/home/list-product";
+import {ListProduct} from "@/components/home/list-product";
 
 const BrandPage = () => {
   return (

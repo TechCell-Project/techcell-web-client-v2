@@ -4,13 +4,15 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 const OutstandingFeatures = () => {
+
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="w-full text-center bg-white rounded-md h-fit">
       <div className="text-xl font-bold text-primary uppercase py-4">Đặc Điểm Nổi Bật</div>
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleContent className="space-y-2">
-          <div className="w-full text-left py-2">
+          <div className="w-full text-left py-5">
             Đánh giá iPhone 13 - Flagship được mong chờ năm 2021 Cuối năm 2020, bộ 4 iPhone 12 đã
             được ra mắt với nhiều cái tiến. Sau đó, mọi sự quan tâm lại đổ dồn vào sản phẩm tiếp
             theo – iPhone 13. Vậy iP 13 sẽ có những gì nổi bật, hãy tìm hiểu ngay sau đây nhé! Thiết
