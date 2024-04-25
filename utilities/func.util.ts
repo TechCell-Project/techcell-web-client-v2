@@ -1,4 +1,5 @@
-import { VariationProps } from "@/constants/product-detail";
+import { VariationProps } from '@/constants/product-detail';
+import { AttributeInProductDto } from '@techcell/node-sdk';
 
 /**
  * Generates a URL query string from an object of parameters.
@@ -54,8 +55,6 @@ export const getFieldChanges = <T extends Record<string, any>>(
   return output;
 };
 
-
-
 /**
  * User Service Func - getShortName
  */
@@ -91,7 +90,7 @@ export const convertToSnakeCase = (input: string): string => {
 //format currency
 export const currencyFormat = (price: number | null): string => {
   if (typeof price !== 'number') {
-      throw new Error('Invalid input. Please provide a number.');
+    throw new Error('Invalid input. Please provide a number.');
   }
 
   // Convert the number to a string
@@ -103,17 +102,23 @@ export const currencyFormat = (price: number | null): string => {
   return formattedIntegerPart;
 };
 
-
 export function calculateSaleOffPercentage(base: number, special: number): number {
   const difference = base - special;
   const percentage = (difference / base) * 100;
   return Math.round(percentage);
 }
 
-
 // Function to get unique attribute keys from all variations
 export const getUniqueAttributeKeys = (variations: VariationProps[]) =>
   Array.from(
-      new Set(variations.flatMap((variation) => variation.attributes.map((attr) => attr.k))),
+    new Set(variations.flatMap((variation) => variation.attributes.map((attr) => attr.k))),
   );
 
+/**
+ * Get a string that stand for the variation attributes
+ * @param attributes
+ * @returns
+ */
+export function getVariationString(attributes: AttributeInProductDto[]): string {
+  return attributes.map((attr) => `${attr.v}${attr.u ? ` ${attr.u}` : ''}`).join(', ');
+}
