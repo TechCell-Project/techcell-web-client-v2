@@ -19,7 +19,7 @@ const CartSuggest = () => {
                     >
                         <div className="w-[100px] h-[100px] sm:w-[180px] sm:h-[180px] m-auto">
                             <Image
-                                src={phone.image[0].url}
+                                src={phone.images[0].url}
                                 alt={phone.name}
                                 width={400}
                                 height={400}
@@ -34,11 +34,11 @@ const CartSuggest = () => {
                         <span className="font-bold text-sm pt-4">{phone.modelName}</span>
                         <div className="w-full flex flex-col sm:flex sm:flex-row sm:items-center ">
                             <div className="text-md font-bold sm:text-lg my-2 text-[#ee4949] font-semiblod">
-                                {currencyFormat(Number(phone.price[0].special))}
+                                {currencyFormat(Number(phone.price.special))}
                                 <sup>đ</sup>
                             </div>
                             <div className="text-xs mb-2 sm:ml-2 sm:text-sm sm:my-2 text-slate-500 line-through">
-                                {currencyFormat(Number(phone.price[0].base))}
+                                {currencyFormat(Number(phone.price.base))}
                                 <sup>đ</sup>
                             </div>
                         </div>
@@ -47,7 +47,7 @@ const CartSuggest = () => {
                         <div className="text-xs p-2 rounded-md border border-solid border-slate-[#e5e7eb] bg-[#f3f4f6]">
                             Giảm giá đến :{' '}
                             <span className="text-sm text-[#ee4949] font-bold">
-                                {calculateSaleOffPercentage(phone.price[0].base, phone.price[0].special)} %
+                                {calculateSaleOffPercentage(phone.price.base, phone.price.special)} %
                             </span>{' '}
                             và nhiều khuyến mại hấp dẫn khác
                         </div>
