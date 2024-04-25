@@ -37,5 +37,6 @@ export default async function Cart() {
         <CartPage cartProducts={userCart.payload.products} />
       </Suspense>
     </>
+
   );
 }

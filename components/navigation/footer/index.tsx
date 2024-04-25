@@ -52,8 +52,8 @@ const socialsIcon = [
 const Footer = () => {
   return (
     <div className="container pt-10 mt-auto">
-      <div className="flex flex-row">
-        <div className="basis-3/6">
+      <div className="flex flex-col sm:flex-row">
+        <div className="sm:basis-3/6">
           <Image src={Logo} alt="logo" width={150} height={54} />
           <article className="text-sm sm:pr-[90px] py-3">
             Tận hưởng Cuộc Sống Kỹ Thuật Số với Techcell - Nơi Nâng Tầm Trải Nghiệm Điện Thoại. Sự
@@ -68,7 +68,7 @@ const Footer = () => {
           ))}
         </div>
         {links.map((link) => (
-          <div className="basis-1/3" key={link.title}>
+          <div className="sm:basis-1/3" key={link.title}>
             <div className="py-3 text-lg font-semibold">
               {link.title}
             </div>

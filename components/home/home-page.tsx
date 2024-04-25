@@ -1,17 +1,19 @@
+'use client';
+
 import Image from 'next/image';
 import Banner from '@/public/banner/banner.png';
 import BrandHomePage from '../brands/brand';
-import ListProduct from './list-product';
 import { ListProductHot } from './list-product-hot';
-import { PHONE_TEST } from '@/constants/phone-test';
 import BannerSection from './banner-page';
+import { ListProduct } from './list-product';
+
 
 const HomePage = () => {
     return (
         <div className="max-w-[!1320px]">
             <BannerSection />
 
-            <ListProductHot phone={PHONE_TEST} />
+            <ListProductHot />
 
             <div className="mt-[10px]">
                 <Image
@@ -27,6 +29,8 @@ const HomePage = () => {
             <BrandHomePage />
 
             <ListProduct />
+
+            {/* <ProductsPage /> */}
         </div>
     );
 };
