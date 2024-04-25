@@ -210,6 +210,12 @@ const request = async <Response>(
   return data;
 };
 
+export function hardSetClientSessionToken(data: LoginResponseDto) {
+  clientSessionToken.accessValue = data.accessToken;
+  clientSessionToken.refreshValue = data.refreshToken;
+  clientSessionToken.expiresAt = new Date(data.accessTokenExpires).toISOString();
+}
+
 const http = {
   get<Response>(url: string, options?: Omit<CustomOptions, 'body'> | undefined) {
     return request<Response>('GET', url, options);

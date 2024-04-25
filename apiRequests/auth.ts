@@ -6,6 +6,7 @@ import {
   AuthConfirmEmailDto,
   AuthEmailLoginDto,
   AuthForgotPasswordDto,
+  AuthGoogleLoginDto,
   AuthResetPasswordDto,
   AuthSignupDto,
   AuthUpdateDto,
@@ -21,6 +22,9 @@ const ApiPrefix = ApiTags.Auth;
 export const authApiRequest = {
   loginEmail: (body: AuthEmailLoginDto) =>
     http.post<LoginResponseDto>(`${ApiPrefix}/email/login`, body),
+
+  loginGoogle: (body: AuthGoogleLoginDto) =>
+    http.post<LoginResponseDto>(`${ApiPrefix}/google/login`, body),
 
   registerEmail: (body: AuthSignupDto) => http.post(`${ApiPrefix}/email/register`, body),
 
@@ -56,11 +60,9 @@ export const authApiRequest = {
       },
     ),
 
-  forgotPassword: (body: AuthForgotPasswordDto) =>
-    http.post(`${ApiPrefix}/forgot/password`, body),
+  forgotPassword: (body: AuthForgotPasswordDto) => http.post(`${ApiPrefix}/forgot/password`, body),
 
-  resetPassword: (body: AuthResetPasswordDto) =>
-    http.post(`${ApiPrefix}/reset/password`, body),
+  resetPassword: (body: AuthResetPasswordDto) => http.post(`${ApiPrefix}/reset/password`, body),
 
   getMe: (sessionToken: string) =>
     http.get<GetMeResponseDto>(`${ApiPrefix}/me`, {

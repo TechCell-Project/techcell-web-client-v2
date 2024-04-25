@@ -10,8 +10,8 @@ const CartEmpty = () => {
         <div className="flex flex-col justifu-center items-center">
             <div className="flex flex-col items-center">
                 <Image src={ImageEmpty} alt="logo" width={400} className="h-full w-auto" />
-                <span className="text-[18px] font-semibold">Giỏ hàng của bạn đang trống</span>
-                <span className="text-[18px] font-semibold">Hãy chọn thêm sản phẩm để mua sắm nhé</span>
+                <span className="text-[20px] font-semibold">Giỏ hàng của bạn đang trống</span>
+                <span className="text-[20px] font-semibold">Hãy chọn thêm sản phẩm để mua sắm nhé</span>
             </div>
             <div className="py-[62px]">
                 <Link href="/">

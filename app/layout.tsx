@@ -18,6 +18,7 @@ import Header from '@/components/navigation/header';
 
 import Footer from '@/components/navigation/footer';
 import { ModalProvider } from '@/providers/modal-provider';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import AutoRefreshToken from '@/components/auth/auto-refresh-token';
 
 //import { Nunito as FontSans } from 'next/font/google';
@@ -53,20 +54,26 @@ export default async function RootLayout({
   console.log(sessionToken);
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <link rel='icon' href={Favicon.src} />
-      </head>
-      <body className={myLocalFont.className}>
-        <Toaster />
-        <AppProvider initialSessionToken={sessionToken?.value} initialRefreshToken={refreshToken?.value} user={user}>
-          {user && <ModalProvider userProfile={user} />}
-          <Header user={user} />
-          <div className="bg-slate-100">{children}</div>
-          <AutoRefreshToken />
-          <Footer />
-        </AppProvider>
-      </body>
-    </html>
+    <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID ?? ''}>
+      <html lang="en" suppressHydrationWarning>
+        <head>
+          <link rel="icon" href={Favicon.src} />
+        </head>
+        <body className={myLocalFont.className}>
+          <Toaster />
+          <AppProvider
+            initialSessionToken={sessionToken?.value}
+            initialRefreshToken={refreshToken?.value}
+            user={user}
+          >
+            {user && <ModalProvider userProfile={user} />}
+            <Header user={user} />
+            <div className="bg-slate-100">{children}</div>
+            <AutoRefreshToken />
+            <Footer />
+          </AppProvider>
+        </body>
+      </html>
+    </GoogleOAuthProvider>
   );
 }
