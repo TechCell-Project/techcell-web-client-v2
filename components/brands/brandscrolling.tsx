@@ -17,13 +17,13 @@ export async function BrandScrolling() {
 
   return (
     <Suspense fallback={<Skeleton className="h-[34px] w-full" />}>
-      <div className="w-full flex flex-row gap-2.5 flex-nowrap whitespace-nowrap overflow-y-hidden overflow-x-scroll sm:flex-wrap sm:items-center sm:justify-center">
+      <div className="w-full flex flex-row gap-2.5 flex-nowrap whitespace-nowrap overflow-y-hidden overflow-x-scroll sm:flex-wrap sm:items-center sm:justify-center py-10">
         {brandList.map((brand) => (
           <div
             key={brand.key}
             className="bg-white border border-gray-400 h-[34px] flex justify-center rounded-md"
           >
-            <Link href="/" className="flex px-1 py-0.5 items-center justify-center">
+            <Link href="/" className="flex px-1 items-center justify-center">
               <Image
                 src={brand.brandImg}
                 alt={brand.label}

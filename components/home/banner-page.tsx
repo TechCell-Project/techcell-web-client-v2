@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 const BannerSection = () =>{
     return(
         <>
-         <section className="home_banner">
+         <section className="home_banner py-4">
             <div className="home_banner_left">
                 <Image src="/banner/image.png" alt='apple banner' fill={true}  />
                 <div className="home_banner_left_content">

@@ -1,0 +1,4 @@
+.list-product-hot {
+    display: flex;
+    flex-direction: row;
+}

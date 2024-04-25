@@ -21,7 +21,6 @@ export default function ListProductCart({ products }: ListProductCartProps) {
         products?.map((product, index) => (
           <ProductCart products={products} index={index} key={product.skuId} />
         ))}
-
       <div className="flex flex justify-between items-center bg-white h-[100px] p-2 rounded-xl">
         <span className="text-lg">Tạm tính:</span>
         <Button>
