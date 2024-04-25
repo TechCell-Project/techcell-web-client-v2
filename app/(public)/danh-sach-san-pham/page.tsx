@@ -104,7 +104,7 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
               <NormalCard key={product.id} product={product} />
             ))}
           </div>
-          <LoadMore />
+          <LoadMore filters={searchParams?.filters} sort={searchParams?.sort} />
           <div className="w-full flex flex-col !mt-14 gap-6">
             <h3 className="text-2xl font-bold text-center">
               {isFilterWithKeyword ? 'Sản phẩm tương tự' : 'Sản phẩm đặc sắc'}

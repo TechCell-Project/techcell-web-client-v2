@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { useInView } from 'react-intersection-observer';
 
@@ -9,51 +10,51 @@ import {
   ProductsApiProductsControllerGetProductsRequest,
 } from '@techcell/node-sdk';
 
-import { getProducts } from '@/app/(public)/danh-sach-san-pham/action';
-
 import { NormalCard } from '@/components/common/product-card/normal-card';
 import { Icons } from '@/components/icons';
-import { useUpdateEffect } from 'ahooks';
+import { useDebounceFn, useUpdateEffect } from 'ahooks';
 import { productApiRequest } from '@/apiRequests/product';
 
 let page = 2;
 
 export default function LoadMore({
-  filters,
-  limit,
-  sort,
-}: Omit<ProductsApiProductsControllerGetProductsRequest, 'page'>) {
+  ...payload
+}: Readonly<Omit<ProductsApiProductsControllerGetProductsRequest, 'page'>>) {
+  const { refresh } = useRouter();
   const { ref, inView } = useInView();
 
   const [products, setProducts] = useState<ProductInListDto[]>([]);
   const [haveNextPage, setHaveNextPage] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  console.log(payload);
+
+  const { run } = useDebounceFn(
+    async () => {
+      const res = await productApiRequest.getProducts({
+        page,
+        ...payload,
+      });
+
+      setProducts([...products, ...res.payload.data]);
+      if (res.payload.hasNextPage) {
+        setHaveNextPage(true);
+        page++;
+      } else {
+        setHaveNextPage(false);
+      }
+      setIsLoading(false);
+      refresh();
+    },
+    {
+      wait: 1000,
+    },
+  );
+
   useUpdateEffect(() => {
     if (inView && haveNextPage) {
       setIsLoading(true);
-
-      const delay = 500;
-
-      const timeoutFetching = setTimeout(() => {
-        productApiRequest
-          .getProducts({
-            page,
-            filters,
-            sort,
-            limit,
-          })
-          .then(({ payload }) => {
-            setProducts([...products, ...payload.data]);
-            setHaveNextPage(payload.hasNextPage);
-            page++;
-          });
-
-        setIsLoading(false);
-      }, delay);
-
-      // Clear the timeout if the component is unmounted or inView becomes false
-      return () => clearTimeout(timeoutFetching);
+      run();
     }
   }, [inView]);
 
@@ -66,7 +67,7 @@ export default function LoadMore({
       </div>
       <div className="w-full flex justify-center items-center h-20">
         <div ref={ref}>
-          {inView && isLoading && <Icons.spinner className="h-14 w-14 animate-spin" />}
+          {inView && isLoading && <Icons.spinner className="h-14 w-14 animate-spin text-primary" />}
         </div>
       </div>
     </>
