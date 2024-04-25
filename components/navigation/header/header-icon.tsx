@@ -51,13 +51,13 @@ export const IconUser = ({ user }: { user: GetMeResponseDto }) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem className="text-base h-9">
-            <Button variant="ghost" onClick={() => push(RootPath.Profile)} className="gap-4 w-full">
+            <Button variant="ghost" onClick={() => push(RootPath.Profile)} className="justify-start pl-0 gap-4 w-full">
               <UserIcon className="mr-2 h-5 w-5" />
               <span>Hồ sơ</span>
             </Button>
           </DropdownMenuItem>
           <DropdownMenuItem className="text-base h-9">
-            <Button variant="ghost" onClick={() => push(RootPath.Order)} className="gap-4 w-full">
+            <Button variant="ghost" onClick={() => push(RootPath.Order)} className="justify-start pl-0 gap-4 w-full">
               <LiaShippingFastSolid className="mr-2 h-5 w-5" />
               <span>Đơn hàng</span>
             </Button>
