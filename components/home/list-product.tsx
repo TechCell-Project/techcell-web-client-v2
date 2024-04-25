@@ -5,70 +5,71 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { currencyFormat, calculateSaleOffPercentage } from '@/utilities/func.util';
 import Link from 'next/link';
+import { Metadata, ResolvingMetadata } from 'next';
+import { filterSearchParams, findKeyword } from '@/lib/utils';
+import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-sdk';
+import { productApiRequest } from '@/apiRequests/product';
+import { VALID_GET_PRODUCTS_PARAMS } from '@/constants';
+import { NormalCard } from '../common/product-card/normal-card';
 
-const ListProduct = () => {
+type Props = {
+  searchParams?: { [key: string]: string | undefined };
+};
+
+export async function generateMetadata(
+  { searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
+
+  const generatedTitle = isFilterWithKeyword
+    ? `${JSON.parse(searchParams?.filters as string).keyword} - Kết quả`
+    : 'Tìm kiếm';
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: generatedTitle,
+    openGraph: {
+      images: ['/public/phone-test/15-pro.jpg', ...previousImages],
+    },
+  };
+}
+
+export const ListProduct = async ({ searchParams }: Readonly<Props>) => {
+  const page = searchParams?.page ?? '1';
+
+  const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
+
+  const payload = {
+    page: Number.parseInt(page) - 1,
+    ...(searchParams && filterSearchParams(searchParams, VALID_GET_PRODUCTS_PARAMS)),
+  } as ProductsApiProductsControllerGetProductsRequest;
+
+  const relevantKeyword = isFilterWithKeyword
+    ? findKeyword(JSON.parse(searchParams?.filters as string).keyword)
+    : null;
+
+  const promises = [
+    productApiRequest.getProducts(payload),
+    productApiRequest.getProducts({
+      limit: 4,
+      filters: JSON.stringify(
+        relevantKeyword ? { keyword: relevantKeyword } : { tagIds: ['661b7c09128dfd9b6b3e19da'] },
+      ),
+    }),
+  ];
+
+  const res = await Promise.all(promises);
+
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4 mb-4">
-      {PHONE_TEST.map((phone) => (
-        <Link
-          href={''}
-          key={phone.name}
-          className="flex flex-col bg-white p-2 justify-center rounded-xl cursor-pointer hover:scale-105 hover:transition duration-150 ease-in-out"
-        >
-          <div className="w-[100px] h-[100px] sm:w-[180px] sm:h-[180px] m-auto">
-            <Image
-              src={phone.images[0].url}
-              alt={phone.name}
-              width={400}
-              height={400}
-              style={{
-                height: '100%',
-                width: '100%',
-                objectFit: 'cover',
-                display: 'block',
-              }}
-            />
-          </div>
-          <span className="font-bold text-sm pt-4">{phone.modelName}</span>
-          <div className="w-full flex flex-col sm:flex sm:flex-row sm:items-center ">
-            <div className="text-md font-bold sm:text-lg my-2 text-[#ee4949] font-semiblod">
-              {currencyFormat(Number(phone.price.special))}
-              <sup>đ</sup>
-            </div>
-            <div className="text-xs mb-2 sm:ml-2 sm:text-sm sm:my-2 text-slate-500 line-through">
-              {currencyFormat(Number(phone.price.base))}
-              <sup>đ</sup>
-            </div>
-          </div>
-
-          {/*  */}
-          <div className="text-xs p-2 rounded-md border border-solid border-slate-[#e5e7eb] bg-[#f3f4f6]">
-            Giảm giá đến :{' '}
-            <span className="text-sm text-[#ee4949] font-bold">
-              {calculateSaleOffPercentage(phone.price.base, phone.price.special)} %
-            </span>{' '}
-            và nhiều khuyến mại hấp dẫn khác
-          </div>
-
-          {/*  */}
-          <div className="pb-2 pt-4 flex justify-between items-center">
-            <Button
-              variant="default"
-              className="hidden sm:hidden md:hidden xl:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
-            >
-              Thêm giỏ hàng
-            </Button>
-            <Button
-              variant="outline"
-              className="text-white bg-[#ee4949] hover:bg-[#ee4949] hover:text-white"
-            >
-              Mua ngay
-            </Button>
-          </div>
-        </Link>
+    <div className="w-full flex flex-col items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-10">
+      {res[0].payload.data.map((product) => (
+        <NormalCard key={product.id} product={product} />
       ))}
     </div>
   );
 };
 
-export default ListProduct;
+

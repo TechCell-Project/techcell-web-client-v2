@@ -14,27 +14,75 @@ import '../../styles/swiper.css';
 // import required modules
 
 import { Button } from '@/components/ui/button';
+import { Navigation, Autoplay } from 'swiper/modules';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Metadata, ResolvingMetadata } from 'next';
+import { VALID_GET_PRODUCTS_PARAMS } from '@/constants';
+import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-sdk';
+import { filterSearchParams, findKeyword } from '@/lib/utils';
+import { productApiRequest } from '@/apiRequests/product';
+import { NormalCard } from '../common/product-card/normal-card';
+import '../../styles/product.css';
 
-import { PHONE_TEST } from '@/constants/phone-test';
-import { calculateSaleOffPercentage, currencyFormat } from '@/utilities/func.util';
-import { Navigation } from 'swiper/modules';
-import { ChevronLeft, ChevronRight, ShoppingCart } from 'lucide-react';
-import { ProductInListDto } from '@techcell/node-sdk';
-import Link from 'next/link';
+type Props = {
+  searchParams?: { [key: string]: string | undefined };
+};
 
-interface ListProductHotProps {
-  phone: ProductInListDto[];
+export async function generateMetadata(
+  { searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
+
+  const generatedTitle = isFilterWithKeyword
+    ? `${JSON.parse(searchParams?.filters as string).keyword} - Kết quả`
+    : 'Tìm kiếm';
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: generatedTitle,
+    openGraph: {
+      images: ['/public/phone-test/15-pro.jpg', ...previousImages],
+    },
+  };
 }
 
-export const ListProductHot = ({ phone }: ListProductHotProps) => {
-  return (
+export const ListProductHot = async ({ searchParams }: Readonly<Props>) => {
 
-    <div className="flex flex-col sm:flex sm:flex-row items-center sm:py-7 gap-2">
-      <div className="text-center flex flex-row items-end sm:flex sm:flex-col sm:items-center">
-        <div className="w-[100px] h-full sm:w-[200px] sm:h-full m-auto ">
+  const page = searchParams?.page ?? '1';
+
+  const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
+
+  const payload = {
+    page: Number.parseInt(page) - 1,
+    ...(searchParams && filterSearchParams(searchParams, VALID_GET_PRODUCTS_PARAMS)),
+  } as ProductsApiProductsControllerGetProductsRequest;
+
+  const relevantKeyword = isFilterWithKeyword
+    ? findKeyword(JSON.parse(searchParams?.filters as string).keyword)
+    : null;
+
+  const promises = [
+    productApiRequest.getProducts(payload),
+    productApiRequest.getProducts({
+      limit: 4,
+      filters: JSON.stringify(
+        relevantKeyword ? { keyword: relevantKeyword } : { tagIds: ['661b7c09128dfd9b6b3e19da'] },
+      ),
+    }),
+  ];
+
+  const res = await Promise.all(promises);
+
+  return (
+    <div className="bg-[#ee4949] rounded flex flex-col">
+      <div className="flex flex-row items-center">
+        <div className="w-[100px] h-full sm:w-[200px] sm:h-full ml-5">
           <Image
             src={'/hot-sale.jpg'}
-            alt={'hot-sale'}  
+            alt={'hot-sale'}
             width={200}
             height={200}
             style={{
@@ -45,80 +93,32 @@ export const ListProductHot = ({ phone }: ListProductHotProps) => {
             }}
           />
         </div>
-        <div className="text-[16px] sm:text-[25px] font-bold uppercase">Giảm giá</div>
+        <div className="text-[16px] text-white sm:text-[25px] font-bold uppercase mt-[25px] ml-2 sm:mt-[50px]">
+          Mừng đại lễ <b className='animate-flash'>30/4 - 1/5</b>
+        </div>
       </div>
-      <Swiper
-        slidesPerView={window.innerWidth < 1024 ? 2 : 4}
-        spaceBetween={10}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Navigation]}
-        className="w-full"
-      >
-        {PHONE_TEST.slice(0, 10).map((phone) => (
-          <SwiperSlide key={phone.name}>
-            <Link
-              href={''}
-
-              key={phone.name}
-              className="flex flex-col bg-white p-2 justify-center rounded-xl cursor-pointer hover:scale-105 hover:transition duration-150 ease-in-out"
-            >
-              <div className="w-[100px] h-[100px] sm:w-[180px] sm:h-[180px] m-auto">
-                <Image
-                  src={phone.images[0].url}
-                  alt={phone.name}
-                  width={400}
-                  height={400}
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    objectFit: 'cover',
-                    display: 'block',
-                  }}
-                />
-              </div>
-              <span className="font-bold text-sm pt-4">{phone.modelName}</span>
-              <div className="w-full flex flex-col sm:flex sm:flex-row sm:items-center ">
-                <div className="text-md font-bold sm:text-lg my-2 text-[#ee4949] font-semiblod">
-                  {currencyFormat(Number(phone.price.special))}
-                  <sup>đ</sup>
-                </div>
-                <div className="text-xs mb-2 sm:ml-2 sm:text-sm sm:my-2 text-slate-500 line-through">
-                  {currencyFormat(Number(phone.price.base))}
-                  <sup>đ</sup>
-                </div>
-              </div>
-
-              {/*  */}
-              <div className="text-xs p-2 rounded-md border border-solid border-slate-[#e5e7eb] bg-[#f3f4f6]">
-                Giảm giá đến :{' '}
-                <span className="text-sm text-[#ee4949] font-bold">
-                  {calculateSaleOffPercentage(phone.price.base, phone.price.special)} %
-                </span>{' '}
-                và nhiều khuyến mại hấp dẫn khác
-              </div>
-
-              {/*  */}
-              <div className="pb-2 pt-4 flex justify-between items-center">
-                <Button
-                  variant="default"
-                  className="hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:flex text-[#ee4949] border border-solid border-rose-300 bg-white hover:bg-white items-center"
-                >
-                  Thêm giỏ hàng
-                </Button>
-                <Button
-                  variant="outline"
-                  className="text-white bg-[#ee4949] hover:bg-[#ee4949] hover:text-white"
-                >
-                  Mua ngay
-                </Button>
-              </div>
-            </Link>
-          </SwiperSlide>
-        ))}
-        <SwiperNavButtons />
-      </Swiper>
+      <div className="m-7 sm:m-10">
+        <Swiper
+          slidesPerView={window.innerWidth < 1024 ? 1 : 4}
+          spaceBetween={10}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{
+            delay: 10000,
+            disableOnInteraction: false,
+          }}
+          modules={[Navigation, Autoplay]}
+          className="w-full"
+        >
+          {res[0].payload.data.slice(-10).map((product) => (
+            <SwiperSlide key={product.id} className='rounded'>
+              <NormalCard key={product.id} product={product} />
+            </SwiperSlide>
+          ))}
+          <SwiperNavButtons />
+        </Swiper>
+      </div>
     </div>
   );
 };

@@ -29,7 +29,7 @@ const DialogSpecification = ({ productSpecifications }: DialogSpecificationProps
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="sm:max-w-[425px] h-[90vh]">
+        <DialogContent className="sm:max-w-[800px] h-[90vh]">
           <DialogHeader>
             <DialogTitle>Thông số kỹ thuật</DialogTitle>
           </DialogHeader>

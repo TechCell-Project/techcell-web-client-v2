@@ -9,6 +9,7 @@ import NotFound from '@/components/common/not-found';
 import LoadingPage from '@/app/loading';
 import ProductDetailSection from '@/components/product/product-detail';
 import { Breadcrumb, BreadcrumbProps } from '@/components/common/breadcrumbs';
+import LoadingPageServer from '@/components/common/loading-server';
 
 type Props = {
   params: { id: string };
@@ -53,7 +54,7 @@ export default async function SecProductDetailSection({ params }: Readonly<Props
       {
         title: 'Apple',
         link: `${RootPath.ProductList}?${FILTERS_PARAM}=${JSON.stringify({
-          [FILTERS_BRANDS]: ['661681dde3e5984cfc2c28cc'],
+          [FILTERS_BRANDS]: ['6612cc2e5edb561eb8e263d7'],
         })}`,
       },
       {
@@ -66,7 +67,7 @@ export default async function SecProductDetailSection({ params }: Readonly<Props
   return (
     <div className="w-full space-y-2.5 sm:space-y-5">
       <Breadcrumb links={productDetailPageLocation.links} />
-      <Suspense fallback={<LoadingPage />}>
+      <Suspense fallback={<LoadingPageServer />}>
         <ProductDetailSection detail={response.payload} />
       </Suspense>
     </div>
