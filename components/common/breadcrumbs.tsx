@@ -1,3 +1,6 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 import {
@@ -9,6 +12,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { RootPath } from '@/constants';
+import { Button } from '@/components/ui/button';
 
 export interface BreadcrumbProps {
   links: {
@@ -18,6 +22,8 @@ export interface BreadcrumbProps {
 }
 
 export function Breadcrumb({ links }: BreadcrumbProps) {
+  const { push } = useRouter();
+
   return (
     <ShadcnBreadcumb className="w-full h-9 sm:h-11 bg-slate-50 shadow-md">
       <BreadcrumbList className="text-base h-full container px-2.5 sm:px-10 flex items-center">
@@ -34,7 +40,13 @@ export function Breadcrumb({ links }: BreadcrumbProps) {
                 <BreadcrumbPage className="text-primary font-semibold">{link.title}</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
-                  <Link href={link.link}>{link.title}</Link>
+                  <Button
+                    variant="ghost"
+                    onClick={() => push(link.link)}
+                    className="p-0 hover:text-primary"
+                  >
+                    {link.title}
+                  </Button>
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>

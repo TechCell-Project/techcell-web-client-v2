@@ -15,6 +15,8 @@ import { productApiRequest } from '@/apiRequests/product';
 import { PaginationBar } from '@/components/common/pagination/pagination-bar';
 import SearchingResult from '@/components/products/result-search';
 import BlockFilterSort from '@/components/filter/filter-sort';
+import LoadMore from '@/components/products/load-more';
+import { brandApiRequest } from '@/apiRequests/brand';
 type Props = {
   searchParams?: { [key: string]: string | undefined };
 };
@@ -24,10 +26,18 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
+  const isFilterWithBrand = searchParams?.filters?.includes('brandIds');
 
-  const generatedTitle = isFilterWithKeyword
-    ? `${JSON.parse(searchParams?.filters as string).keyword} - Kết quả`
-    : 'Tìm kiếm';
+  let generatedTitle = 'Cửa hàng';
+
+  if (isFilterWithKeyword) {
+    generatedTitle = `${JSON.parse(searchParams?.filters as string).keyword} - Kết quả`;
+  }
+
+  if (isFilterWithBrand) {
+    const { payload } = await brandApiRequest.getBrandById(JSON.parse(searchParams?.filters as string).brandIds[0]);
+    generatedTitle = `${payload.name} - Techcell - Điện thoại, phụ kiện chính hãng`;
+  }
 
   // optionally access and extend (rather than replace) parent metadata
   const previousImages = (await parent).openGraph?.images || [];
@@ -54,7 +64,7 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
   const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
 
   const payload = {
-    page: Number.parseInt(page) - 1,
+    page: Number.parseInt(page),
     ...(searchParams && filterSearchParams(searchParams, VALID_GET_PRODUCTS_PARAMS)),
   } as ProductsApiProductsControllerGetProductsRequest;
 
@@ -94,7 +104,7 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
               <NormalCard key={product.id} product={product} />
             ))}
           </div>
-          <PaginationBar hasNextPage={res[0].payload.hasNextPage} />
+          <LoadMore />
           <div className="w-full flex flex-col !mt-14 gap-6">
             <h3 className="text-2xl font-bold text-center">
               {isFilterWithKeyword ? 'Sản phẩm tương tự' : 'Sản phẩm đặc sắc'}
