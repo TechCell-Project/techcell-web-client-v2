@@ -120,7 +120,7 @@ export function UserAddressList({ list, onOpenUpdateModal, onSelectIndex }: Read
       <Button
         variant="ghost"
         className="w-fit text-base text-primary underline hover:text-primary-dark hover:bg-none px-0 py-2"
-        disabled={list[selectedAddressIndex].isDefault}
+        disabled={list[selectedAddressIndex]?.isDefault}
         onClick={() => setOpenSetDefault(true)}
       >
         Đặt làm mặc định

@@ -41,4 +41,7 @@ export const productApiRequest = {
       headers: publicHeaders,
       next: revalidateRequest,
     }),
+
+  getProductInCart: (payload: ProductsApiProductsControllerGetProductByIdRequest) =>
+    http.get<ProductDto>(`${ApiProduct}/${payload.productId}`),
 };

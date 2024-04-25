@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { MdOutlineAddShoppingCart, MdLocalShipping } from 'react-icons/md';
 
@@ -18,6 +19,7 @@ interface BuyingButtonProps {
 }
 
 export const BuyingButtonGroup = ({ productId, skuId }: BuyingButtonProps) => {
+  const { refresh } = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<{ title: string; isOpen: boolean }>({
     title: '',
@@ -49,6 +51,7 @@ export const BuyingButtonGroup = ({ productId, skuId }: BuyingButtonProps) => {
         variant: 'success',
         title: 'Thêm vào giỏ hàng thành công',
       });
+      refresh();
     } catch (error) {
       toast({
         variant: 'destructive',
