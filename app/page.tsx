@@ -28,8 +28,9 @@ export default function Home() {
       <div className="container">
         <HomePage />
       </div>
-      <div className="bg-[#fafafa] sm:py-5 lg:py-10">
-        <div className="max-w-full px-0 sm:container">
+      
+      <div className="container bg-[#fafafa]">
+        <div className="max-w-full px-0 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {BENEFIT_SECTION.map((benefit) => (
               <div key={benefit.title} className="flex justify-center items-center my-5 h-20 gap-5">

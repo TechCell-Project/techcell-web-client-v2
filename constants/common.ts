@@ -119,6 +119,7 @@ export const ADDRESS_TYPES = new Map<'home' | 'office' | 'other', AddressType>([
 export type BrandLabel = {
   label: string;
   key: string;
+  brandIds: string;
   value: number;
   brandImg: string;
   setWidth?: number;
@@ -129,6 +130,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Apple',
       key: 'apple',
+      brandIds: '6612cc2e5edb561eb8e263d7',
       value: 1,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595109/filter-brand-1_txqyc5.webp',
@@ -137,6 +139,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Samsung',
       key: 'samsung',
+      brandIds: '6612cc455edb561eb8e263db',
       value: 2,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595110/filter-brand-2_hzsaee.webp',
@@ -145,6 +148,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Xiaomi',
       key: 'xiaomi',
+      brandIds: '6612cc2e5edb561eb8e263d7',
       value: 3,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595110/filter-brand-3_nrvhev.webp',
@@ -153,6 +157,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Oppo',
       key: 'oppo',
+      brandIds: '661554a43d3c1ace081c6536',
       value: 4,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595110/filter-brand-4_drysg3.webp',
@@ -161,6 +166,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Realme',
       key: 'realme' || 'Realme',
+      brandIds: '66161616a59679da58207f70',
       value: 7,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595110/filter-brand-5_y2aihk.webp',
@@ -169,6 +175,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Nokia',
       key: 'nokia',
+      brandIds: '661555163d3c1ace081c653f',
       value: 6,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595110/filter-brand-6_jqwqee.webp',
@@ -177,6 +184,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Oneplus',
       key: 'oneplus',
+      brandIds: '661555163d3c1ace081c653f',
       value: 9,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595111/filter-brand-7_zvbyo1.webp',
@@ -185,6 +193,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Asus',
       key: 'asus',
+      brandIds: '6626188539692de754c56cc8',
       value: 8,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595111/filter-brand-8_luwhky.webp',
@@ -193,6 +202,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Vivo',
       key: 'vivo',
+      brandIds: '6626184f39692de754c56cbb',
       value: 5,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595109/filter-brand-9_gi96qu.webp',
