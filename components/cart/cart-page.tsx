@@ -59,7 +59,6 @@ export default async function CartPage({ cartProducts }: Readonly<CartPageProps>
           <Suspense fallback={<CartProductSkeleton />}>
             <ListProductCart products={cartProductsDetail} />
           </Suspense>
-
         </div>
       </div>
       <CartSuggest />
