@@ -3,7 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { CreateOrderDto, CreateOrderDtoPaymentMethodEnum, PreviewOrderResponseDto, UserAddressResponseDto } from '@techcell/node-sdk';
+import {
+  CreateOrderDto,
+  CreateOrderDtoPaymentMethodEnum,
+  PreviewOrderResponseDto,
+  UserAddressResponseDto,
+} from '@techcell/node-sdk';
 
 import { useAddressModal } from '@/hooks/useAddressModal';
 import { authApiRequest, orderApiRequest } from '@/apiRequests';
@@ -78,8 +83,8 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
     if (!selectedAddressIndex) {
       toast({
         variant: 'destructive',
-        title: 'Vui lòng chọn địa chỉ'
-      })
+        title: 'Vui lòng chọn địa chỉ',
+      });
       return;
     }
     try {
@@ -89,7 +94,7 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
           return {
             skuId: product.skuId,
             quantity: product.quantity,
-          }
+          };
         }),
         addressIndex: selectedAddressIndex,
         paymentMethod: CreateOrderDtoPaymentMethodEnum.Cod,
@@ -111,8 +116,8 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
       console.log(error);
       toast({
         variant: 'destructive',
-        title: 'Thanh toán thất bại'
-      })
+        title: 'Thanh toán thất bại',
+      });
     }
   };
 

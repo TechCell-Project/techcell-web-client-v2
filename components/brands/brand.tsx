@@ -1,17 +1,26 @@
-'use client';
-
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { brandApiRequest } from '@/apiRequests/brand';
 import { Button } from '@/components/ui/button';
 import { BRANDS_MAP, BrandLabel, FILTERS_BRANDS, FILTERS_PARAM, RootPath } from '@/constants';
 
-const BrandHomePage = async () => {
-  const res = await brandApiRequest.getListBrand();
+const BrandHomePage = () => {
+  const [brandList, setBrandList] = useState<BrandLabel[]>([]);
 
-  const brandList = res.payload.data.reduce((acc: BrandLabel[], brand) => {
-    const brandWithImg = BRANDS_MAP.get(brand.slug);
-    if (brandWithImg) acc.push(brandWithImg);
-    return acc;
+  useEffect(() => {
+    const fetchBrandList = async () => {
+      try {
+        const res = await brandApiRequest.getListBrand();
+        const filteredBrandList = res.payload.data
+          .map(brand => BRANDS_MAP.get(brand.slug))
+          .filter(brand => brand !== undefined) as BrandLabel[];
+        setBrandList(filteredBrandList);
+      } catch (error) {
+        console.error('Error fetching brand list:', error);
+      }
+    };
+
+    fetchBrandList();
   }, []);
 
   return (
