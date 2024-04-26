@@ -15,24 +15,31 @@ export const productApiRequest = {
     const { page, limit, filters, sort } = payload;
 
     let url = `${ApiProduct}`;
+    const params = new URLSearchParams();
 
-    url += `?limit=${limit ?? DEFAULT_LIMIT}`;
+    // url += `?limit=${limit ?? DEFAULT_LIMIT}`;
 
-    if (page || filters || sort) {
-      if (page) {
-        url += `&page=${page}`;
-      }
-      if (filters) {
-        url += `&filters=${filters}`;
-      }
-      if (sort) {
-        url += `&sort=${sort}`;
-      }
-    }
+    // if (page || filters || sort) {
+    //   if (page) {
+    //     url += `&page=${page}`;
+    //   }
+    //   if (filters) {
+    //     url += `&filters=${filters}`;
+    //   }
+    //   if (sort) {
+    //     url += `&sort=${sort}`;
+    //   }
+    // }
+    Object.entries({page, limit, filters, sort}).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+      params.set(key, String(value));
+    })
+
+    url += `?${params.toString()}`;
 
     return http.get<ProductInfinityPaginationResult>(url, {
       headers: publicHeaders,
-      next: revalidateRequest,
+      cache: 'no-store',
     });
   },
 
