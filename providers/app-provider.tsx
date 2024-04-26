@@ -33,7 +33,7 @@ export default function AppProvider({
       clientSessionToken.accessValue = initialSessionToken;
       clientSessionToken.refreshValue = initialRefreshToken;
     }
-  }, []);
+  }, [initialSessionToken, initialRefreshToken]);
 
   return <AppContext.Provider value={{ user, setUser }}>{children}</AppContext.Provider>;
 }

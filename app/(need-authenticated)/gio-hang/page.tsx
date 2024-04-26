@@ -22,12 +22,16 @@ export default async function Cart() {
 
   const userCart = await cartApiRequest.getCartsWithToken(sessionToken?.value ?? '');
 
-  if (userCart.status !== 200 || userCart.payload.products.length === 0) {
+  if (
+    userCart.status !== 200 ||
+    userCart.payload.products.length === 0 ||
+    userCart.payload.products === undefined
+  ) {
     return (
       <div className="px-5 sm:container sm:max-w-[640px] lg:max-w-[768px]">
         <CartEmpty />
       </div>
-    )
+    );
   }
 
   return (
@@ -37,6 +41,5 @@ export default async function Cart() {
         <CartPage cartProducts={userCart.payload.products} />
       </Suspense>
     </>
-
   );
 }

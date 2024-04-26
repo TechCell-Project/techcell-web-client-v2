@@ -26,7 +26,7 @@ const HomePage = () => {
                 />
             </div>
 
-            <BrandHomePage />
+            {/* <BrandHomePage /> */}
 
             <ListProduct />
 

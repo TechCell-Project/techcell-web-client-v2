@@ -1,21 +1,8 @@
-'use client';
-
 import { BENEFIT_SECTION, HOME_SLOGAN, IMAGE_CAROUSEL } from '@/constants/common';
 import { SwiperCarousel } from '@/components/home/swiper-carousel';
 import HomePage from '@/components/home/home-page';
-import { useEffect, useState } from 'react';
-import LoadingPage from './loading';
 
 export default function Home() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return <LoadingPage />;
-  }
 
   return (
     <main>
@@ -29,8 +16,8 @@ export default function Home() {
         <HomePage />
       </div>
       
-      <div className="container bg-[#fafafa]">
-        <div className="max-w-full px-0 ">
+      <div className="bg-[#fafafa] mt-5">
+        <div className="max-w-full px-0 sm:container">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {BENEFIT_SECTION.map((benefit) => (
               <div key={benefit.title} className="flex justify-center items-center my-5 h-20 gap-5">

@@ -114,8 +114,8 @@ const request = async <Response>(
 
   // console.log('method:', method);
   // console.log(clientSessionToken.accessValue);
-  // console.log('options-headers:', options?.headers);
-  // console.log('headersFromRequest:', headersFromRequest);
+  console.log('options-headers:', options?.headers);
+  console.log('headersFromRequest:', headersFromRequest);
   // console.log('headers:', baseHeaders);
 
   // if dont pass baseUrl (or baseUrl = undefined) then get it from envConfig.NEXT_PUBLIC_API_ENDPOINT
@@ -187,7 +187,7 @@ const request = async <Response>(
     } else {
       console.log(data);
       console.log(res);
-      throw new HttpError(data);
+      //throw new HttpError(data);
     }
   }
 
