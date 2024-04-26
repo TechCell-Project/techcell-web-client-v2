@@ -58,7 +58,7 @@ export default async function CartPage({ cartProducts }: Readonly<CartPageProps>
           <ListProductCart products={cartProductsDetail} />
         </Suspense>
       </div>
-      {/* <CartSuggest /> */}
+      <CartSuggest />
     </div>
   );
 }

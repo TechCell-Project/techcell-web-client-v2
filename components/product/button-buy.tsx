@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { MdOutlineAddShoppingCart, MdLocalShipping } from 'react-icons/md';
 
@@ -12,6 +12,9 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { Modal } from '@/components/ui/modal';
 import { DialogFooter } from '@/components/ui/dialog';
+import { useAppContext } from '@/providers/app-provider';
+import { RootPath } from '@/constants';
+import { useAddressModal } from '@/hooks/useAddressModal';
 
 interface BuyingButtonProps {
   productId: string;
@@ -19,12 +22,43 @@ interface BuyingButtonProps {
 }
 
 export const BuyingButtonGroup = ({ productId, skuId }: BuyingButtonProps) => {
-  const { refresh } = useRouter();
+  const pathname = usePathname();
+  const { refresh, push } = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { user } = useAppContext();
   const [open, setOpen] = useState<{ title: string; isOpen: boolean }>({
     title: '',
     isOpen: false,
   });
+  const { onOpen, setAddressIndex } = useAddressModal();
+
+  const handleAddAddress = () => {
+    setAddressIndex(null);
+    onOpen();
+  };
+
+  const handleBuyNow = async () => {
+    if (!user) {
+      push(`${RootPath.Login}?callbackUrl=${pathname}`);
+      return;
+    }
+
+    if (!user.address) {
+      handleAddAddress();
+      return;
+    }
+
+    setIsLoading(true);
+
+    localStorage.setItem(
+      'selected-buy-now',
+      skuId + '-1' + '/' + user.address.findIndex((address) => address.isDefault),
+    );
+
+    push(`${RootPath.Payment}?buy-now=true`);
+
+    setIsLoading(false);
+  };
 
   const handleAddtoCart = async () => {
     setIsLoading(true);
@@ -80,7 +114,12 @@ export const BuyingButtonGroup = ({ productId, skuId }: BuyingButtonProps) => {
         <MdOutlineAddShoppingCart />
         Thêm giỏ hàng
       </Button>
-      <Button variant="default" className="w-1/2 sm:w-3/5 text-white" disabled={isLoading}>
+      <Button
+        variant="default"
+        className="w-1/2 sm:w-3/5 text-white"
+        disabled={isLoading}
+        onClick={handleBuyNow}
+      >
         <MdLocalShipping />
         Mua ngay
       </Button>

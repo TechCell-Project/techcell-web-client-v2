@@ -8,10 +8,13 @@ import { Button } from '@/components/ui/button';
 import { handleErrorApi } from '@/lib/utils';
 
 import { LogOut } from 'lucide-react';
+import { RootPath } from '@/constants';
+import { useAppContext } from '@/providers/app-provider';
 
 export default function LogoutButton() {
   const pathname = usePathname();
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
+  const { setUser } = useAppContext();
   const handleLogout = async () => {
     try {
       await authApiRequest.logoutFromNextClientToNextServer();
@@ -21,10 +24,20 @@ export default function LogoutButton() {
         error,
       });
       console.log(errorResponse);
+      authApiRequest.logoutFromNextClientToNextServer(true).then((res) => {
+        push(`${RootPath.Login}=${pathname}`);
+      });
+    } finally {
+      setUser(null);
+      refresh();
     }
   };
   return (
-    <Button variant="ghost" className="gap-4 px-0 py-2 m-0 h-auto !hover:bg-none w-full justify-start" onClick={handleLogout}>
+    <Button
+      variant="ghost"
+      className="gap-4 px-0 py-2 m-0 h-auto !hover:bg-none w-full justify-start"
+      onClick={handleLogout}
+    >
       <LogOut className="mr-2 h-5 w-5" />
       <span>Đăng xuất</span>
     </Button>

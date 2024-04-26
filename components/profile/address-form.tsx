@@ -185,7 +185,8 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
   async function onSubmit(values: AddressFormType) {
     try {
       console.log(values);
-      if (!index) {
+      console.log("index", index);
+      if (!index && index !== 0) {
         await authApiRequest.updateMe({
           address: [...addressList, values] as Array<UserAddressSchemaDTO>,
         });

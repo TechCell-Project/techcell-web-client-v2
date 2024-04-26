@@ -51,7 +51,7 @@ export default async function SecProductDetailSection({ params }: Readonly<Props
   const productDetailPageLocation: BreadcrumbProps = {
     links: [
       {
-        title: 'Apple',
+        title: `${response.payload.brand.name}`,
         link: `${RootPath.ProductList}?${FILTERS_PARAM}=${JSON.stringify({
           [FILTERS_BRANDS]: [response.payload.brand._id],
         })}`,

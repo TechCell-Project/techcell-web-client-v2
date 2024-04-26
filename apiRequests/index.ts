@@ -3,7 +3,7 @@ export const publicHeaders: HeadersInit = {
 };
 
 export const revalidateRequest: NextFetchRequestConfig = {
-  revalidate: 60 * 15,
+  revalidate: 60,
 };
 
 export * from './auth';
