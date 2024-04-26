@@ -15,7 +15,6 @@ import '../../styles/swiper.css';
 import { Button } from '@/components/ui/button';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Metadata, ResolvingMetadata } from 'next';
 import { VALID_GET_PRODUCTS_PARAMS } from '@/constants';
 import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-sdk';
 import { filterSearchParams, findKeyword } from '@/lib/utils';
@@ -29,27 +28,6 @@ type Props = {
 
 interface ProductSimilarProps {
     productSimilar: string;
-}
-
-export async function generateMetadata(
-    { searchParams }: Props,
-    parent: ResolvingMetadata,
-): Promise<Metadata> {
-    const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
-
-    const generatedTitle = isFilterWithKeyword
-        ? `${JSON.parse(searchParams?.filters as string).keyword} - Kết quả`
-        : 'Tìm kiếm';
-
-    // optionally access and extend (rather than replace) parent metadata
-    const previousImages = (await parent).openGraph?.images || [];
-
-    return {
-        title: generatedTitle,
-        openGraph: {
-            images: ['/public/phone-test/15-pro.jpg', ...previousImages],
-        },
-    };
 }
 
 export const ProductSimilar: React.FC<Props & ProductSimilarProps> = async ({ searchParams, productSimilar }) => {

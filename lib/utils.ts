@@ -137,9 +137,19 @@ export function filterSearchParams(
 
 export function findKeyword(input: string): string | null {
   for (const keyword of PHONE_CATEGORIES) {
-      if (input.includes(keyword)) {
-          return keyword;
-      }
+    if (input.includes(keyword)) {
+      return keyword;
+    }
   }
   return null;
+}
+
+// Scroll to top of page
+export function scrollToTop() {
+  if (typeof window !== undefined) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }
 }

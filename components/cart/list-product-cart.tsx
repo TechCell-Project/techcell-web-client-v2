@@ -1,14 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import CardProductCart from './card-product-cart';
 
 import { ProductCart } from '@/types/cart.type';
-import { useUpdateEffect } from 'ahooks';
+import { useDebounceFn, useUpdateEffect } from 'ahooks';
 import { currencyFormat } from '@/utilities/func.util';
+import { scrollToTop } from '@/lib/utils';
+import { CheckedState } from '@radix-ui/react-checkbox';
+
+import { authApiRequest } from '@/apiRequests';
 
 export type ListProductCartProps = {
   products: ProductCart[];
@@ -17,13 +21,37 @@ export type ListProductCartProps = {
 export default function ListProductCart({ products }: Readonly<ListProductCartProps>) {
   const [selectedSku, setSelectedSku] = useState<string[]>([]);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
+  const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
+  const [defaultAddressIndex, setDefaultAddressIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const getDefaultIndex = async () => {
+      const { payload } = await authApiRequest.getMeClient();
+
+      if (payload.address) {
+        setDefaultAddressIndex(payload.address.findIndex((address) => address.isDefault));
+      }
+    };
+
+    getDefaultIndex();
+  }, []);
 
   const handleSelectAll = () => {
     if (selectedSku.length === 0 || selectedSku.length !== products.length) {
       setSelectedSku(products.map((product) => product.variation.skuId));
+      setShowUncheckMsg(false);
       return;
     }
     setSelectedSku([]);
+  };
+
+  const handleCheckBox = (checked: CheckedState, skuId: string) => {
+    if (checked) {
+      setSelectedSku([...selectedSku, skuId]);
+      setShowUncheckMsg(false);
+      return;
+    }
+    setSelectedSku(selectedSku.filter((sku) => sku !== skuId));
   };
 
   useUpdateEffect(() => {
@@ -45,8 +73,44 @@ export default function ListProductCart({ products }: Readonly<ListProductCartPr
     setCurrentPrice(total);
   }, [selectedSku]);
 
+  const { run } = useDebounceFn(
+    () => {
+      const matchedProduct = products.filter((product) =>
+        selectedSku.includes(product.variation.skuId),
+      );
+
+      const productsToPreview = matchedProduct.map((product) => {
+        return `${product.variation.skuId}-${product.quantity}`;
+      });
+
+      localStorage.setItem(
+        'selected-sku',
+        productsToPreview.toString() + '/' + defaultAddressIndex?.toString(),
+      );
+    },
+    {
+      wait: 1000,
+    },
+  );
+
+  const handleClickCheckout = () => {
+    if (selectedSku.length === 0) {
+      setShowUncheckMsg(true);
+      scrollToTop();
+      return;
+    }
+
+    run();
+  };
+
   return (
     <div className="flex flex-col">
+      {showUncheckMsg && (
+        <h3 className="my-2 text-destructive text-base sm:text-lg text-center">
+          Bạn cần chọn sản phẩm trước khi tiến hành thanh toán
+        </h3>
+      )}
+
       <div className="flex flex-row items-center mb-2 p-2">
         <Checkbox
           checked={selectedSku.length === products.length}
@@ -63,18 +127,14 @@ export default function ListProductCart({ products }: Readonly<ListProductCartPr
           <Checkbox
             checked={selectedSku.includes(product.variation.skuId)}
             className="ml-2.5"
-            onCheckedChange={(checked) => {
-              return checked
-                ? setSelectedSku([...selectedSku, product.variation.skuId])
-                : setSelectedSku(selectedSku.filter((sku) => sku !== product.variation.skuId));
-            }}
+            onCheckedChange={(checked) => handleCheckBox(checked, product.variation.skuId)}
           />
           <CardProductCart product={product} />
         </div>
       ))}
       <div className="flex justify-between items-center bg-white h-20 px-2.5 sm:px-5 rounded-xl">
         <span className="text-lg">Tạm tính: {currencyFormat(currentPrice)}</span>
-        <Button>
+        <Button variant="default" onClick={handleClickCheckout}>
           <span>Thanh toán</span>
         </Button>
       </div>
