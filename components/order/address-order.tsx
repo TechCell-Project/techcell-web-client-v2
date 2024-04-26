@@ -17,7 +17,6 @@ interface AddressListProps {
 const AddressOrder = ({ list, onOpenUpdateModal }: Readonly<AddressListProps>) => {
   const { onOpen, setAddressIndex } = useAddressModal();
   const [openSetDefault, setOpenSetDefault] = useState<boolean>(true);
-  
 
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>(0);
   // const findAddress = list.includes(element.isDefault = true);
@@ -45,27 +44,31 @@ const AddressOrder = ({ list, onOpenUpdateModal }: Readonly<AddressListProps>) =
               <CollapsibleTrigger key={index} className="w-full my-4">
                 <div className="w-full flex justify-between items-center">
                   <div className="w-full flex items-center">
-                    <div className='w-[10%]'>
+                    <div className="w-[10%]">
                       <RadioGroupItem
                         value={index.toString()}
                         id={index.toString()}
                         className="w-5 h-5 mr-5"
                       />
                     </div>
-                    <div className='w-[80%]'>
-                      <div className="flex justify-between items-center">
-                        <div className='text-sm sm:text-base'>{address.customerName}</div>
-                        <div className="flex gap-2.5">
-                          <p className="text-zinc-500 font-normal text-sm sm:text-base">{address.phoneNumbers}</p>
-                          {address.isDefault && <Badge className="bg-primary">Mặc định</Badge>}
+                    <div className="sm:w-[80%]">
+                      <div className='w-full'>
+                        <div className="flex justify-between items-center">
+                          <div className="text-sm sm:text-base">{address.customerName}</div>
+                          <div className="flex gap-2.5">
+                            <p className="text-zinc-500 font-normal text-sm sm:text-base">
+                              {address.phoneNumbers}
+                            </p>
+                            {address.isDefault && <Badge className="bg-primary">Mặc định</Badge>}
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-left">
-                        <p className="text-zinc-500 text-sm">
-                          {ADDRESS_TYPES.get(address.type)?.typeValue}
-                        </p>
-                        <div className="flex items-center w-full">
-                          <p className="text-zinc-500 truncate">{buildAddressString(address)}</p>
+                        <div className="text-left">
+                          <p className="text-zinc-500 text-sm">
+                            {ADDRESS_TYPES.get(address.type)?.typeValue}
+                          </p>
+                          <div className="flex items-center w-full">
+                            <p className="text-zinc-500 truncate">{buildAddressString(address)}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
