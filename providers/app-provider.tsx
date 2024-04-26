@@ -17,8 +17,8 @@ export const useAppContext = () => {
 
 export default function AppProvider({
   children,
-  initialSessionToken = '',
-  initialRefreshToken = '',
+  initialSessionToken,
+  initialRefreshToken,
   user: userProp,
 }: Readonly<{
   children: React.ReactNode;
@@ -30,8 +30,8 @@ export default function AppProvider({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      clientSessionToken.accessValue = initialSessionToken;
-      clientSessionToken.refreshValue = initialRefreshToken;
+      clientSessionToken.accessValue = initialSessionToken ?? '';
+      clientSessionToken.refreshValue = initialRefreshToken ?? '';
     }
   }, [initialSessionToken, initialRefreshToken]);
 

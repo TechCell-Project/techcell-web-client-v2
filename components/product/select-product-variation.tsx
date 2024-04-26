@@ -147,12 +147,12 @@ export const SelectProductVariation = ({ variations, productId }: SelectProductV
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4">
       <ProductPrice price={currentPrice} />
       {attributeMaps.map(([keyName, attributes], index) => (
         <div key={getKeyName(keyName).key} className="flex flex-col gap-2.5 mb-4">
           <h4 className="text-sm sm:text-base font-semibold">{getKeyName(keyName).name}</h4>
-          <div className="flex gap-2.5 sm:gap-5">
+          <div className="flex gap-2.5 sm:gap-5 flex-wrap">
             {Array.from(attributes.values()).map((attribute, attrIndex) => {
               let attributeName = attribute.v;
               if (attribute.u) {
