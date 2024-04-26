@@ -31,27 +31,6 @@ interface ProductSimilarProps {
     productSimilar: string;
 }
 
-export async function generateMetadata(
-    { searchParams }: Props,
-    parent: ResolvingMetadata,
-): Promise<Metadata> {
-    const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
-
-    const generatedTitle = isFilterWithKeyword
-        ? `${JSON.parse(searchParams?.filters as string).keyword} - Kết quả`
-        : 'Tìm kiếm';
-
-    // optionally access and extend (rather than replace) parent metadata
-    const previousImages = (await parent).openGraph?.images || [];
-
-    return {
-        title: generatedTitle,
-        openGraph: {
-            images: ['/public/phone-test/15-pro.jpg', ...previousImages],
-        },
-    };
-}
-
 export const ProductSimilar: React.FC<Props & ProductSimilarProps> = async ({ searchParams, productSimilar }) => {
 
     const page = searchParams?.page ?? '1';
