@@ -40,6 +40,8 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
   const { onOpen, setAddressIndex } = useAddressModal();
   const [addressList, setAddressList] = useState<UserAddressResponseDto[]>([]);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number | undefined>(undefined);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState<CreateOrderDtoPaymentMethodEnum>(CreateOrderDtoPaymentMethodEnum.Cod);
 
   useEffect(() => {
     const getAddressList = async () => {
@@ -97,7 +99,7 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
           };
         }),
         addressIndex: selectedAddressIndex,
-        paymentMethod: CreateOrderDtoPaymentMethodEnum.Cod,
+        paymentMethod: CreateOrderDtoPaymentMethodEnum.Vnpay,
         isSelectFromCart: true,
         paymentReturnUrl: 'http://localhost:3000',
       };
