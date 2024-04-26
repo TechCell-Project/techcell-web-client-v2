@@ -37,7 +37,7 @@ export default function ProductDetailSection({ detail }: ProductDetailProps) {
       <div className="w-full bg-slate-50">
         <MaxWidthWrapper>
           <div className="w-full flex flex-col sm:grid sm:grid-cols-product-desc-info py-8 gap-3">
-            <OutstandingFeatures />
+            <OutstandingFeatures productDes={detail.description} />
             <div className="w-full flex flex-col items-center bg-white p-3 rounded-md">
               <TableSpecification specifications={detail.attributes.slice(0, 8)} />
               <DialogSpecification productSpecifications={detail.attributes} />
