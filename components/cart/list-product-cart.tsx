@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
@@ -13,12 +14,14 @@ import { scrollToTop } from '@/lib/utils';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { authApiRequest } from '@/apiRequests';
+import { RootPath } from '@/constants';
 
 export type ListProductCartProps = {
   products: ProductCart[];
 };
 
 export default function ListProductCart({ products }: Readonly<ListProductCartProps>) {
+  const { push } = useRouter(); 
   const [selectedSku, setSelectedSku] = useState<string[]>([]);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [showUncheckMsg, setShowUncheckMsg] = useState<boolean>(false);
@@ -87,6 +90,7 @@ export default function ListProductCart({ products }: Readonly<ListProductCartPr
         'selected-sku',
         productsToPreview.toString() + '/' + defaultAddressIndex?.toString(),
       );
+      push(RootPath.Payment);
     },
     {
       wait: 1000,
@@ -121,11 +125,11 @@ export default function ListProductCart({ products }: Readonly<ListProductCartPr
 
       {products.map((product) => (
         <div
-          key={product.variation.skuId}
+          key={product.variation?.skuId}
           className="w-full flex gap-2.5 items-center bg-white rounded-xl my-2.5"
         >
           <Checkbox
-            checked={selectedSku.includes(product.variation.skuId)}
+            checked={selectedSku.includes(product.variation?.skuId)}
             className="ml-2.5"
             onCheckedChange={(checked) => handleCheckBox(checked, product.variation.skuId)}
           />

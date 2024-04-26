@@ -38,18 +38,21 @@ export default function Order() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const saveSkuIds = localStorage.getItem('selected-sku');
-      if (saveSkuIds) {
-        const querryArray = saveSkuIds.split('/');
-        const products = querryArray[0].split(',').map((product) => {
-          const data = product.split('-');
-          return {
-            skuId: data[0],
-            quantity: parseInt(data[1]),
-          };
-        });
-        setPreviewProducts(products);
-        setDefaultAddressIndex(parseInt(querryArray[1]));
+      if (!saveSkuIds) {
+        push(RootPath.Cart);
+        return;
       }
+
+      const querryArray = saveSkuIds.split('/');
+      const products = querryArray[0].split(',').map((product) => {
+        const data = product.split('-');
+        return {
+          skuId: data[0],
+          quantity: parseInt(data[1]),
+        };
+      });
+      setPreviewProducts(products);
+      setDefaultAddressIndex(parseInt(querryArray[1]));
     }
   }, []);
 
@@ -80,8 +83,6 @@ export default function Order() {
     }
   }, [previewProducts, defaultAddressIndex]);
 
-  console.log(previewProducts, defaultAddressIndex);
-
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -97,10 +98,10 @@ export default function Order() {
   }
 
   return (
-    <div className='space-y-5'>
+    <div className="space-y-5">
       <Breadcrumb links={paymentPageLocation.links} />
       <OrderPreview previewData={previewOrderData} />
-      <div className='h-1'></div>
+      <div className="h-1"></div>
     </div>
   );
 }
