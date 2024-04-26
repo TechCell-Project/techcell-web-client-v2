@@ -6,7 +6,6 @@ import { getErrorMsg } from '@/lib/utils';
 import { CASE_PRODUCT_FETCH, FILTERS_BRANDS, FILTERS_PARAM, INVALID, RootPath } from '@/constants';
 
 import NotFound from '@/components/common/not-found';
-import LoadingPage from '@/app/loading';
 import ProductDetailSection from '@/components/product/product-detail';
 import { Breadcrumb, BreadcrumbProps } from '@/components/common/breadcrumbs';
 import LoadingPageServer from '@/components/common/loading-server';
@@ -54,7 +53,7 @@ export default async function SecProductDetailSection({ params }: Readonly<Props
       {
         title: 'Apple',
         link: `${RootPath.ProductList}?${FILTERS_PARAM}=${JSON.stringify({
-          [FILTERS_BRANDS]: ['6612cc2e5edb561eb8e263d7'],
+          [FILTERS_BRANDS]: [response.payload.brand._id],
         })}`,
       },
       {

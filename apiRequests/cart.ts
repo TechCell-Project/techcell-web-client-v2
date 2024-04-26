@@ -1,9 +1,8 @@
 import http from '@/lib/http';
 import { ApiTags } from '@/constants';
 import { Cart } from '@/components/cart/models';
-import { Cart as CartDto, ProductCartSchema, UpdateCartDto } from '@techcell/node-sdk';
+import { Cart as CartDto, UpdateCartDto } from '@techcell/node-sdk';
 import { MessageResType } from '@/validationSchemas';
-import { revalidateRequest } from '.';
 
 const ApiPrefix = ApiTags.Cart;
 

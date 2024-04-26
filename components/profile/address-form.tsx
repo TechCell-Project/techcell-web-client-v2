@@ -39,7 +39,7 @@ const getUserAddressData = (index: number, addressList: UserAddressResponseDto[]
     detail: addressList[index].detail,
     customerName: addressList[index].customerName,
     phoneNumbers: addressList[index].phoneNumbers,
-    type: addressList[index].type,
+    type: addressList[index].type as "home" | "office" | "other" | undefined,
   };
 
   return currentAddressData;
@@ -79,7 +79,6 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
     handleSubmit,
     resetField,
     watch,
-    reset,
     setValue,
     setError,
   } = form;
@@ -148,25 +147,6 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // useEffect(() => {
-  //   if (index !== null && index !== undefined && index >= 0) {
-  //     const currentAddressData = {
-  //       provinceLevel: { provinceId: addressList[index].provinceLevel.provinceId },
-  //       districtLevel: { districtId: addressList[index].districtLevel.districtId },
-  //       wardLevel: { wardCode: addressList[index].wardLevel.wardCode },
-  //       detail: addressList[index].detail,
-  //       customerName: addressList[index].customerName,
-  //       phoneNumbers: addressList[index].phoneNumbers,
-  //       type: addressList[index].type,
-  //     };
-
-  //     reset(currentAddressData, { keepDefaultValues: true });
-  //     resetField('provinceLevel.provinceId', { defaultValue: currentAddressData.provinceLevel.provinceId});
-  //     resetField('districtLevel.districtId', { defaultValue: currentAddressData.districtLevel.districtId});
-  //     resetField('wardLevel.wardCode', { defaultValue: currentAddressData.wardLevel.wardCode});
-  //   }
-  // }, []);
 
   useUpdateEffect(() => {
     if (provinceField) {

@@ -15,7 +15,6 @@ import '../../styles/swiper.css';
 import { Button } from '@/components/ui/button';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Metadata, ResolvingMetadata } from 'next';
 import { VALID_GET_PRODUCTS_PARAMS } from '@/constants';
 import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-sdk';
 import { filterSearchParams, findKeyword } from '@/lib/utils';
