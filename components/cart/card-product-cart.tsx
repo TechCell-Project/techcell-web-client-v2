@@ -11,7 +11,7 @@ export type ProductCartProps = {
 
 function CardProductCart({ product }: Readonly<ProductCartProps>) {
   return (
-    <div className="w-full h-40">
+    <div className="w-full h-40 ">
       <div className="h-full w-full flex flex-row items-center">
         <div className="max-w-[120px] w-full h-[120px] flex flex-col items-center">
           <Image
@@ -22,13 +22,13 @@ function CardProductCart({ product }: Readonly<ProductCartProps>) {
             className="h-[120px] w-[120px] object-cover object-center"
           />
         </div>
-        <div className="flex flex-row w-full items-center">
-          <div className="flex w-[65%] flex-col ml-4">
-            <h4 className="text-lg font-semibold">
+        <div className="flex flex-col sm:flex sm:flex-row w-full sm:items-center">
+          <div className="flex w-[66%] flex-col ml-0 sm:ml-6">
+            <h4 className="text-base sm:text-lg font-semibold">
               {product.productName + ' ' + getVariationString(product.variation.attributes)}
             </h4>
 
-            <span className="my-2 text-primary text-lg font-semibold">
+            <span className="my-2 text-primary text-base sm:text-lg font-semibold">
               {currencyFormat(
                 (product.variation.price.special !== 0
                   ? product.variation.price.special
@@ -36,7 +36,7 @@ function CardProductCart({ product }: Readonly<ProductCartProps>) {
               )}
               đ
               {product.variation.price.special !== 0 && (
-                <span className="ml-2 text-slate-500 text-base line-through">
+                <span className="ml-2 text-slate-500 text-base sm:text-lg line-through">
                   {currencyFormat(product.variation.price.base * product.quantity)}đ
                 </span>
               )}
