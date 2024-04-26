@@ -17,35 +17,9 @@ import '../../styles/product.css';
 import { Button } from '@/components/ui/button';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Metadata, ResolvingMetadata } from 'next';
 import { productApiRequest } from '@/apiRequests/product';
 import { NormalCard } from '../common/product-card/normal-card';
 import { ProductInListDto } from '@techcell/node-sdk';
-
-type Props = {
-  searchParams?: { [key: string]: string | undefined };
-};
-
-export async function generateMetadata(
-  { searchParams }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
-
-  const generatedTitle = isFilterWithKeyword
-    ? `${JSON.parse(searchParams?.filters as string).keyword} - Kết quả`
-    : 'Tìm kiếm';
-
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
-
-  return {
-    title: generatedTitle,
-    openGraph: {
-      images: ['/public/phone-test/15-pro.jpg', ...previousImages],
-    },
-  };
-}
 
 export const ListProductHot = () => {
   const [products, setProducts] = useState<ProductInListDto[]>([]);
@@ -56,12 +30,12 @@ export const ListProductHot = () => {
         limit: 4,
         filters: JSON.stringify({ tagIds: ['661b7c09128dfd9b6b3e19da'] }),
       });
-      
+
       if (res.status === 200) {
         setProducts(res.payload.data);
       }
     }
-    
+
     getProductByTags();
   }, []);
 

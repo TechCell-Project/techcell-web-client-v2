@@ -37,20 +37,22 @@ export default async function CartPage({ cartProducts }: Readonly<CartPageProps>
   const cartProductsDetail = await Promise.all(promises);
 
   return (
-    <div className="px-5 sm:container sm:max-w-[640px] lg:max-w-[768px]">
-      <div className="w-full flex flex-col mt-5">
-        <div className="w-full relative h-8 sm:h-10 flex items-center my-2 ">
-          <div className="hidden">
-            <BackButton />
+    <div className="">
+      <div className="px-5 sm:container sm:max-w-[640px] lg:max-w-[768px]">
+        <div className="w-full flex flex-col mt-5">
+          <div className="w-full relative h-8 sm:h-10 flex items-center my-2 ">
+            <div className="hidden sm:block">
+              <BackButton />
+            </div>
+            <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl  sm:text-2xl font-semibold text-center">Giỏ hàng của bạn</p>
           </div>
-          <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl  sm:text-2xl font-semibold text-center">Giỏ hàng của bạn</p>
+          <Separator className="border-black" />
+          <Suspense fallback={<CartProductSkeleton />}>
+            <ListProductCart products={cartProductsDetail} />
+          </Suspense>
         </div>
-        <Separator className="border-black" />
-        <Suspense fallback={<CartProductSkeleton />}>
-          <ListProductCart products={cartProductsDetail} />
-        </Suspense>
       </div>
-      {/* <CartSuggest /> */}
+      <CartSuggest />
     </div>
   );
 }

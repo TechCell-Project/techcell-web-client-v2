@@ -13,7 +13,7 @@ const HomePage = () => {
         <div className="max-w-[!1320px]">
             <BannerSection />
 
-            {/* <ListProductHot /> */}
+            <ListProductHot />
 
             <div className="mt-[10px]">
                 <Image
@@ -26,9 +26,9 @@ const HomePage = () => {
                 />
             </div>
 
-            {/* <BrandHomePage /> */}
+            <BrandHomePage />
 
-            {/* <ListProduct /> */}
+            <ListProduct />
 
             {/* <ProductsPage /> */}
         </div>
