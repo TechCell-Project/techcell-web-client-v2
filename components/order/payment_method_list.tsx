@@ -21,6 +21,10 @@ import {
 import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
+interface PaymentMethodListProps {
+  handleSelect: (value: string) => void;
+}
+
 const PaymentMethodList = () => {
   return (
     <div className="w-auto sm:w-full h-auto m-auto bg-white">
@@ -31,12 +35,12 @@ const PaymentMethodList = () => {
 
             <Select>
               <SelectTrigger className="w-full h-[70px] flex justify-between items-center">
-                <SelectValue placeholder="Chọn phương thức thanh toán" className='w-full'/>
+                <SelectValue placeholder="Chọn phương thức thanh toán" className="w-full" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Khả dụng</SelectLabel>
-                  <SelectItem value="1" >
+                  <SelectItem value="1">
                     <div className="py-2 pb-5">
                       <div className="w-full h-12 px-2 py-3">
                         <div className="w-full flex items-center">
@@ -104,9 +108,7 @@ const PaymentMethodList = () => {
                               }}
                             />
                           </div>
-                          <div className="ml-6 text-[16px] font-bold text-[#ee4949]">
-                            VNPAY
-                          </div>
+                          <div className="ml-6 text-[16px] font-bold text-[#ee4949]">VNPAY</div>
                         </div>
                       </div>
                     </div>
