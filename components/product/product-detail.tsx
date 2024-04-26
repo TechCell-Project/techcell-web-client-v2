@@ -45,7 +45,7 @@ export default function ProductDetailSection({ detail }: ProductDetailProps) {
           </div>
         </MaxWidthWrapper>
       </div>
-      <ProductSimilar productSimilar={detail.brand.name}/>
+      {/* <ProductSimilar productSimilar={detail.brand.name}/> */}
     </>
   );
 }

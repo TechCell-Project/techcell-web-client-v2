@@ -11,10 +11,16 @@ import { BackButton } from '@/components/common/button-back';
 import { Separator } from '@/components/ui/separator';
 import { CartProductSkeleton } from './cart-product-skeleton';
 
-async function getProductVariation(id: string, skuId: string, quantity: number): Promise<ProductCart> {
+export async function getProductVariation(
+  id: string,
+  skuId: string,
+  quantity: number,
+): Promise<ProductCart> {
   const { payload } = await productApiRequest.getProductInCart({ productId: id });
 
-  const variation: VariationDto = payload.variations.find((variation) => variation.skuId === skuId) as VariationDto;
+  const variation: VariationDto = payload.variations.find(
+    (variation) => variation.skuId === skuId,
+  ) as VariationDto;
 
   return {
     productId: payload.productId,
@@ -22,7 +28,7 @@ async function getProductVariation(id: string, skuId: string, quantity: number):
     brand: payload.brand,
     variation,
     quantity,
-  }
+  };
 }
 
 export type CartPageProps = {
@@ -32,11 +38,14 @@ export type CartPageProps = {
 export default async function CartPage({ cartProducts }: Readonly<CartPageProps>) {
   if (cartProducts.length === 0) return null;
 
-  const promises = cartProducts.map((product) => getProductVariation(product.productId, product.skuId, product.quantity));
+  const promises = cartProducts.map((product) =>
+    getProductVariation(product.productId, product.skuId, product.quantity),
+  );
 
   const cartProductsDetail = await Promise.all(promises);
 
   return (
+
     <div className="">
       <div className="px-5 sm:container sm:max-w-[640px] lg:max-w-[768px]">
         <div className="w-full flex flex-col mt-5">
@@ -50,6 +59,7 @@ export default async function CartPage({ cartProducts }: Readonly<CartPageProps>
           <Suspense fallback={<CartProductSkeleton />}>
             <ListProductCart products={cartProductsDetail} />
           </Suspense>
+
         </div>
       </div>
       <CartSuggest />

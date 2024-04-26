@@ -6,6 +6,7 @@ import { authApiRequest } from '@/apiRequests/auth';
 import LoadingPage from '@/app/loading';
 import { clientSessionToken } from '@/lib/http';
 import { RootPath } from '@/constants';
+import NotFoundPage from '@/components/common/not-found';
 
 export default function Logout() {
   const { push } = useRouter();
@@ -31,6 +32,16 @@ export default function Logout() {
       };
     }
   }, [sessionToken, push]);
+  
+  if (sessionToken !== clientSessionToken.accessValue) {
+    return (
+      <NotFoundPage
+        description="Trang không khả dụng"
+        redirectTitle="Trang chủ"
+        redirect={RootPath.Home}
+      />
+    );
+  }
 
   return <LoadingPage />;
 }

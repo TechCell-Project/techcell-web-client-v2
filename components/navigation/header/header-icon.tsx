@@ -37,7 +37,7 @@ export const IconUser = ({ user }: { user: GetMeResponseDto }) => {
           className="rounded-full bg-gray-200 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center p-0 overflow-hidden"
         >
           <Image
-            src={user.avatar?.url ?? AlternativeAvatar.src}
+            src={user?.avatar?.url ?? AlternativeAvatar.src}
             alt="avatar"
             width={40}
             height={40}

@@ -21,13 +21,6 @@ import { ModalProvider } from '@/providers/modal-provider';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import AutoRefreshToken from '@/components/auth/auto-refresh-token';
 
-//import { Nunito as FontSans } from 'next/font/google';
-// const fontSans = FontSans({
-//   subsets: ['vietnamese'],
-//   display: 'swap',
-//   variable: '--font-sans',
-// });
-
 const myLocalFont = localFont({
   src: '../public/font/Nunito-VariableFont_wght.ttf',
   display: 'swap',
