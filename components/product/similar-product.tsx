@@ -15,47 +15,30 @@ import '../../styles/swiper.css';
 import { Button } from '@/components/ui/button';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { VALID_GET_PRODUCTS_PARAMS } from '@/constants';
-import { ProductsApiProductsControllerGetProductsRequest } from '@techcell/node-sdk';
-import { filterSearchParams, findKeyword } from '@/lib/utils';
+import { ProductInListDto } from '@techcell/node-sdk';
 import { productApiRequest } from '@/apiRequests/product';
 import { NormalCard } from '../common/product-card/normal-card';
 import '../../styles/product.css';
-
-type Props = {
-    searchParams?: { [key: string]: string | undefined };
-};
 
 interface ProductSimilarProps {
     productSimilar: string;
 }
 
-export const ProductSimilar: React.FC<Props & ProductSimilarProps> = async ({ searchParams, productSimilar }) => {
+export const ProductSimilar = ({ productSimilar }: Readonly<ProductSimilarProps>) => {
 
-    const page = searchParams?.page ?? '1';
+    const [products, setProducts] = useState<ProductInListDto[]>([]);
 
-    const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
+    useEffect(() => {
+        const getProductByTags = async () => {
+            const res = await productApiRequest.getProducts({});
 
-    const payload = {
-        page: Number.parseInt(page) - 1,
-        ...(searchParams && filterSearchParams(searchParams, VALID_GET_PRODUCTS_PARAMS)),
-    } as ProductsApiProductsControllerGetProductsRequest;
+            if (res.status === 200) {
+                setProducts(res.payload.data);
+            }
+        }
 
-    const relevantKeyword = isFilterWithKeyword
-        ? findKeyword(JSON.parse(searchParams?.filters as string).keyword)
-        : null;
-
-    const promises = [
-        productApiRequest.getProducts(payload),
-        productApiRequest.getProducts({
-            limit: 4,
-            filters: JSON.stringify(
-                relevantKeyword ? { keyword: relevantKeyword } : { tagIds: ['661b7c09128dfd9b6b3e19da'] },
-            ),
-        }),
-    ];
-
-    const res = await Promise.all(promises);
+        getProductByTags();
+    }, []);
 
     return (
         <div className="container flex flex-col">
@@ -74,7 +57,7 @@ export const ProductSimilar: React.FC<Props & ProductSimilarProps> = async ({ se
                     modules={[Navigation, Autoplay]}
                     className="w-full"
                 >
-                    {res[0].payload.data.map((product) => (
+                    {products.map((product) => (
                         <SwiperSlide key={product.id} className='rounded'>
                             {productSimilar == product.brandName && (
                                 <NormalCard key={product.id} product={product} />

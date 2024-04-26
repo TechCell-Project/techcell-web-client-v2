@@ -8,23 +8,23 @@ import TempProductImg from '@/public/phone-test/15-base.jpg';
 import Link from 'next/link';
 import { RootPath } from '@/constants';
 
-export const NormalCard = ({ product }: { product: ProductInListDto}) => {
+export const NormalCard = ({ product }: { product: ProductInListDto }) => {
   return (
     <div
       key={product.id}
       className="w-full min-w-[200px] max-w-[280px] flex flex-col bg-white p-3 justify-center rounded-xl hover:scale-[101%] hover:transition duration-150 ease-in-out"
     >
       <Link href={`${RootPath.ProductDetails}/${product.id}`}>
-      <div className="w-[180px] h-[180px] m-auto flex items-center">
-        <Image
-          src={TempProductImg.src}
-          alt={product.modelName}
-          width={180}
-          height={180}
-          className="w-full h-auto max-h-[180px] object-cover object-center"
+        <div className="w-[180px] h-[180px] m-auto flex items-center">
+          <Image
+            src={product.images[0]?.url || TempProductImg.src}
+            alt={product.modelName}
+            width={180}
+            height={180}
+            className="w-full h-auto max-h-[180px] object-cover object-center"
           />
-      </div>
-          </Link>
+        </div>
+      </Link>
       <span className="font-bold text-sm pt-4">{product.modelName}</span>
       <span className="font-bold text-lg my-2 text-primary font-semiblod">
         {currencyFormat(product.price.special !== 0 ? product.price.special : product.price.base)}

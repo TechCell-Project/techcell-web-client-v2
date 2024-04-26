@@ -16,7 +16,7 @@ export default function Home() {
         <HomePage />
       </div>
       
-      <div className="bg-[#fafafa] mt-5">
+      <div className="bg-slate-100 mt-5">
         <div className="max-w-full px-0 sm:container">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {BENEFIT_SECTION.map((benefit) => (

@@ -17,35 +17,9 @@ import '../../styles/product.css';
 import { Button } from '@/components/ui/button';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Metadata, ResolvingMetadata } from 'next';
 import { productApiRequest } from '@/apiRequests/product';
 import { NormalCard } from '../common/product-card/normal-card';
 import { ProductInListDto } from '@techcell/node-sdk';
-
-type Props = {
-  searchParams?: { [key: string]: string | undefined };
-};
-
-export async function generateMetadata(
-  { searchParams }: Props,
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const isFilterWithKeyword = searchParams?.filters?.includes('keyword');
-
-  const generatedTitle = isFilterWithKeyword
-    ? `${JSON.parse(searchParams?.filters as string).keyword} - Kết quả`
-    : 'Tìm kiếm';
-
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
-
-  return {
-    title: generatedTitle,
-    openGraph: {
-      images: ['/public/phone-test/15-pro.jpg', ...previousImages],
-    },
-  };
-}
 
 export const ListProductHot = () => {
   const [products, setProducts] = useState<ProductInListDto[]>([]);
@@ -53,24 +27,24 @@ export const ListProductHot = () => {
   useEffect(() => {
     const getProductByTags = async () => {
       const res = await productApiRequest.getProducts({
-        limit: 4,
-        filters: JSON.stringify({ tagIds: ['661b7c09128dfd9b6b3e19da'] }),
+        limit: 6,
+        // filters: JSON.stringify({ tagIds: ['661b7c09128dfd9b6b3e19da'] }),
       });
-      
+
       if (res.status === 200) {
         setProducts(res.payload.data);
       }
     }
-    
+
     getProductByTags();
   }, []);
 
   const perViewNumber = typeof window !== 'undefined' && window.innerWidth < 1024 ? 1 : 4;
 
   return (
-    <div className="bg-primary rounded flex flex-col">
+    <div className="bg-primary rounded flex flex-col my-5">
       <div className="flex flex-row items-center">
-        <div className="w-[100px] h-full sm:w-[200px] sm:h-full ml-5">
+        <div className="w-[100px] h-full sm:w-[180px] sm:h-full ml-10 mt-2">
           <Image
             src={'/hot-sale.jpg'}
             alt={'hot-sale'}
@@ -84,7 +58,7 @@ export const ListProductHot = () => {
             }}
           />
         </div>
-        <div className="text-[16px] text-white sm:text-[25px] font-bold uppercase mt-[25px] ml-2 sm:mt-[50px]">
+        <div className="text-[14px] text-white sm:text-[25px] font-bold uppercase mt-[30px] ml-2 sm:mt-[55px]">
           Mừng đại lễ <b className="animate-flash">30/4 - 1/5</b>
         </div>
       </div>

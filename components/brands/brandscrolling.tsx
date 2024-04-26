@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import { brandApiRequest } from '@/apiRequests/brand';
-import { BRANDS_MAP, BrandLabel } from '@/constants';
+import { BRANDS_MAP, BrandLabel, FILTERS_BRANDS, FILTERS_PARAM, RootPath } from '@/constants';
 import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -23,7 +23,12 @@ export async function BrandScrolling() {
             key={brand.key}
             className="bg-white border border-gray-400 h-[34px] flex justify-center rounded-md"
           >
-            <Link href="/" className="flex px-1 items-center justify-center">
+            <Link
+              href={`${RootPath.ProductList}?${FILTERS_PARAM}=${JSON.stringify({
+                [FILTERS_BRANDS]: [`${brand.brandIds}`],
+              })}`}
+              className="flex px-1 items-center justify-center"
+            >
               <Image
                 src={brand.brandImg}
                 alt={brand.label}
