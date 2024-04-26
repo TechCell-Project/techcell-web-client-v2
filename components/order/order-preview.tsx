@@ -101,7 +101,7 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
         addressIndex: selectedAddressIndex,
         paymentMethod: CreateOrderDtoPaymentMethodEnum.Vnpay,
         isSelectFromCart: true,
-        paymentReturnUrl: 'http://localhost:3000',
+        paymentReturnUrl: 'https://techcell.cloud',
       };
 
       await orderApiRequest.createOrder(payload);
