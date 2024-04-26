@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { FieldPath, FieldValues, UseFormReturn } from 'react-hook-form';
 import { cn } from '@/lib/utils';
+import { Textarea } from '@/components/ui/textarea';
 
 type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'form'>;
 
@@ -23,6 +24,7 @@ type InputFieldProps<TFieldValues extends FieldValues> = {
   isLoading?: boolean;
   description?: string | ReactNode;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  isTextArea?: boolean;
   inputAttributes?: InputHTMLAttributes<HTMLInputElement>;
 };
 
@@ -34,6 +36,7 @@ export const InputText = <T extends FieldValues>({
   isLoading = false,
   description,
   onChange,
+  isTextArea,
   ...props
 }: InputProps & InputFieldProps<T>) => {
   return (
@@ -44,16 +47,24 @@ export const InputText = <T extends FieldValues>({
         <FormItem className={className}>
           <FormLabel className='text-base'>{label}</FormLabel>
           <FormControl>
-            <Input
-              {...field}
-              {...props}
-              className={cn(
-                'text-base focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-100',
-                error && 'border-primary',
-              )}
-              disabled={isLoading || props.disabled}
-              onChange={(e) => (onChange ? onChange(e) : field.onChange(e))}
-            />
+            {isTextArea !== undefined && isTextArea ? (
+              <Textarea 
+                {...field}
+                placeholder={props.placeholder}
+                disabled={isLoading || props.disabled}
+              />
+            ) : (
+              <Input
+                {...field}
+                {...props}
+                className={cn(
+                  'text-base focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-100',
+                  error && 'border-primary',
+                )}
+                disabled={isLoading || props.disabled}
+                onChange={(e) => (onChange ? onChange(e) : field.onChange(e))}
+              />
+            )}
           </FormControl>
           {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />

@@ -5,7 +5,7 @@ export enum RootPath {
   ForgotPassword = '/quen-mat-khau',
   ChangePassword = '/mat-khau-moi',
   Cart = '/gio-hang',
-  Payment = '/gio-hang/payment',
+  Payment = '/thanh-toan',
   Search = '/tim-kiem',
   ProductList = '/danh-sach-san-pham',
   ProductDetails = '/chi-tiet-san-pham',

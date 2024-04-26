@@ -80,8 +80,6 @@ export default function Order() {
     }
   }, [previewProducts, defaultAddressIndex]);
 
-  console.log(previewProducts, defaultAddressIndex);
-
   if (isLoading) {
     return <LoadingPage />;
   }

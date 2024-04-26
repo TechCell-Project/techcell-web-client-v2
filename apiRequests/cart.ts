@@ -1,16 +1,13 @@
 import http from '@/lib/http';
 import { ApiTags } from '@/constants';
-import { Cart } from '@/components/cart/models';
 import { Cart as CartDto, UpdateCartDto } from '@techcell/node-sdk';
 import { MessageResType } from '@/validationSchemas';
 
 const ApiPrefix = ApiTags.Cart;
 
 export const cartApiRequest = {
-  getCarts: () => http.get<CartDto>(ApiPrefix),
-
-  getCartsWithToken: (sessionToken: string) =>
-    http.get<Cart>(`${ApiPrefix}`, {
+  getCarts: (sessionToken: string) =>
+    http.get<CartDto>(`${ApiPrefix}`, {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },

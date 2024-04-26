@@ -113,10 +113,10 @@ const request = async <Response>(
   const baseHeaders = options?.headers === undefined ? headersFromRequest : {};
 
   // console.log('method:', method);
-  // console.log(clientSessionToken.accessValue);
-  console.log('options-headers:', options?.headers);
-  console.log('headersFromRequest:', headersFromRequest);
-  // console.log('headers:', baseHeaders);
+  console.log(clientSessionToken.accessValue);
+  // console.log('options-headers:', options?.headers);
+  // console.log('headersFromRequest:', headersFromRequest);
+  console.log('headers:', baseHeaders);
 
   // if dont pass baseUrl (or baseUrl = undefined) then get it from envConfig.NEXT_PUBLIC_API_ENDPOINT
   // If pass baseUrl then get it, baseUrl = '' means call API to Next.js Server
@@ -137,6 +137,8 @@ const request = async <Response>(
     method,
   });
 
+  console.log(options);
+
   const payload: Response = await res
     .json()
     .catch((reason) => console.log('reason', reason.status));
@@ -156,7 +158,6 @@ const request = async <Response>(
         },
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
-      console.log('unauthorized error', fullUrl);
       if (typeof window !== 'undefined') {
         if (!clientLogoutRequest) {
           if (!clientSessionToken.accessValue) {

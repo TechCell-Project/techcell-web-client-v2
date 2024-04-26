@@ -1,9 +1,9 @@
+import { memo } from 'react';
 import Image from 'next/image';
 import { currencyFormat, getVariationString } from '@/utilities/func.util';
 import UpdateProductCart from './update-product-cart';
 import { ProductCart } from '@/types/cart.type';
 import AlternativeImg from '@/public/phone-test/15-promax.jpg';
-import { memo } from 'react';
 
 export type ProductCartProps = {
   product: ProductCart;
