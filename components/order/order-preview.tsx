@@ -39,7 +39,7 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
   const { push, refresh } = useRouter();
   const { onOpen, setAddressIndex } = useAddressModal();
   const [addressList, setAddressList] = useState<UserAddressResponseDto[]>([]);
-  const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>();
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     const getAddressList = async () => {

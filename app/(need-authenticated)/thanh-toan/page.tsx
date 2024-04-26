@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import useUpdateEffect from 'ahooks/lib/useUpdateEffect';
 
@@ -28,8 +28,13 @@ const paymentPageLocation: BreadcrumbProps = {
   ],
 };
 
+type Props = {
+  searchParams?: { [key: string]: string | undefined };
+};
+
 export default function Order() {
   const { push } = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [previewProducts, setPreviewProducts] = useState<ProductInOrderDto[]>([]);
   const [defaultAddressIndex, setDefaultAddressIndex] = useState<number | null>(null);
@@ -37,7 +42,10 @@ export default function Order() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const saveSkuIds = localStorage.getItem('selected-sku');
+      const saveSkuIds = searchParams.get('buy-now')
+        ? localStorage.getItem('selected-buy-now')
+        : localStorage.getItem('selected-sku');
+        
       if (!saveSkuIds) {
         push(RootPath.Cart);
         return;
@@ -54,7 +62,7 @@ export default function Order() {
       setPreviewProducts(products);
       setDefaultAddressIndex(parseInt(querryArray[1]));
     }
-  }, []);
+  }, [searchParams]);
 
   useUpdateEffect(() => {
     const previewOrder = async (products: ProductInOrderDto[], addressIndex: number) => {

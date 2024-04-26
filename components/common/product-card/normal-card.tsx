@@ -12,7 +12,7 @@ export const NormalCard = ({ product }: { product: ProductInListDto}) => {
   return (
     <div
       key={product.id}
-      className="w-full min-w-[200px] max-w-[280px] flex flex-col bg-white p-3 justify-center rounded-xl hover:scale-[101%] hover:transition duration-150 ease-in-out"
+      className="w-full min-w-[200px] max-w-[280px] flex flex-col bg-white p-3 justify-center rounded-xl hover:transition duration-150 ease-in-out"
     >
       <Link href={`${RootPath.ProductDetails}/${product.id}`}>
       <div className="w-[180px] h-[180px] m-auto flex items-center">
