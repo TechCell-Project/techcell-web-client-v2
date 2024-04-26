@@ -130,7 +130,7 @@ export const BRANDS: BrandLabel[] = [
   {
       label: 'Apple',
       key: 'apple',
-      brandIds: '6612cc2e5edb561eb8e263d7',
+      brandIds: '661681dde3e5984cfc2c28cc',
       value: 1,
       brandImg:
           'https://res.cloudinary.com/dzoykqusl/image/upload/v1687595109/filter-brand-1_txqyc5.webp',

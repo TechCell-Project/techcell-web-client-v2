@@ -7,9 +7,9 @@ interface ShippingInfoProps {
 
 export const ShippingAddressInfo = ({ info }: Readonly<ShippingInfoProps>) => {
   return (
-    <div className="w-auto sm:w-[640px] h-auto m-auto bg-white">
+    <div className="w-auto sm:w-full h-auto m-auto bg-white">
       <div className=" rounded-md my-3 py-2">
-        <div className="mt-[0] mx-[15px] mb-[15px] flex flex-col gap-5">
+        <div className="mt-[0] mb-[15px] flex flex-col gap-5">
           <div className="text-center">
             <div className="text-[20px] font-bold">Thông tin nhận hàng</div>
           </div>

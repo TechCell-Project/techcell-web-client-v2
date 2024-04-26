@@ -11,9 +11,14 @@ import { ListProduct } from './list-product';
 const HomePage = () => {
     return (
         <div className="max-w-[!1320px]">
+
             <BannerSection />
 
-            {/* <ListProductHot /> */}
+            <ListProductHot />
+
+            <BrandHomePage />
+
+            <ListProduct />
 
             <div className="mt-[10px]">
                 <Image
@@ -25,10 +30,6 @@ const HomePage = () => {
                     className="w-full h-auto rounded-sm"
                 />
             </div>
-
-            {/* <BrandHomePage /> */}
-
-            {/* <ListProduct /> */}
 
             {/* <ProductsPage /> */}
         </div>

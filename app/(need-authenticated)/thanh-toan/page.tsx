@@ -45,7 +45,7 @@ export default function Order() {
       const saveSkuIds = searchParams.get('buy-now')
         ? localStorage.getItem('selected-buy-now')
         : localStorage.getItem('selected-sku');
-        
+
       if (!saveSkuIds) {
         push(RootPath.Cart);
         return;

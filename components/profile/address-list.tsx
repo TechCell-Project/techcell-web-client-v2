@@ -140,7 +140,7 @@ export function UserAddressList({
         >
           <div className="w-2/3 flex gap-2.5 items-center">
             <RadioGroupItem value={index.toString()} id={index.toString()} className="w-5 h-5" />
-            <div className="space-y-1">
+            <div className="w-full space-y-1">
               <div className="flex flex-col sm:flex-row sm:items-end">
                 <h5 className="font-semibold text-primary truncate sm:w-[120px]">
                   {address.customerName}
