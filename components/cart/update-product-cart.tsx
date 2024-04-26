@@ -75,27 +75,29 @@ export default function UpdateProductCart({ product }: Readonly<UpdateProductCar
   };
 
   return (
-    <div className="w-full flex flex-col items-center sm:flex-row gap-3 sm:justify-center">
+    <div className="w-full flex flex-row items-center sm:flex-row gap-3 justify-between sm:justify-center">
       <div className="flex flex-row">
         <Button
           variant="outline"
           size="icon"
           onClick={() => handleUpdateQuantity(-1)}
           disabled={product.quantity === 1 || isLoading}
+          className="h-[30px] w-[40px]"
         >
-          <Minus className="h-4 w-4" />
+          <Minus />
         </Button>
-        <span className="mx-4">{product.quantity}</span>
+        <span className="mx-4 text-lg sm:text-lg">{product.quantity}</span>
         <Button
           variant="outline"
           size="icon"
           onClick={() => handleUpdateQuantity(1)}
           disabled={isLoading}
+          className="h-[30px] w-[40px]"
         >
-          <Plus className="h-4 w-4" />
+          <Plus />
         </Button>
       </div>
-      <Button variant="destructive" onClick={() => setOpenDelete(true)} className="cursor-pointer p-2">
+      <Button variant="destructive" onClick={() => setOpenDelete(true)} className="cursor-pointer px-2 py-1 sm:p-2 sm:mr-2.5">
         <Trash2 />
       </Button>
       <Modal
