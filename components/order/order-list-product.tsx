@@ -1,9 +1,15 @@
-'use client';
-
-import { PHONE_TEST } from '@/constants/phone-test';
 import Image from 'next/image';
+import { PHONE_TEST } from '@/constants/phone-test';
+import { ProductSchema } from '@techcell/node-sdk';
 
-const OrderListProduct = () => {
+import AlternativeImg from '@/public/phone-test/15-promax.jpg';
+import { currencyFormat } from '@/utilities/func.util';
+
+interface OrderListProductProps {
+  products: ProductSchema[];
+}
+
+const OrderListProduct = ({ products }: OrderListProductProps) => {
   return (
     <div className="w-auto sm:w-[640px] h-auto m-auto bg-white my-3 p-4 sm:py-4">
       <div className=''>
@@ -11,13 +17,13 @@ const OrderListProduct = () => {
           <div className="text-[20px] font-bold ml-2">Tất cả sản phẩm</div>
         </div>
         <div className="flex flex-col">
-          {PHONE_TEST.map((phone) => (
-            <div key={phone.name} className="w-full h-full">
+          {products.map((phone) => (
+            <div key={phone.skuId} className="w-full h-full">
               <div className="flex flex-row mb-1 pt-5 bg-white items-center rounded-xl">
                 <div className="w-[115px] h-[75px] sm:w-[100px] sm:h-[100px]">
                   <Image
-                    src={phone.images[0].url}
-                    alt={phone.name}
+                    src={phone.image?.url ?? AlternativeImg.src}
+                    alt={phone.productName}
                     width={200}
                     height={200}
                     style={{
@@ -30,17 +36,19 @@ const OrderListProduct = () => {
                 </div>
                 <div className="flex flex-row justify-between w-[443px] items-center">
                   <div className="flex flex-col ml-4">
-                    <span className="text-lg font-semiblod">{phone.name}</span>
-                    <span>Màu tím</span>
+                    <span className="text-lg font-semiblod">{phone.productName}</span>
+                    <span>{phone.productType}</span>
                     <span className="text-[#ee4949] text-lg font-semiblod">
-                      {phone.price.special}đ
-                      <span className="ml-2 text-slate-500 text-base line-through">
-                        {phone.price.base}đ
-                      </span>
+                      {currencyFormat(phone.unitPrice.special !== 0 ? phone.unitPrice.special : phone.unitPrice.base)}đ
+                      {phone.unitPrice.special !== 0 && (
+                        <span className="ml-2 text-slate-500 text-base line-through">
+                          {phone.unitPrice.base}đ
+                        </span>
+                      )}
                     </span>
                   </div>
                   <div className="">
-                    <span className="">Số lượng : 1</span>
+                    <span className="">Số lượng : {phone.quantity}</span>
                   </div>
                 </div>
               </div>
