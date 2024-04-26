@@ -11,7 +11,7 @@ interface OrderListProductProps {
 
 const OrderListProduct = ({ products }: OrderListProductProps) => {
   return (
-    <div className="w-auto sm:w-[640px] h-auto m-auto bg-white my-3 p-4 sm:py-4">
+    <div className="w-auto sm:w-[full] h-auto m-auto bg-white my-3 p-4 sm:p-0 sm:py-4">
       <div className=''>
         <div className="text-center">
           <div className="text-[20px] font-bold ml-2">Tất cả sản phẩm</div>
@@ -36,19 +36,19 @@ const OrderListProduct = ({ products }: OrderListProductProps) => {
                 </div>
                 <div className="flex flex-row justify-between w-[443px] items-center">
                   <div className="flex flex-col ml-4">
-                    <span className="text-lg font-semiblod">{phone.productName}</span>
+                    <span className="font-semibold text-xs sm:text-lg">{phone.productName}</span>
                     <span>{phone.productType}</span>
-                    <span className="text-[#ee4949] text-lg font-semiblod">
+                    <span className="text-[#ee4949] font-semibold text-xs sm:text-lg">
                       {currencyFormat(phone.unitPrice.special !== 0 ? phone.unitPrice.special : phone.unitPrice.base)}đ
                       {phone.unitPrice.special !== 0 && (
-                        <span className="ml-2 text-slate-500 text-base line-through">
+                        <span className="ml-2 text-slate-500 text-xs sm:text-lg line-through">
                           {phone.unitPrice.base}đ
                         </span>
                       )}
                     </span>
                   </div>
                   <div className="">
-                    <span className="">Số lượng : {phone.quantity}</span>
+                    <span className="text-xs sm:text-lg ">Số lượng : {phone.quantity}</span>
                   </div>
                 </div>
               </div>

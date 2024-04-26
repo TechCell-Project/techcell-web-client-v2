@@ -150,6 +150,7 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
             form={form}
             disabled={isSubmitting}
             isTextArea={true}
+            className='w-full'
           />
           <PaymentMethodList />
           <ShippingAddressInfo info={previewData.customer} />
