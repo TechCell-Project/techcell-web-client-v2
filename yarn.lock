@@ -1521,12 +1521,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@techcell/node-sdk@npm:0.0.1-9b30310":
-  version: 0.0.1-9b30310
-  resolution: "@techcell/node-sdk@npm:0.0.1-9b30310"
+"@techcell/node-sdk@npm:0.0.1-1639633":
+  version: 0.0.1-1639633
+  resolution: "@techcell/node-sdk@npm:0.0.1-1639633"
   dependencies:
     axios: "npm:^1.6.1"
-  checksum: 10c0/0c0fdcb6672b9750f7a8df55b161b6f3035213aa64df3a6fef457b984e9a3de863eea48f9f066fdfc220d725ada0f2efdcfcf74a01d38fbe9fb94b3504b4bc88
+  checksum: 10c0/da12edb27d9178d082e8bc5dda3a97a38ebffc564931bafdf5e04d931a9c3960805667b74a8998e2bc46872e4bc87abda0b3d507aa39a47c41e9f1904b4ec1d9
   languageName: node
   linkType: hard
 
@@ -4002,6 +4002,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jwt-decode@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: 10c0/de75bbf89220746c388cf6a7b71e56080437b77d2edb29bae1c2155048b02c6b8c59a3e5e8d6ccdfd54f0b8bda25226e491a4f1b55ac5f8da04cfbadec4e546c
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.5.3":
   version: 4.5.4
   resolution: "keyv@npm:4.5.4"
@@ -5759,7 +5766,7 @@ __metadata:
     "@react-oauth/google": "npm:^0.12.1"
     "@tanstack/eslint-plugin-query": "npm:^5.28.11"
     "@tanstack/react-query": "npm:^5.28.14"
-    "@techcell/node-sdk": "npm:0.0.1-9b30310"
+    "@techcell/node-sdk": "npm:0.0.1-1639633"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
@@ -5775,6 +5782,7 @@ __metadata:
     eslint: "npm:^8"
     eslint-config-next: "npm:14.1.4"
     immer: "npm:^10.0.4"
+    jwt-decode: "npm:^4.0.0"
     lucide-react: "npm:^0.364.0"
     next: "npm:14.1.4"
     next-cloudinary: "npm:^6.5.0"
