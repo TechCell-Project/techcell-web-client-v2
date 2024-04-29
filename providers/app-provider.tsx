@@ -1,10 +1,14 @@
 'use client';
 
+import { createContext, useContext, useState } from 'react';
 import { clientSessionToken } from '@/lib/http';
 import { GetMeResponseDto } from '@techcell/node-sdk';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
-const AppContext = createContext<{ user: GetMeResponseDto | null; setUser: (user: GetMeResponseDto | null) => void }>({
+const AppContext = createContext<{
+  user: GetMeResponseDto | null;
+  setUser: (user: GetMeResponseDto | null) => void;
+}>({
   user: null,
   setUser: () => {},
 });
@@ -28,12 +32,17 @@ export default function AppProvider({
 }>) {
   const [user, setUser] = useState<GetMeResponseDto | null>(userProp);
 
-  useEffect(() => {
+  useState(() => {
     if (typeof window !== 'undefined') {
-      clientSessionToken.accessValue = initialSessionToken ?? '';
-      clientSessionToken.refreshValue = initialRefreshToken ?? '';
+      if (initialSessionToken && initialRefreshToken) {
+        clientSessionToken.accessValue = initialSessionToken;
+        clientSessionToken.refreshValue = initialRefreshToken;
+        clientSessionToken.expiresAt = new Date(
+          jwtDecode(clientSessionToken.accessValue).exp!.toString(),
+        ).toISOString();
+      }
     }
-  }, [initialSessionToken, initialRefreshToken]);
+  });
 
   return <AppContext.Provider value={{ user, setUser }}>{children}</AppContext.Provider>;
 }

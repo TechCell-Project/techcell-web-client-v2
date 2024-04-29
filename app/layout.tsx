@@ -39,6 +39,11 @@ export default async function RootLayout({
   const storedCookie = cookies();
   const sessionToken = storedCookie.get('sessionToken');
   const refreshToken = storedCookie.get('refreshToken');
+
+  console.log('accesstoken ', sessionToken?.value);
+  console.log('refreshtoken ', refreshToken?.value);
+  console.log('all cookies ', storedCookie.getAll());
+
   let user: GetMeResponseDto | null = null;
   if (sessionToken) {
     const userData = await authApiRequest.getMe(sessionToken.value);
@@ -58,10 +63,10 @@ export default async function RootLayout({
             initialRefreshToken={refreshToken?.value}
             user={user}
           >
+            <AutoRefreshToken />
             {user && <ModalProvider userProfile={user} />}
             <Header user={user} />
             <div className="bg-slate-100">{children}</div>
-            <AutoRefreshToken />
             <Footer />
           </AppProvider>
         </body>
