@@ -20,7 +20,7 @@ interface HeaderProps {
 
 const Header = ({ user }: HeaderProps) => {
   return (
-    <header className="bg-white w-full border-gray-200 py-2 h-16 mb-1">
+    <header className="bg-white w-full border-gray-200 py-2 h-16 mb-1 fixed z-50">
       <div className="container px-2.5 sm:px-10 h-full flex items-center justify-between">
         <div className="flex h-full items-center gap-1 sm:gap-6">
           <MobileDrawer />

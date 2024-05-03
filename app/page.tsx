@@ -1,21 +1,27 @@
 import { BENEFIT_SECTION, HOME_SLOGAN, IMAGE_CAROUSEL } from '@/constants/common';
 import { SwiperCarousel } from '@/components/home/swiper-carousel';
 import HomePage from '@/components/home/home-page';
+import { ListProductHot } from '@/components/home/list-product-hot';
 
 export default function Home() {
 
   return (
     <main>
-      <h2 className="w-full hidden sm:block text-base uppercase bg-primary text-white py-2.5 text-center">
+      <div className="h-16"></div>
+
+      {/* <h2 className="w-full hidden sm:block text-base uppercase bg-primary text-white py-2.5 text-center">
         {HOME_SLOGAN}
-      </h2>
+      </h2> */}
 
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
       <div className="container">
-        <HomePage />
+
+        <ListProductHot />
+
+        {/* <HomePage /> */}
       </div>
-      
+
       <div className="bg-slate-100 mt-5">
         <div className="max-w-full px-0 sm:container">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

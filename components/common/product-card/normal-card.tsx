@@ -37,7 +37,7 @@ export const NormalCard = ({ product }: { product: ProductInListDto }) => {
         )}
       </span>
 
-      {product.price.special !== 0 && (
+      {/* {product.price.special !== 0 && (
         <div className="text-xs p-2 rounded-md border border-solid border-slate-[#e5e7eb] bg-[#f3f4f6]">
           Giảm giá đến :{' '}
           <span className="text-sm text-primary font-bold">
@@ -46,7 +46,7 @@ export const NormalCard = ({ product }: { product: ProductInListDto }) => {
           và nhiều khuyến mại hấp dẫn khác
         </div>
       )}
-      <BuyingButton productId={product.id} />
+      <BuyingButton productId={product.id} /> */}
     </div>
   );
 };
