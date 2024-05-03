@@ -6,7 +6,7 @@ export default function Home() {
 
   return (
     <main>
-      <h2 className="w-full hidden sm:block text-base uppercase bg-[#ee4949] text-white py-2.5 text-center">
+      <h2 className="w-full hidden sm:block text-base uppercase bg-primary text-white py-2.5 text-center">
         {HOME_SLOGAN}
       </h2>
 
