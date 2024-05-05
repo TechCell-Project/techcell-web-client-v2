@@ -2,6 +2,9 @@ import { BENEFIT_SECTION, HOME_SLOGAN, IMAGE_CAROUSEL } from '@/constants/common
 import { SwiperCarousel } from '@/components/home/swiper-carousel';
 import HomePage from '@/components/home/home-page';
 import { ListProductHot } from '@/components/home/list-product-hot';
+import Image from 'next/image';
+import Banner from '@/public/banner/banner.png';
+import { ListProduct } from '@/components/home/list-product';
 
 export default function Home() {
 
@@ -18,6 +21,19 @@ export default function Home() {
       <div className="container">
 
         <ListProductHot />
+
+        <div className="mt-[10px]">
+          <Image
+            src={Banner.src}
+            sizes="100vw"
+            width={1320}
+            height={300}
+            alt="banner"
+            className="w-full h-auto rounded-sm"
+          />
+        </div>
+
+        <ListProduct />
 
         {/* <HomePage /> */}
       </div>

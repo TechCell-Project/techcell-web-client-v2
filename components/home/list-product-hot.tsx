@@ -20,6 +20,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { productApiRequest } from '@/apiRequests/product';
 import { NormalCard } from '../common/product-card/normal-card';
 import { ProductInListDto } from '@techcell/node-sdk';
+import Link from 'next/link';
 
 export const ListProductHot = () => {
   const [products, setProducts] = useState<ProductInListDto[]>([]);
@@ -27,7 +28,7 @@ export const ListProductHot = () => {
   useEffect(() => {
     const getProductByTags = async () => {
       const res = await productApiRequest.getProducts({
-        limit: 6,
+        limit: 10,
         // filters: JSON.stringify({ tagIds: ['661b7c09128dfd9b6b3e19da'] }),
       });
 
@@ -45,7 +46,7 @@ export const ListProductHot = () => {
     <div className="bg-primary rounded flex flex-col my-5">
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-center">
-          <div className="w-[100px] h-full sm:w-[170px] sm:h-full ml-10 mt-2">
+          <div className="w-[150px] h-full sm:w-[170px] sm:h-full ml-10 mt-2">
             <Image
               src={'/hot-sale.jpg'}
               alt={'hot-sale'}
@@ -59,20 +60,22 @@ export const ListProductHot = () => {
               }}
             />
           </div>
-          <div className="text-[14px] text-white sm:text-[25px] font-bold uppercase mt-[30px] ml-2 sm:mt-[55px]">
+          <div className="text-[14px] text-white sm:text-[25px] font-bold uppercase mt-[35px] ml-2 sm:mt-[55px]">
             Mừng quốc tế thiếu nhi <b className="animate-flash">1/6</b>
           </div>
         </div>
-        <div className="mt-[30px] mr-10 sm:mt-[55px] ]">
-          <Button
-            variant="default"
-            className="text-primary border border-solid border-rose-300 bg-white hover:bg-gray-100 text-[14px] sm:text-[16px] font-bold uppercase "
-          >
-           Xem tất cả
-          </Button>
+        <div className="mt-[30px] mr-10 sm:mt-[55px] hidden sm:block">
+          <Link href={''}>
+            <Button
+              variant="default"
+              className="text-primary border border-solid border-rose-300 bg-white hover:bg-gray-100 text-[14px] sm:text-[16px] font-bold uppercase "
+            >
+              Xem tất cả
+            </Button>
+          </Link>
         </div>
       </div>
-      <div className="m-7 sm:m-10">
+      <div className="m-10">
         <Swiper
           slidesPerView={perViewNumber}
           spaceBetween={10}
@@ -80,7 +83,7 @@ export const ListProductHot = () => {
             clickable: true,
           }}
           autoplay={{
-            delay: 10000,
+            delay: 7000,
             disableOnInteraction: false,
           }}
           modules={[Navigation, Autoplay]}
@@ -93,6 +96,16 @@ export const ListProductHot = () => {
           ))}
           <SwiperNavButtons />
         </Swiper>
+      </div>
+      <div className="flex flex-row justify-center block sm:hidden mb-2">
+        <Link href={''}>
+          <Button
+            variant="default"
+            className="text-primary border border-solid border-rose-300 bg-white hover:bg-gray-100 text-[14px] sm:text-[16px] font-bold uppercase "
+          >
+            Xem tất cả
+          </Button>
+        </Link>
       </div>
     </div>
   );
