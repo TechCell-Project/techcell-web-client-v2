@@ -27,7 +27,7 @@ export default function ListProductCart({ products }: Readonly<ListProductCartPr
           {products.map((product) => (
             <TableRow
               key={product.variation?.skuId}
-              className='flex flex-wrap justify-end sm:contents'
+              className='flex flex-wrap justify-end sm:contents items-center'
             >
               <TableCartDetails product={product} />
             </TableRow>
