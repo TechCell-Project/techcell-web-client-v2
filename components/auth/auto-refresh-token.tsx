@@ -1,6 +1,5 @@
 'use client';
 
-
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { authApiRequest } from '@/apiRequests/auth';
@@ -17,7 +16,7 @@ export default function AutoRefreshToken() {
     }, 1000 * 60 * 1);
 
     return () => clearInterval(interval);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRefresh = async () => {
@@ -32,7 +31,7 @@ export default function AutoRefreshToken() {
       localStorage.setItem('accessTokenExpires', res.payload.accessTokenExpires.toString());
       refresh();
     }
-  }
-  
+  };
+
   return null;
 }
