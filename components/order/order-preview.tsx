@@ -127,8 +127,8 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
     <div className="px-5 w-full h-fit sm:container sm:max-w-[640px] lg:max-w-[768px] bg-white mb-5 rounded-md">
       <div className="w-full text-center flex items-center px-4 py-2">
         <BackButton />
-        <div className="text-center">
-          <div className="ml-[120px] sm:ml-[220px] text-xl font-bold">Thông tin</div>
+        <div className='w-full'>
+        <div className="text-xl font-bold text-center">Thông tin</div>
         </div>
       </div>
 
