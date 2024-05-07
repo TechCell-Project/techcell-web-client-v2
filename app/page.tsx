@@ -5,6 +5,9 @@ import { ListProductHot } from '@/components/home/list-product-hot';
 import Image from 'next/image';
 import Banner from '@/public/banner/banner.png';
 import { ListProduct } from '@/components/home/list-product';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { RootPath } from "@/constants/enum";
 
 export default function Home() {
 
@@ -34,6 +37,17 @@ export default function Home() {
         </div>
 
         <ListProduct />
+
+        <div className="flex flex-row justify-center my-5">
+          <Link href={RootPath.ProductList}>
+            <Button
+              variant="default"
+              className="text-primary border border-solid border-rose-300 bg-white hover:bg-primary hover:text-white text-[14px] sm:text-[16px] font-bold uppercase "
+            >
+              Xem tất cả
+            </Button>
+          </Link>
+        </div>
 
         {/* <HomePage /> */}
       </div>

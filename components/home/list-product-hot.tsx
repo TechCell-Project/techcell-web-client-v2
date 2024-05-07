@@ -18,9 +18,9 @@ import { Button } from '@/components/ui/button';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { productApiRequest } from '@/apiRequests/product';
-import { NormalCard } from '../common/product-card/normal-card';
 import { ProductInListDto } from '@techcell/node-sdk';
 import Link from 'next/link';
+import { SuccinctCard } from '../common/product-card/succinct-card';
 
 export const ListProductHot = () => {
   const [products, setProducts] = useState<ProductInListDto[]>([]);
@@ -46,7 +46,7 @@ export const ListProductHot = () => {
     <div className="bg-primary rounded flex flex-col my-5">
       <div className="flex flex-row items-center justify-between">
         <div className="flex flex-row items-center">
-          <div className="w-[150px] h-full sm:w-[170px] sm:h-full ml-10 mt-2">
+          <div className="w-[100px] h-full sm:w-[170px] sm:h-full ml-10 mt-2">
             <Image
               src={'/hot-sale.jpg'}
               alt={'hot-sale'}
@@ -60,7 +60,7 @@ export const ListProductHot = () => {
               }}
             />
           </div>
-          <div className="text-[14px] text-white sm:text-[25px] font-bold uppercase mt-[35px] ml-2 sm:mt-[55px]">
+          <div className="text-[12px] text-white sm:text-[25px] font-bold uppercase mt-[35px] ml-2 sm:mt-[55px]">
             Mừng quốc tế thiếu nhi <b className="animate-flash">1/6</b>
           </div>
         </div>
@@ -68,7 +68,7 @@ export const ListProductHot = () => {
           <Link href={''}>
             <Button
               variant="default"
-              className="text-primary border border-solid border-rose-300 bg-white hover:bg-gray-100 text-[14px] sm:text-[16px] font-bold uppercase "
+              className="text-primary border border-solid border-rose-300 bg-white hover:bg-primary hover:text-white text-[14px] sm:text-[16px] font-bold uppercase "
             >
               Xem tất cả
             </Button>
@@ -91,7 +91,7 @@ export const ListProductHot = () => {
         >
           {products.map((product) => (
             <SwiperSlide key={product.id} className="rounded">
-              <NormalCard key={product.id} product={product} />
+              <SuccinctCard key={product.id} product={product} />
             </SwiperSlide>
           ))}
           <SwiperNavButtons />
@@ -101,7 +101,7 @@ export const ListProductHot = () => {
         <Link href={''}>
           <Button
             variant="default"
-            className="text-primary border border-solid border-rose-300 bg-white hover:bg-gray-100 text-[14px] sm:text-[16px] font-bold uppercase "
+            className="text-primary border border-solid border-rose-300 bg-white hover:bg-primary hover:text-white text-[14px] sm:text-[16px] font-bold uppercase "
           >
             Xem tất cả
           </Button>
