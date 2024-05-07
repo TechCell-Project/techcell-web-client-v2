@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useForm } from 'react-hook-form';
@@ -54,33 +54,30 @@ export const SearchBar = () => {
   console.log(searchTerm);
 
   return (
-    <Suspense>
-      <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="h-10 bg-inherit flex gap-2 items-center">
-          <FormField
-            control={control}
-            name="keyword"
-            render={({ field }) => (
-              <FormItem className="relative">
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Tìm kiếm..."
-                    className="w-56 text-zinc-600 text-base font-semibold h-full px-2 py-1 bg-inherit outline-none rounded-none border-white !border-b-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
-                    disabled={isSubmitting}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="absolute bottom-0 translate-y-full left-2" />
-              </FormItem>
-            )}
-          />
-          <Button variant="ghost" type="submit" className="p-0" disabled={isSubmitting}>
-            <FaMagnifyingGlass className="h-[22px] w-auto text-zinc-500 my-[2px]" />
-          </Button>
-        </form>
-      </Form>
-      
-    </Suspense>
+    <Form {...form}>
+      <form onSubmit={handleSubmit(onSubmit)} className="h-10 bg-inherit flex gap-2 items-center">
+        <FormField
+          control={control}
+          name="keyword"
+          render={({ field }) => (
+            <FormItem className="relative">
+              <FormControl>
+                <Input
+                  type="text"
+                  placeholder="Tìm kiếm..."
+                  className="w-56 text-zinc-600 text-base font-semibold h-full px-2 py-1 bg-inherit outline-none rounded-none border-white !border-b-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  disabled={isSubmitting}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage className="absolute bottom-0 translate-y-full left-2" />
+            </FormItem>
+          )}
+        />
+        <Button variant="ghost" type="submit" className="p-0" disabled={isSubmitting}>
+          <FaMagnifyingGlass className="h-[22px] w-auto text-zinc-500 my-[2px]" />
+        </Button>
+      </form>
+    </Form>
   );
 };

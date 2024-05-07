@@ -62,6 +62,7 @@ export default function Order() {
       setPreviewProducts(products);
       setDefaultAddressIndex(parseInt(querryArray[1]));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   useUpdateEffect(() => {

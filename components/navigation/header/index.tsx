@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -24,11 +25,17 @@ const Header = () => {
           <Link href={RootPath.Home} className="h-full w-auto">
             <Image src={Logo} alt="logo" width={200} height={64} className="h-full w-auto" />
           </Link>
-          <LeftNav content="Sản phẩm" primaryLink={RootPath.ProductList} redirectLinks={NAV_CATEGORIES} />
+          <LeftNav
+            content="Sản phẩm"
+            primaryLink={RootPath.ProductList}
+            redirectLinks={NAV_CATEGORIES}
+          />
         </div>
         <div className="h-full flex items-center gap-5">
           <div className="h-full hidden sm:flex items-center">
-            <SearchBar />
+            <Suspense>
+              <SearchBar />
+            </Suspense>
           </div>
           <div className="h-full flex gap-3 items-center w-full">
             {RIGHT_NAV.map((item) => (

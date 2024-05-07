@@ -32,13 +32,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID ?? ''}>
-      <html lang="en" suppressHydrationWarning>
-        <head>
-          <link rel="icon" href={Favicon.src} />
-        </head>
-        <body className={myLocalFont.className}>
-          <Toaster />
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href={Favicon.src} />
+      </head>
+      <body className={myLocalFont.className}>
+        <Toaster />
+        <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID ?? ''}>
           <AppProvider>
             <AutoRefreshToken />
             <Header />
@@ -46,8 +46,8 @@ export default async function RootLayout({
             <ModalProvider />
             <Footer />
           </AppProvider>
-        </body>
-      </html>
-    </GoogleOAuthProvider>
+        </GoogleOAuthProvider>
+      </body>
+    </html>
   );
 }
