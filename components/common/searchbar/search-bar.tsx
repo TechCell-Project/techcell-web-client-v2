@@ -80,6 +80,7 @@ export const SearchBar = () => {
           </Button>
         </form>
       </Form>
+      
     </Suspense>
   );
 };
