@@ -41,10 +41,15 @@ export default function AppProvider({
     [setUser],
   );
 
+  const handleLogoutCurrentUser = async () => {
+    setUser(null);
+    await authApiRequest.logoutFromNextClientToNextServer(true);
+    localStorage.removeItem('user');
+  };
+
   useEffect(() => {
-    if (!accessToken) {
-      setUser(null);
-      localStorage.removeItem('user');
+    if (!accessToken || accessToken === 'undefined') {
+      handleLogoutCurrentUser();
       return;
     }
     const _user = localStorage.getItem('user');
