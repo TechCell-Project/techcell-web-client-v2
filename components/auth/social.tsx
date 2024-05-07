@@ -10,7 +10,6 @@ import { authApiRequest } from '@/apiRequests';
 import { CASE_AUTH_LOGIN, RootPath } from '@/constants';
 import { useToast } from '@/components/ui/use-toast';
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
-import { hardSetClientSessionToken } from '@/lib/http';
 
 export const Social = () => {
   const router = useRouter();
@@ -26,12 +25,10 @@ export const Social = () => {
         });
 
         await authApiRequest.auth({
-          sessionToken: authGoogleRes.payload.accessToken,
+          accessToken: authGoogleRes.payload.accessToken,
           refreshToken: authGoogleRes.payload.refreshToken,
           expiresAt: authGoogleRes.payload.accessTokenExpires,
         });
-
-        hardSetClientSessionToken(authGoogleRes.payload);
 
         toast({
           variant: 'success',

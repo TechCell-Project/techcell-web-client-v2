@@ -10,15 +10,12 @@ import { LeftNav } from './left-nav';
 
 import { NAV_CATEGORIES, RIGHT_NAV, RootPath } from '@/constants';
 
-import { GetMeResponseDto } from '@techcell/node-sdk';
-
 import Logo from '@/public/logo-red.png';
+import { useAppContext } from '@/providers/app-provider';
 
-interface HeaderProps {
-  user: GetMeResponseDto | null;
-}
+const Header = () => {
+  const { user } = useAppContext();
 
-const Header = ({ user }: HeaderProps) => {
   return (
     <header className="bg-white w-full border-gray-200 py-2 h-16 mb-1">
       <div className="container px-2.5 sm:px-10 h-full flex items-center justify-between">

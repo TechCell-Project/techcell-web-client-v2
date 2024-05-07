@@ -32,16 +32,16 @@ export const authApiRequest = {
 
   resendEmail: (body: ResendConfirmEmail) => http.post(`${ApiPrefix}/email/resend-confirm`, body),
 
-  auth: (body: { sessionToken: string; refreshToken: string; expiresAt: number }) =>
+  auth: (body: { accessToken: string; refreshToken: string; expiresAt: number }) =>
     http.post('/api/auth-client', body, {
       baseUrl: '',
     }),
 
-  logoutFromNextServerToServer: (sessionToken: string) =>
+  logoutFromNextServerToServer: (accessToken: string) =>
     fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}${ApiPrefix}/logout`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${sessionToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }),
 
@@ -64,10 +64,10 @@ export const authApiRequest = {
 
   resetPassword: (body: AuthResetPasswordDto) => http.post(`${ApiPrefix}/reset/password`, body),
 
-  getMe: (sessionToken: string) =>
+  getMe: (accessToken: string) =>
     http.get<GetMeResponseDto>(`${ApiPrefix}/me`, {
       headers: {
-        Authorization: `Bearer ${sessionToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }),
 

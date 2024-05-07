@@ -20,9 +20,11 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { productApiRequest } from '@/apiRequests/product';
 import { NormalCard } from '../common/product-card/normal-card';
 import { ProductInListDto } from '@techcell/node-sdk';
+import { NormalCardSkeleton } from '../common/product-card/normal-card-skeleton';
 
 export const ListProductHot = () => {
   const [products, setProducts] = useState<ProductInListDto[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getProductByTags = async () => {
@@ -34,8 +36,9 @@ export const ListProductHot = () => {
       if (res.status === 200) {
         setProducts(res.payload.data);
       }
-    }
-
+      setIsLoading(false);
+    };
+    setIsLoading(true);
     getProductByTags();
   }, []);
 
@@ -63,26 +66,30 @@ export const ListProductHot = () => {
         </div>
       </div>
       <div className="m-7 sm:m-10">
-        <Swiper
-          slidesPerView={perViewNumber}
-          spaceBetween={10}
-          pagination={{
-            clickable: true,
-          }}
-          autoplay={{
-            delay: 10000,
-            disableOnInteraction: false,
-          }}
-          modules={[Navigation, Autoplay]}
-          className="w-full"
-        >
-          {products.map((product) => (
-            <SwiperSlide key={product.id} className="rounded">
-              <NormalCard key={product.id} product={product} />
-            </SwiperSlide>
-          ))}
-          <SwiperNavButtons />
-        </Swiper>
+        {isLoading ? (
+          <NormalCardSkeleton />
+        ) : (
+          <Swiper
+            slidesPerView={perViewNumber}
+            spaceBetween={10}
+            pagination={{
+              clickable: true,
+            }}
+            autoplay={{
+              delay: 10000,
+              disableOnInteraction: false,
+            }}
+            modules={[Navigation, Autoplay]}
+            className="w-full"
+          >
+            {products.map((product) => (
+              <SwiperSlide key={product.id} className="rounded">
+                <NormalCard key={product.id} product={product} />
+              </SwiperSlide>
+            ))}
+            <SwiperNavButtons />
+          </Swiper>
+        )}
       </div>
     </div>
   );

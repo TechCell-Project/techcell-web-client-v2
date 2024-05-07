@@ -3,7 +3,7 @@ import { UseFormSetError } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { EntityError, HttpError } from './http';
 import { ERROR_MSG } from '@/constants/error';
-import { UserAddressResponseDto } from '@techcell/node-sdk';
+import { UserAddressResponseDto, UserAddressSchema } from '@techcell/node-sdk';
 import { PHONE_CATEGORIES } from '@/constants';
 
 export function cn(...inputs: ClassValue[]) {
@@ -92,7 +92,7 @@ export function getDefaultAddress(addresses: UserAddressResponseDto[]) {
   return result;
 }
 
-export function buildAddressString(address: UserAddressResponseDto): string {
+export function buildAddressString(address: UserAddressResponseDto | UserAddressSchema): string {
   const { detail } = address;
   let { wardLevel, districtLevel, provinceLevel } = address;
   wardLevel = Array.isArray(wardLevel) ? wardLevel[0] : wardLevel;

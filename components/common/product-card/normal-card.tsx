@@ -8,7 +8,12 @@ import TempProductImg from '@/public/phone-test/15-base.jpg';
 import Link from 'next/link';
 import { RootPath } from '@/constants';
 
-export const NormalCard = ({ product }: { product: ProductInListDto }) => {
+interface CardProps {
+  product: ProductInListDto;
+  onClickBuying?: (productId: string) => void;
+}
+
+export const NormalCard = ({ product, onClickBuying }: CardProps) => {
   return (
     <div
       key={product.id}
@@ -46,7 +51,7 @@ export const NormalCard = ({ product }: { product: ProductInListDto }) => {
           và nhiều khuyến mại hấp dẫn khác
         </div>
       )}
-      <BuyingButton productId={product.id} />
+      {onClickBuying && <BuyingButton productId={product.id} onClickBuying={onClickBuying} />}
     </div>
   );
 };

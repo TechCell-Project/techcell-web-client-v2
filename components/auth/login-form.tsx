@@ -19,12 +19,14 @@ import { authApiRequest } from '@/apiRequests';
 import { LoginFormType, LoginSchema } from '@/validationSchemas';
 import { CASE_AUTH_CONFIRM_EMAIL, CASE_AUTH_LOGIN, RootPath } from '@/constants';
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
-import { hardSetClientSessionToken } from '@/lib/http';
+import { useAppContext } from '@/providers/app-provider';
 
 export const LoginForm = () => {
   const router = useRouter();
   const { toast } = useToast();
   const searchParams = useSearchParams();
+  const { setUser } = useAppContext();
+
   const confirmEmail = searchParams.get('confirmEmail');
   const statusCode = searchParams.get('error');
 
@@ -69,17 +71,18 @@ export const LoginForm = () => {
       const res = await authApiRequest.loginEmail(values);
 
       await authApiRequest.auth({
-        sessionToken: res.payload.accessToken,
+        accessToken: res.payload.accessToken,
         refreshToken: res.payload.refreshToken,
         expiresAt: res.payload.accessTokenExpires,
       });
 
-      hardSetClientSessionToken(res.payload);
+      setUser(res.payload.user);
 
       toast({
         variant: 'success',
         title: 'Đăng nhập thành công',
       });
+
       router.push(callbackUrl ?? RootPath.Home);
       router.refresh();
     } catch (error) {

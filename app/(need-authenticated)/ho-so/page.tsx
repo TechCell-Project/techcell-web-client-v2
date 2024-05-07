@@ -3,16 +3,19 @@ import { cookies } from 'next/headers';
 
 import { authApiRequest } from '@/apiRequests';
 import Profile from '@/components/profile/profile';
-import LoadingPage from '@/app/loading';
+import LoadingPageServer from '@/components/common/loading-server';
 
 export default async function ProfilePage() {
   const cookieStore = cookies();
-  const sessionToken = cookieStore.get('sessionToken');
+  const accessToken = cookieStore.get('accessToken');
 
-  const user = await authApiRequest.getMe(sessionToken?.value ?? '');
+  const user = await authApiRequest.getMe(accessToken?.value ?? '');
+
+  console.log('have access token', Boolean(accessToken));
+  console.log(user);
 
   return (
-    <Suspense fallback={<LoadingPage />}>
+    <Suspense fallback={<LoadingPageServer />}>
       <Profile profile={user.payload} />
     </Suspense>
   );

@@ -1,16 +1,11 @@
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
 
 import Favicon from '@/public/favicon.ico';
 import './globals.css';
 
-import { GetMeResponseDto } from '@techcell/node-sdk';
-
 import AppProvider from '@/providers/app-provider';
 
 import { Toaster } from '@/components/ui/toaster';
-
-import { authApiRequest } from '@/apiRequests/auth';
 
 import localFont from 'next/font/local';
 
@@ -36,20 +31,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const storedCookie = cookies();
-  const sessionToken = storedCookie.get('sessionToken');
-  const refreshToken = storedCookie.get('refreshToken');
-
-  console.log('accesstoken ', sessionToken?.value);
-  console.log('refreshtoken ', refreshToken?.value);
-  console.log('all cookies ', storedCookie.getAll());
-
-  let user: GetMeResponseDto | null = null;
-  if (sessionToken) {
-    const userData = await authApiRequest.getMe(sessionToken.value);
-    user = userData.payload;
-  }
-
   return (
     <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID ?? ''}>
       <html lang="en" suppressHydrationWarning>
@@ -58,15 +39,11 @@ export default async function RootLayout({
         </head>
         <body className={myLocalFont.className}>
           <Toaster />
-          <AppProvider
-            initialSessionToken={sessionToken?.value}
-            initialRefreshToken={refreshToken?.value}
-            user={user}
-          >
+          <AppProvider>
             <AutoRefreshToken />
-            {user && <ModalProvider userProfile={user} />}
-            <Header user={user} />
+            <Header />
             <div className="bg-slate-100">{children}</div>
+            <ModalProvider />
             <Footer />
           </AppProvider>
         </body>
