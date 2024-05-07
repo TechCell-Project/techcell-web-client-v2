@@ -34,7 +34,7 @@ const OrderListProduct = ({ products }: OrderListProductProps) => {
                     }}
                   />
                 </div>
-                <div className="flex flex-row justify-between w-[443px] items-center">
+                <div className="flex flex-row justify-between w-full items-center">
                   <div className="flex flex-col ml-4">
                     <span className="text-lg font-semiblod">{phone.productName}</span>
                     <span>{phone.productType}</span>
