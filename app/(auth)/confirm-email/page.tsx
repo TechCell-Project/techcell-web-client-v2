@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 
 import { authApiRequest } from '@/apiRequests/auth';
@@ -37,5 +38,9 @@ export default async function ConfirmEmail({
       redirect(`${RootPath.Login}?emailConfirmed=fail&error=${errorResponse.status}`);
     });
 
-  return <LoadingPageServer />;
+  return (
+    <Suspense>
+      <LoadingPageServer />
+    </Suspense>
+  );
 }
