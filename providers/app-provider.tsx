@@ -3,6 +3,8 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { User } from '@techcell/node-sdk';
 import { isClient } from '@/lib/http';
+import { differenceInHours } from 'date-fns';
+import { authApiRequest } from '@/apiRequests';
 
 const AppContext = createContext<{
   user: User | null;
