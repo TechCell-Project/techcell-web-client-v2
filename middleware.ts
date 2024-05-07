@@ -8,10 +8,10 @@ export const config = {
 
 export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  const sessionToken = request.cookies.get('sessionToken')?.value;
-  const haveSessionToken = !!sessionToken;
+  const accessToken = request.cookies.get('accessToken')?.value;
+  const haveAccessToken = !!accessToken;
   const response = NextResponse.next();
-  console.log(`ROUTE: ${pathname} - ${haveSessionToken ? 'Have session' : 'No session'}`);
+  console.log(`ROUTE: ${pathname} - ${haveAccessToken ? 'Have access' : 'No access'}`);
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
   const isAuthRoute = authRoutes.includes(pathname);
   const isNeedAuthRoute = needAuthRoutes.includes(pathname);
@@ -19,8 +19,8 @@ export function middleware(request: NextRequest) {
   // save current pathname to cookies for redirect after authenticate
   if (!isAuthRoute && !isApiAuthRoute) response.cookies.set('stored-pathname', pathname);
 
-  // redirect previous route if already have session(is logged in) when accessing auth routes
-  if (isAuthRoute && haveSessionToken) {
+  // redirect previous route if already have accessToken(is logged in) when accessing auth routes
+  if (isAuthRoute && haveAccessToken) {
     const storedPathname = request.cookies.get('stored-pathname')?.value;
 
     return storedPathname
@@ -29,7 +29,7 @@ export function middleware(request: NextRequest) {
   }
 
   // not allow access to private routes if not authenticated
-  if (isNeedAuthRoute && !haveSessionToken) {
+  if (isNeedAuthRoute && !haveAccessToken) {
     let callbackUrl = pathname;
     if (search) {
       callbackUrl += search;

@@ -20,13 +20,13 @@ import LogoutButton from './button-logout';
 import { User as UserIcon } from 'lucide-react';
 import { LiaShippingFastSolid } from 'react-icons/lia';
 
-import { GetMeResponseDto } from '@techcell/node-sdk';
+import { User } from '@techcell/node-sdk';
 
 import { IconProps, RootPath } from '@/constants';
 
 import AlternativeAvatar from '@/public/temp/avatarColor.webp';
 
-export const IconUser = ({ user }: { user: GetMeResponseDto }) => {
+export const IconUser = ({ user }: { user: User }) => {
   const { push } = useRouter();
 
   return (
@@ -79,7 +79,7 @@ export const Icon = ({
   desc,
   href,
   user,
-}: IconProps & { user: GetMeResponseDto | null }) => {
+}: IconProps & { user: User | null }) => {
   const { push } = useRouter();
   const pathname = usePathname();
 

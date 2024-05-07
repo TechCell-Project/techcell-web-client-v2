@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { UserAddressResponseDto, UserAddressSchemaDTO } from '@techcell/node-sdk';
+import { UserAddressResponseDto, UserAddressSchema, UserAddressSchemaDTO } from '@techcell/node-sdk';
 import { buildAddressString } from '@/lib/utils';
 import { ADDRESS_TYPES } from '@/constants';
 import { Trash } from 'lucide-react';
@@ -17,7 +17,7 @@ import { toast } from '@/components/ui/use-toast';
 import { authApiRequest } from '@/apiRequests/auth';
 
 interface AddressListProps {
-  list: UserAddressResponseDto[] | undefined;
+  list: UserAddressResponseDto[] | UserAddressSchema[] | undefined;
   onOpenUpdateModal: (index: number) => void;
   onSelectIndex?: (index: number) => void;
   currentIndex?: number;

@@ -13,7 +13,7 @@ export default function Home() {
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
       <div className="container">
-        <HomePage />
+        {/* <HomePage /> */}
       </div>
       
       <div className="bg-slate-100 mt-5">

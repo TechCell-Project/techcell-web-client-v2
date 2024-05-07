@@ -1,39 +1,39 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useEffect } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { authApiRequest } from '@/apiRequests/auth';
 import LoadingPage from '@/app/loading';
-import { clientSessionToken } from '@/lib/http';
 import { RootPath } from '@/constants';
 import NotFoundPage from '@/components/common/not-found';
+import { useAppContext } from '@/providers/app-provider';
 
-export default function Logout() {
+function LogoutLogic() {
+  const pathname = usePathname();
   const { push } = useRouter();
+  const { setUser } = useAppContext();
+
   const searchParams = useSearchParams();
   const sessionToken = searchParams.get('sessionToken');
-  console.log(sessionToken);
-
-  if (!sessionToken) {
-    push(RootPath.Home);
-  }
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const controller = new AbortController();
-      const signal = controller.signal;
-      if (sessionToken === clientSessionToken.accessValue) {
-        authApiRequest.logoutFromNextClientToNextServer(true, signal).then(() => {
-          push(RootPath.Login);
-        });
-      }
-      return () => {
-        controller.abort();
-      };
+    if (!sessionToken) {
+      push(RootPath.Home);
     }
-  }, [sessionToken, push]);
-  
-  if (sessionToken !== clientSessionToken.accessValue) {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    if (sessionToken === localStorage.getItem('accessToken')) {
+      authApiRequest.logoutFromNextClientToNextServer(true, signal).then((res) => {
+        setUser(null);
+        push(`${RootPath.Login}?callbackUrl=${pathname}`);
+      });
+    }
+    return () => {
+      controller.abort();
+    };
+  }, [sessionToken, push, pathname, setUser]);
+
+  if (sessionToken !== localStorage.getItem('accessToken')) {
     return (
       <NotFoundPage
         description="Trang không khả dụng"
@@ -44,4 +44,12 @@ export default function Logout() {
   }
 
   return <LoadingPage />;
+}
+
+export default function LogoutPage() {
+  return (
+    <Suspense>
+      <LogoutLogic />
+    </Suspense>
+  );
 }

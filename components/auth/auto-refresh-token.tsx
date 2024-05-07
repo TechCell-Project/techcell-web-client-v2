@@ -1,24 +1,30 @@
 'use client';
 
 
-import { authApiRequest } from '@/apiRequests/auth';
-import { clientSessionToken } from '@/lib/http';
 import { useEffect } from 'react';
-import { differenceInMinutes } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import { authApiRequest } from '@/apiRequests/auth';
+import { differenceInHours } from 'date-fns';
 
 export default function AutoRefreshToken() {
+  const { refresh } = useRouter();
+
   useEffect(() => {
     const interval = setInterval(async () => {
       const now = new Date();
-      const expiresAt = new Date(clientSessionToken.expiresAt);
-      if (clientSessionToken.refreshValue !== '' && differenceInMinutes(expiresAt, now) < 5) {
+      const accessTokenExpiresAt = localStorage.getItem('accessTokenExpires');
+      const refreshToken = localStorage.getItem('refreshToken');
+      const expiresAt = accessTokenExpiresAt ? new Date(parseInt(accessTokenExpiresAt)) : new Date();
+
+      if (refreshToken && differenceInHours(expiresAt, now) < 1) {
         const res = await authApiRequest.refreshTokenFromNextClientToNextServer();
-        clientSessionToken.expiresAt = new Date(res.payload.accessTokenExpires).toISOString();
-        clientSessionToken.accessValue = res.payload.accessToken;
-        clientSessionToken.refreshValue = res.payload.refreshToken;
+        localStorage.setItem('accessToken', res.payload.accessToken);
+        localStorage.setItem('accessTokenExpires', res.payload.accessTokenExpires.toString());
+        refresh();
       }
-    }, 1000 * 60 * 10);
+    }, 1000 * 60 * 1);
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return null;
 }
