@@ -19,9 +19,9 @@ const cartPageLocation: BreadcrumbProps = {
 
 export default async function Cart() {
   const cookieStore = cookies();
-  const sessionToken = cookieStore.get('sessionToken');
+  const accessToken = cookieStore.get('accessToken');
 
-  if (!sessionToken) {
+  if (!accessToken) {
     return (
       <NotFoundPage
         description="Phiên đăng nhập không khả dụng"
@@ -31,7 +31,7 @@ export default async function Cart() {
     );
   }
 
-  const userCart = await cartApiRequest.getCarts(sessionToken.value ?? '');
+  const userCart = await cartApiRequest.getCarts(accessToken.value ?? '');
 
   if (
     userCart.status !== 200 ||
