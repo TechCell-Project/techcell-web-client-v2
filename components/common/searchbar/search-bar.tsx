@@ -55,7 +55,7 @@ export const SearchBar = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="h-10 bg-inherit flex gap-2 items-center">
+      <form onSubmit={handleSubmit(onSubmit)} className="h-10 w-full sm:w-56 bg-inherit flex gap-2 items-center">
         <FormField
           control={control}
           name="keyword"
@@ -65,7 +65,7 @@ export const SearchBar = () => {
                 <Input
                   type="text"
                   placeholder="Tìm kiếm..."
-                  className="w-56 text-zinc-600 text-base font-semibold h-full px-2 py-1 bg-inherit outline-none rounded-none border-white !border-b-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  className="w-full text-zinc-600 text-base font-semibold h-full px-2 py-1 bg-inherit outline-none rounded-none border-white !border-b-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0"
                   disabled={isSubmitting}
                   {...field}
                 />

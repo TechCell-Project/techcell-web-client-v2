@@ -29,6 +29,9 @@ export default function LogoutButton() {
       });
     } finally {
       setUser(null);
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('accessTokenExpires');
       refresh();
     }
   };

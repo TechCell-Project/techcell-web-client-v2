@@ -51,7 +51,7 @@ export const NormalCard = ({ product, onClickBuying }: CardProps) => {
           và nhiều khuyến mại hấp dẫn khác
         </div>
       )}
-      {/* {onClickBuying && <BuyingButton productId={product.id} onClickBuying={onClickBuying} />} */}
+      {onClickBuying && <BuyingButton productId={product.id} onClickBuying={onClickBuying} />}
     </div>
   );
 };

@@ -52,7 +52,7 @@ interface ProfileFormProps {
 }
 
 export function AddressForm({ index, closeModal, addressList }: Readonly<ProfileFormProps>) {
-  const router = useRouter();
+  const { refresh } = useRouter();
   const [provinces, setProvinces] = useState<GhnProvinceDTO[]>([]);
   const [districts, setDistricts] = useState<GhnDistrictDTO[]>([]);
   const [wards, setWards] = useState<GhnWardDTO[]>([]);
@@ -215,8 +215,8 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
         title: `${index ? 'Cập nhật' : 'Thêm'} địa chỉ thành công`,
       });
 
-      router.refresh();
       closeModal();
+      refresh();
     } catch (error) {
       console.log(error);
       const errorResponse = handleErrorApi({

@@ -1,16 +1,19 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
-import { clientSessionToken } from '@/lib/http';
-import { GetMeResponseDto } from '@techcell/node-sdk';
-import { jwtDecode } from 'jwt-decode';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { User } from '@techcell/node-sdk';
+import { isClient } from '@/lib/http';
+import { differenceInHours } from 'date-fns';
+import { authApiRequest } from '@/apiRequests';
 
 const AppContext = createContext<{
-  user: GetMeResponseDto | null;
-  setUser: (user: GetMeResponseDto | null) => void;
+  user: User | null;
+  setUser: (user: User | null) => void;
+  isAuthenticated: boolean;
 }>({
   user: null,
   setUser: () => {},
+  isAuthenticated: false,
 });
 
 export const useAppContext = () => {
@@ -21,28 +24,41 @@ export const useAppContext = () => {
 
 export default function AppProvider({
   children,
-  initialSessionToken,
-  initialRefreshToken,
-  user: userProp,
 }: Readonly<{
   children: React.ReactNode;
-  initialSessionToken?: string;
-  initialRefreshToken?: string;
-  user: GetMeResponseDto | null;
 }>) {
-  const [user, setUser] = useState<GetMeResponseDto | null>(userProp);
-
-  useState(() => {
-    if (typeof window !== 'undefined') {
-      if (initialSessionToken && initialRefreshToken) {
-        clientSessionToken.accessValue = initialSessionToken;
-        clientSessionToken.refreshValue = initialRefreshToken;
-        clientSessionToken.expiresAt = new Date(
-          jwtDecode(clientSessionToken.accessValue).exp!.toString(),
-        ).toISOString();
-      }
-    }
+  const [user, setUser] = useState<User | null>(() => {
+    return null;
   });
+  const isAuthenticated = Boolean(user);
+  const accessToken = isClient ? localStorage.getItem('accessToken') : null;
 
-  return <AppContext.Provider value={{ user, setUser }}>{children}</AppContext.Provider>;
+  const setUserToStorage = useCallback(
+    (user: User | null) => {
+      setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+    },
+    [setUser],
+  );
+
+  const handleLogoutCurrentUser = async () => {
+    setUser(null);
+    await authApiRequest.logoutFromNextClientToNextServer(true);
+    localStorage.removeItem('user');
+  };
+
+  useEffect(() => {
+    if (!accessToken || accessToken === 'undefined') {
+      handleLogoutCurrentUser();
+      return;
+    }
+    const _user = localStorage.getItem('user');
+    setUser(_user ? JSON.parse(_user) : null);
+  }, [setUser, accessToken]);
+
+  return (
+    <AppContext.Provider value={{ user, setUser: setUserToStorage, isAuthenticated }}>
+      {children}
+    </AppContext.Provider>
+  );
 }

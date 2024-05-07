@@ -21,9 +21,11 @@ import { productApiRequest } from '@/apiRequests/product';
 import { ProductInListDto } from '@techcell/node-sdk';
 import Link from 'next/link';
 import { SuccinctCard } from '../common/product-card/succinct-card';
+import { NormalCardSkeleton } from '../common/product-card/normal-card-skeleton';
 
 export const ListProductHot = () => {
   const [products, setProducts] = useState<ProductInListDto[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getProductByTags = async () => {
@@ -35,8 +37,9 @@ export const ListProductHot = () => {
       if (res.status === 200) {
         setProducts(res.payload.data);
       }
-    }
-
+      setIsLoading(false);
+    };
+    setIsLoading(true);
     getProductByTags();
   }, []);
 
@@ -76,26 +79,31 @@ export const ListProductHot = () => {
         </div>
       </div>
       <div className="m-10">
-        <Swiper
-          slidesPerView={perViewNumber}
-          spaceBetween={10}
-          pagination={{
-            clickable: true,
-          }}
-          autoplay={{
-            delay: 7000,
-            disableOnInteraction: false,
-          }}
-          modules={[Navigation, Autoplay]}
-          className="w-full"
-        >
-          {products.map((product) => (
-            <SwiperSlide key={product.id} className="rounded">
-              <SuccinctCard key={product.id} product={product} />
-            </SwiperSlide>
-          ))}
-          <SwiperNavButtons />
-        </Swiper>
+        {isLoading ? (
+          <NormalCardSkeleton />
+        ) : (
+          <Swiper
+            slidesPerView={perViewNumber}
+            spaceBetween={10}
+            pagination={{
+              clickable: true,
+            }}
+            autoplay={{
+              delay: 7000,
+              disableOnInteraction: false,
+            }}
+            modules={[Navigation, Autoplay]}
+            className="w-full"
+          >
+            {products.map((product) => (
+              <SwiperSlide key={product.id} className="rounded">
+                <SuccinctCard key={product.id} product={product} />
+              </SwiperSlide>
+            ))}
+            <SwiperNavButtons />
+          </Swiper>
+        )}
+
       </div>
       <div className="flex flex-row justify-center block sm:hidden mb-2">
         <Link href={''}>

@@ -1,19 +1,16 @@
 'use client';
 
-import { authApiRequest } from '@/apiRequests';
 import { Button } from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
 import { RootPath } from '@/constants/enum';
-import { clientSessionToken } from '@/lib/http';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ModalInformation } from './modal-information';
 
 interface ButtonProps {
   productId: string;
+  onClickBuying: (productId: string) => void;
 }
 
-export const BuyingButton = ({ productId }: ButtonProps) => {
+export const BuyingButton = ({ productId, onClickBuying }: ButtonProps) => {
   const pathname = usePathname();
   const { refresh, push } = useRouter();
   const [openSelectVariation, setOpenSelectVariation] = useState<boolean>(false);
@@ -28,12 +25,13 @@ export const BuyingButton = ({ productId }: ButtonProps) => {
 
   const handleClickBuy = async () => {
     refresh();
-    const currentUser = clientSessionToken.accessValue;
+    const accessToken = localStorage.getItem('accessToken');
 
-    if (currentUser === '') {
+    if (!accessToken) {
       push(`${RootPath.Login}?callbackUrl=${pathname}`);
       return;
     }
+
     setOpenSelectVariation(true);
   };
 
@@ -42,23 +40,17 @@ export const BuyingButton = ({ productId }: ButtonProps) => {
       <Button
         variant="default"
         className="text-primary w-3/5 border border-solid border-rose-300 bg-white hover:bg-gray-100"
-        onClick={handleClickBuy}
+        onClick={() => onClickBuying(productId)}
       >
         Thêm giỏ hàng
       </Button>
       <Button
         variant="outline"
         className="text-white w-2/5 bg-primary hover:bg-primary-dark hover:text-white"
-        onClick={handleClickBuy}
+        onClick={() => onClickBuying(productId)}
       >
         Mua ngay
       </Button>
-
-      <ModalInformation
-        isOpen={openSelectVariation}
-        onClose={() => setOpenSelectVariation(false)}
-        productId={productId}
-      />
     </div>
   );
 };

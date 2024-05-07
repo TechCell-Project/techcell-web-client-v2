@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { GetMeResponseDto } from '@techcell/node-sdk';
+import { GetMeResponseDto, User } from '@techcell/node-sdk';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -18,7 +18,7 @@ import LogoText from '@/public/logo-text-red.png';
 import { cn } from '@/lib/utils';
 import { PencilLine, Plus } from 'lucide-react';
 import { useAddressModal } from '@/hooks/useAddressModal';
-import { clientSessionToken } from '@/lib/http';
+import { useAppContext } from '@/providers/app-provider';
 
 interface ProfileProps {
   profile: GetMeResponseDto;
@@ -26,6 +26,7 @@ interface ProfileProps {
 
 const Profile = ({ profile }: ProfileProps) => {
   const { onOpen, setAddressIndex } = useAddressModal();
+  const { user, setUser } = useAppContext();
 
   const [isEditInfo, setIsEditInfo] = useState<boolean>(false);
   const [isEditPassword, setIsEditPassword] = useState<boolean>(false);
@@ -46,11 +47,23 @@ const Profile = ({ profile }: ProfileProps) => {
     setIsMounted(true);
   }, []);
 
+  useEffect(() => {
+    const updateUser = {
+      ...user,
+      ...profile as unknown as User,
+      createdAt: undefined,
+      updatedAt: undefined,
+    } as User;
+
+    setUser(updateUser);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile]);
+
   if (!isMounted) {
     return <LoadingPage />;
   }
-
-  console.log(clientSessionToken.accessValue);
+  console.log(profile);
 
   return (
     <MaxWidthWrapper className="sm:max-w-[960px]">
@@ -102,7 +115,7 @@ const Profile = ({ profile }: ProfileProps) => {
               <div className="flex items-center gap-5">
                 <h5 className="w-[54px] sm:w-20 font-semibold">Địa chỉ:</h5>
                 <p className="text-zinc-500 font-normal">
-                  (Sl địa chỉ hiện tại: {profile.address?.length})
+                  (Sl địa chỉ hiện tại: {profile.address ? profile.address.length : 0})
                 </p>
               </div>
               <Button

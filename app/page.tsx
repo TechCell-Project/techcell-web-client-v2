@@ -48,8 +48,6 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-
-        {/* <HomePage /> */}
       </div>
 
       <div className="bg-slate-100 mt-5">
