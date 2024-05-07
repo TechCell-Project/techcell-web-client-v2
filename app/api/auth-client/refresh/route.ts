@@ -28,7 +28,7 @@ export async function POST(request: Request) {
 
     appendHeaders.append(
       'Set-Cookie',
-      `sessionToken=${res.payload.accessToken}; Path=/; HttpOnly; Expires=${newExpriredDate}; SameSite=Lax; Secure`,
+      `accessToken=${res.payload.accessToken}; Path=/; HttpOnly; Expires=${newExpriredDate}; SameSite=Lax; Secure`,
     );
 
     appendHeaders.append(

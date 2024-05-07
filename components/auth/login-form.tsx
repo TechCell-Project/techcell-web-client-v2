@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -19,12 +19,14 @@ import { authApiRequest } from '@/apiRequests';
 import { LoginFormType, LoginSchema } from '@/validationSchemas';
 import { CASE_AUTH_CONFIRM_EMAIL, CASE_AUTH_LOGIN, RootPath } from '@/constants';
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
-import { hardSetClientSessionToken } from '@/lib/http';
+import { useAppContext } from '@/providers/app-provider';
 
 export const LoginForm = () => {
   const router = useRouter();
   const { toast } = useToast();
   const searchParams = useSearchParams();
+  const { setUser } = useAppContext();
+
   const confirmEmail = searchParams.get('confirmEmail');
   const statusCode = searchParams.get('error');
 
@@ -69,17 +71,18 @@ export const LoginForm = () => {
       const res = await authApiRequest.loginEmail(values);
 
       await authApiRequest.auth({
-        sessionToken: res.payload.accessToken,
+        accessToken: res.payload.accessToken,
         refreshToken: res.payload.refreshToken,
         expiresAt: res.payload.accessTokenExpires,
       });
 
-      hardSetClientSessionToken(res.payload);
+      setUser(res.payload.user);
 
       toast({
         variant: 'success',
         title: 'Đăng nhập thành công',
       });
+
       router.push(callbackUrl ?? RootPath.Home);
       router.refresh();
     } catch (error) {
@@ -96,44 +99,46 @@ export const LoginForm = () => {
   }
 
   return (
-    <CardWrapper
-      headerLabel="Đăng nhập"
-      backButtonLabel="Chưa có tài khoản? Đăng ký"
-      backButtonHref={RootPath.Register}
-      showSocial
-    >
-      <Form {...form}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <InputText<LoginFormType>
-            name="email"
-            label="Email"
-            form={form}
-            placeholder="Nhập email"
-          />
+    <Suspense>
+      <CardWrapper
+        headerLabel="Đăng nhập"
+        backButtonLabel="Chưa có tài khoản? Đăng ký"
+        backButtonHref={RootPath.Register}
+        showSocial
+      >
+        <Form {...form}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <InputText<LoginFormType>
+              name="email"
+              label="Email"
+              form={form}
+              placeholder="Nhập email"
+            />
 
-          <InputPassword<LoginFormType>
-            name="password"
-            label="Password"
-            form={form}
-            placeholder="Nhập mật khẩu"
-            disablePasswordEye={watch('password').length === 0}
-          />
+            <InputPassword<LoginFormType>
+              name="password"
+              label="Password"
+              form={form}
+              placeholder="Nhập mật khẩu"
+              disablePasswordEye={watch('password').length === 0}
+            />
 
-          <div className="w-full">
-            <Link
-              href={RootPath.ForgotPassword}
-              className="float-right text-sm text-primary hover:underline"
-            >
-              Quên mật khẩu ?
-            </Link>
-          </div>
+            <div className="w-full">
+              <Link
+                href={RootPath.ForgotPassword}
+                className="float-right text-sm text-primary hover:underline"
+              >
+                Quên mật khẩu ?
+              </Link>
+            </div>
 
-          <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
-            {isSubmitting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-            Đăng nhập
-          </Button>
-        </form>
-      </Form>
-    </CardWrapper>
+            <Button type="submit" className="w-full mt-4" disabled={isSubmitting}>
+              {isSubmitting && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+              Đăng nhập
+            </Button>
+          </form>
+        </Form>
+      </CardWrapper>
+    </Suspense>
   );
 };

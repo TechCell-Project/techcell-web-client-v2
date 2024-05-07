@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { NewPasswordForm } from '@/components/auth/new-password-form';
 import NotFoundPage from '@/components/common/not-found';
@@ -18,5 +18,9 @@ export default function ForgotPasswordPage({
       />
     );
     
-  return <NewPasswordForm hash={searchParams.hash} />;
+  return (
+    <Suspense>
+      <NewPasswordForm hash={searchParams.hash} />
+    </Suspense>
+  );
 }

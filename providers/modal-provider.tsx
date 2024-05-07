@@ -1,27 +1,22 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import AddressModal from "@/components/common/modals/address-modal";
-import { GetMeResponseDto } from "@techcell/node-sdk";
+import { useEffect, useState } from 'react';
+import AddressModal from '@/components/common/modals/address-modal';
 
-interface ModalProviderProps {
-    userProfile: GetMeResponseDto;
-}
+export const ModalProvider = () => {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
-export const ModalProvider = ({ userProfile }: ModalProviderProps) => {
-    const [isMounted, setIsMounted] = useState<boolean>(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+  if (!isMounted) {
+    return null;
+  }
 
-    if (!isMounted) {
-        return null;
-    }
-
-    return (
-        <>
-            <AddressModal addressList={userProfile.address ?? []} />
-        </>
-    )
-}
+  return (
+    <>
+      <AddressModal />
+    </>
+  );
+};

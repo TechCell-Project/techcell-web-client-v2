@@ -6,19 +6,19 @@ import { MessageResType } from '@/validationSchemas';
 const ApiPrefix = ApiTags.Cart;
 
 export const cartApiRequest = {
-  getCarts: (sessionToken: string) =>
+  getCarts: (accessToken: string) =>
     http.get<CartDto>(`${ApiPrefix}`, {
       headers: {
-        Authorization: `Bearer ${sessionToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }),
 
   getCartsFromNextClientToServer: () => http.get<CartDto>(ApiPrefix),
 
-  addProductToCart: (payload: UpdateCartDto, sessionToken: string) =>
+  addProductToCart: (payload: UpdateCartDto, accessToken: string) =>
     http.post<MessageResType>(ApiPrefix, payload, {
       headers: {
-        Authorization: `Bearer ${sessionToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }),
 

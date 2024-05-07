@@ -25,7 +25,6 @@ import { cn, getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { authApiRequest } from '@/apiRequests';
 import { CASE_DEFAULT } from '@/constants';
 import { GetMeResponseDto } from '@techcell/node-sdk';
-import { clientSessionToken } from '@/lib/http';
 
 interface ProfileFormProps {
   initialData: GetMeResponseDto;
@@ -34,7 +33,7 @@ interface ProfileFormProps {
 }
 
 export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<ProfileFormProps>) {
-  const router = useRouter();
+  const { refresh } = useRouter();
 
   const form = useForm<ProfileFormType>({
     mode: 'onChange',
@@ -54,7 +53,6 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
     reset,
   } = form;
   
-  console.log(clientSessionToken.accessValue);
   async function onSubmit(values: ProfileFormType) {
     if (isSubmitting) return;
     try {
@@ -67,7 +65,7 @@ export function UpdateProfile({ initialData, editable, closeEdit }: Readonly<Pro
 
       closeEdit();
       console.log('go here if refresh!');
-      router.refresh();
+      refresh();
     } catch (error) {
       console.log(error);
       const errorResponse = handleErrorApi({

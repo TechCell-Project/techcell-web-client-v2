@@ -1,41 +1,48 @@
 'use client';
 
 import { productApiRequest } from '@/apiRequests/product';
-import { ProductDto, VariationDto } from '@techcell/node-sdk';
+import { ProductDto } from '@techcell/node-sdk';
 import { useEffect, useState } from 'react';
 import SmallLoading from '../small-loading';
 import { SelectProductVariation } from '@/components/product/select-product-variation';
 import { Modal } from '@/components/ui/modal';
 
 interface ModalInformationProps {
-  productId: string;
-  isOpen: boolean;
+  productId: string | null;
   onClose: () => void;
 }
 
-export const ModalInformation = ({ productId, isOpen, onClose }: ModalInformationProps) => {
+export const ModalInformation = ({ productId, onClose }: ModalInformationProps) => {
   const [productDetail, setProductDetail] = useState<ProductDto | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const getVariations = async () => {
+    const getVariations = async (id: string) => {
       setIsLoading(true);
-      const { payload } = await productApiRequest.getProductById({ productId });
+      const { payload } = await productApiRequest.getProductById({ productId: id });
 
       setProductDetail(payload);
       setIsLoading(false);
     };
-    if (isOpen && !productDetail) {
-      getVariations();
+
+    if (productId && !productDetail) {
+      getVariations(productId);
     }
-  }, [isOpen, productId]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productId]);
+
+  const handleClose = () => {
+    setProductDetail(null);
+    onClose();
+  }
 
   return (
-    <Modal title="Chọn sản phẩm" isOpen={isOpen} onClose={onClose}>
+    <Modal title="Chọn sản phẩm" isOpen={Boolean(productId)} onClose={handleClose}>
       {isLoading && <SmallLoading />}
       {productDetail && (
         <div className="w-full">
-          <SelectProductVariation productId={productId} variations={productDetail.variations} />
+          <SelectProductVariation productId={productDetail.productId} variations={productDetail.variations} />
         </div>
       )}
     </Modal>

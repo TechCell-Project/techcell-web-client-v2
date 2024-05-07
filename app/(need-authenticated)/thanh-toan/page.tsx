@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import useUpdateEffect from 'ahooks/lib/useUpdateEffect';
@@ -62,6 +62,7 @@ export default function Order() {
       setPreviewProducts(products);
       setDefaultAddressIndex(parseInt(querryArray[1]));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   useUpdateEffect(() => {
@@ -106,10 +107,12 @@ export default function Order() {
   }
 
   return (
-    <div className="space-y-5">
-      <Breadcrumb links={paymentPageLocation.links} />
-      <OrderPreview previewData={previewOrderData} />
-      <div className="h-1"></div>
-    </div>
+    <Suspense>
+      <div className="space-y-5">
+        <Breadcrumb links={paymentPageLocation.links} />
+        <OrderPreview previewData={previewOrderData} />
+        <div className="h-1"></div>
+      </div>
+    </Suspense>
   );
 }

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   console.log(req);
   const force = req.force as boolean | undefined;
   const appendHeaders = new Headers();
-  appendHeaders.append('Set-Cookie', 'sessionToken=; Path=/; HttpOnly; Max-Age=0');
+  appendHeaders.append('Set-Cookie', 'accessToken=; Path=/; HttpOnly; Max-Age=0');
   appendHeaders.append('Set-Cookie', 'refreshToken=; Path=/; HttpOnly; Max-Age=0');
 
   if (force) {
@@ -22,17 +22,17 @@ export async function POST(request: Request) {
     );
   }
   const cookieStore = cookies();
-  const sessionToken = cookieStore.get('sessionToken');
-  if (!sessionToken) {
+  const accessToken = cookieStore.get('accessToken');
+  if (!accessToken) {
     return Response.json(
-      { message: 'Không nhận được session token' },
+      { message: 'Không nhận được access token' },
       {
         status: 401,
       },
     );
   }
   try {
-    await authApiRequest.logoutFromNextServerToServer(sessionToken.value);
+    await authApiRequest.logoutFromNextServerToServer(accessToken.value);
 
     return new Response(null, {
       status: 204,
