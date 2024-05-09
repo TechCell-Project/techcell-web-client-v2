@@ -12,20 +12,20 @@ export type ProductCartProps = {
 const TableCartDetails = ({ product }: Readonly<ProductCartProps>) => {
   return (
     <>
-      <TableCell className="max-w-[120px] w-[31%] sm:w-full h-[120px] flex flex-col items-center">
+      <TableCell className=" w-[31%] sm:w-full md:w-full lg:w-full xl:w-full 2xl:w-[100px] h-auto flex flex-col items-center">
        <Image
           src={product.variation.image ? product.variation.image.url : AlternativeImg.src}
           alt={product.productName}
           width={400}
           height={400}
-          className="h-[120px] w-[120px] object-cover object-center"
+          className="h-[80px] w-[80px] object-cover object-center"
         />
       </TableCell>
-      <TableCell className='my-1 w-[34%] sm:w-full'>
+      <TableCell className='my-1 w-[34%] sm:w-full md:w-full lg:w-full xl:w-full 2xl:w-full text-center'>
         <div className="sm:text-sm font-semibold">{product.productName}</div>
         <div>{getVariationString(product.variation.attributes)}</div>
       </TableCell>
-      <TableCell className="my-2 w-[35%] sm:w-full text-primary text-sm sm:text-base font-semibold text-center">
+      <TableCell className="my-2 w-[35%] sm:w-full md:w-full lg:w-full xl:w-full 2xl:w-full text-primary text-sm sm:text-base font-semibold text-center">
         <div>
           {currencyFormat(
             (product.variation.price.special !== 0
@@ -40,7 +40,7 @@ const TableCartDetails = ({ product }: Readonly<ProductCartProps>) => {
           </div>
         )}
       </TableCell>
-      <TableCell className="p-0">
+      <TableCell className="p-0 mb-2">
         <UpdateProductCart
           product={{
             productId: product.productId,

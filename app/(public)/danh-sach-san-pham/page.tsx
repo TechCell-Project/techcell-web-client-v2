@@ -78,9 +78,9 @@ export default async function ProductsPage({ searchParams }: Readonly<Props>) {
     productApiRequest.getProducts(payload),
     productApiRequest.getProducts({
       limit: 4,
-      filters: JSON.stringify(
-        relevantKeyword ? { keyword: relevantKeyword } : { tagIds: ['661b7c09128dfd9b6b3e19da'] },
-      ),
+      // filters: JSON.stringify(
+      //   relevantKeyword ? { keyword: relevantKeyword } : { tagIds: ['661b7c09128dfd9b6b3e19da'] },
+      // ),
     }),
   ];
 

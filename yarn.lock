@@ -5081,12 +5081,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"regex-vietnamese@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "regex-vietnamese@npm:2.0.1"
+"regex-vietnamese@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "regex-vietnamese@npm:2.0.3"
   dependencies:
     diacritics: "npm:^1.3.0"
-  checksum: 10c0/063eeb713ade9f7fd9e12fd53026bd335adf954cd99a780efa5473183a190d0368a325c92577dbdddae356d2c68b0701fb7aea1afbcf626955fead7de5562f63
+  checksum: 10c0/15bfc6359efd433852e57d977d3b27e15bc287bb6f300d72cbb693dc14a36882e45a2a6f84ed5eeda1e94385c652f839603a9ca77197fcac58b6e2571462a580
   languageName: node
   linkType: hard
 
@@ -5807,7 +5807,7 @@ __metadata:
     react-intersection-observer: "npm:^9.8.2"
     react-multi-carousel: "npm:^2.8.5"
     react-spinners: "npm:^0.13.8"
-    regex-vietnamese: "npm:^2.0.1"
+    regex-vietnamese: "npm:^2.0.3"
     sass: "npm:^1.75.0"
     sharp: "npm:^0.33.3"
     swiper: "npm:^11.1.1"
