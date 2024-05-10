@@ -1,21 +1,55 @@
 import { BENEFIT_SECTION, HOME_SLOGAN, IMAGE_CAROUSEL } from '@/constants/common';
 import { SwiperCarousel } from '@/components/home/swiper-carousel';
 import HomePage from '@/components/home/home-page';
+import { ListProductHot } from '@/components/home/list-product-hot';
+import Image from 'next/image';
+import Banner from '@/public/banner/banner.png';
+import { ListProduct } from '@/components/home/list-product';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { RootPath } from "@/constants/enum";
 
 export default function Home() {
 
   return (
     <main>
-      <h2 className="w-full hidden sm:block text-base uppercase bg-primary text-white py-2.5 text-center">
+      <div className="h-16"></div>
+
+      {/* <h2 className="w-full hidden sm:block text-base uppercase bg-primary text-white py-2.5 text-center">
         {HOME_SLOGAN}
-      </h2>
+      </h2> */}
 
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
       <div className="container">
-        {/* <HomePage /> */}
+
+        <ListProductHot />
+
+        <div className="mt-[10px]">
+          <Image
+            src={Banner.src}
+            sizes="100vw"
+            width={1320}
+            height={300}
+            alt="banner"
+            className="w-full h-auto rounded-sm"
+          />
+        </div>
+
+        <ListProduct />
+
+        <div className="flex flex-row justify-center my-5">
+          <Link href={RootPath.ProductList}>
+            <Button
+              variant="default"
+              className="text-primary border border-solid border-rose-300 bg-white hover:bg-primary hover:text-white text-[14px] sm:text-[16px] font-bold uppercase "
+            >
+              Xem tất cả
+            </Button>
+          </Link>
+        </div>
       </div>
-      
+
       <div className="bg-slate-100 mt-5">
         <div className="max-w-full px-0 sm:container">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

@@ -2,8 +2,8 @@
 
 import { ProductInListDto } from '@techcell/node-sdk';
 import { productApiRequest } from '@/apiRequests/product';
-import { NormalCard } from '../common/product-card/normal-card';
 import { useEffect, useState } from 'react';
+import { SuccinctCard } from '../common/product-card/succinct-card';
 
 export const ListProduct = async () => {
 
@@ -11,7 +11,9 @@ export const ListProduct = async () => {
 
   useEffect(() => {
     const getProductByTags = async () => {
-      const res = await productApiRequest.getProducts({});
+      const res = await productApiRequest.getProducts({
+        limit: 8,
+      });
 
       if (res.status === 200) {
         setProducts(res.payload.data);
@@ -22,9 +24,9 @@ export const ListProduct = async () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="w-full flex flex-col items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-7">
       {products.map((product) => (
-        <NormalCard key={product.id} product={product} />
+        <SuccinctCard key={product.id} product={product} />
       ))}
     </div>
   );
