@@ -7,24 +7,23 @@ import Banner from '@/public/banner/banner.png';
 import { ListProduct } from '@/components/home/list-product';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { RootPath } from "@/constants/enum";
+import { RootPath } from '@/constants/enum';
+import MaxWidthWrapper from '@/components/common/max-width-wrapper';
 
 export default function Home() {
-
   return (
     <main>
-      <div className="h-16"></div>
-
-      {/* <h2 className="w-full hidden sm:block text-base uppercase bg-primary text-white py-2.5 text-center">
+      <h2 className="w-full hidden sm:block text-base uppercase bg-primary text-white py-2.5 text-center">
         {HOME_SLOGAN}
-      </h2> */}
+      </h2>
 
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
       <div className="container">
-
         <ListProductHot />
+      </div>
 
+      <MaxWidthWrapper>
         <div className="mt-[10px]">
           <Image
             src={Banner.src}
@@ -48,7 +47,7 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-      </div>
+      </MaxWidthWrapper>
 
       <div className="bg-slate-100 mt-5">
         <div className="max-w-full px-0 sm:container">
