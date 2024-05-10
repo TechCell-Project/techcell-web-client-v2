@@ -202,6 +202,7 @@ export const SearchBar = () => {
     control,
     watch,
     setValue,
+    reset,
   } = form;
 
   const keywordValue = watch('keyword');
@@ -308,7 +309,7 @@ export const SearchBar = () => {
           />
 
           {open && (
-            <FloatingFocusManager context={context} modal={false}>
+            <FloatingFocusManager context={context} returnFocus={false} closeOnFocusOut>
               <div
                 ref={refs.setFloating}
                 aria-labelledby={headingId}
@@ -346,8 +347,8 @@ export const SearchBar = () => {
                           key={product.id}
                           product={product}
                           handleClick={() => {
+                            reset();
                             setOpen(false);
-                            setValue('keyword', '');
                           }}
                         />
                       ))}
