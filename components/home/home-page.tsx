@@ -6,7 +6,6 @@ import BrandHomePage from '../brands/brand';
 import { ListProductHot } from './list-product-hot';
 import BannerSection from './banner-page';
 import { ListProduct } from './list-product';
-import ProductsPage from '@/app/(public)/danh-sach-san-pham/page';
 
 const HomePage = () => {
   return (
