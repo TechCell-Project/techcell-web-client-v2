@@ -171,6 +171,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@floating-ui/react@npm:^0.26.13":
+  version: 0.26.13
+  resolution: "@floating-ui/react@npm:0.26.13"
+  dependencies:
+    "@floating-ui/react-dom": "npm:^2.0.0"
+    "@floating-ui/utils": "npm:^0.2.0"
+    tabbable: "npm:^6.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 10c0/8a6004fc4ef11468bb26a8f5624d74f4cdb9389583c2c7716c61f3a6df2451ce76dfcc73f862320d51bc667b212a336acb303048d4c3906f4e97679ac1de478d
+  languageName: node
+  linkType: hard
+
 "@floating-ui/utils@npm:^0.2.0, @floating-ui/utils@npm:^0.2.1":
   version: 0.2.1
   resolution: "@floating-ui/utils@npm:0.2.1"
@@ -1521,12 +1535,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@techcell/node-sdk@npm:0.0.1-b2467ae":
-  version: 0.0.1-b2467ae
-  resolution: "@techcell/node-sdk@npm:0.0.1-b2467ae"
+"@techcell/node-sdk@npm:0.0.1-0562a47":
+  version: 0.0.1-0562a47
+  resolution: "@techcell/node-sdk@npm:0.0.1-0562a47"
   dependencies:
     axios: "npm:^1.6.1"
-  checksum: 10c0/269cf8fa34ee6ccbb8d00c2d4d2a0de08a9515b8d33d2c54a751dba7def720f38460de53ad2e9a14df98065775df9d185a38e40e7c24700126f2c632bd8d5383
+  checksum: 10c0/62efa441f74e29cbb3e92fadd1376a0f7f1ba7e5de8cdcdd3742643d919aef3b2be0172a89addd2df56b40ea71263739f1af4e9128b2d56a41d0a55b425f7a3a
   languageName: node
   linkType: hard
 
@@ -5683,6 +5697,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tabbable@npm:^6.0.0":
+  version: 6.2.0
+  resolution: "tabbable@npm:6.2.0"
+  checksum: 10c0/ced8b38f05f2de62cd46836d77c2646c42b8c9713f5bd265daf0e78ff5ac73d3ba48a7ca45f348bafeef29b23da7187c72250742d37627883ef89cbd7fa76898
+  languageName: node
+  linkType: hard
+
 "tailwind-merge@npm:^2.2.2":
   version: 2.2.2
   resolution: "tailwind-merge@npm:2.2.2"
@@ -5759,6 +5780,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "techcell-client-new@workspace:."
   dependencies:
+    "@floating-ui/react": "npm:^0.26.13"
     "@hookform/resolvers": "npm:^3.3.4"
     "@radix-ui/react-avatar": "npm:^1.0.4"
     "@radix-ui/react-checkbox": "npm:^1.0.4"
@@ -5778,7 +5800,7 @@ __metadata:
     "@react-oauth/google": "npm:^0.12.1"
     "@tanstack/eslint-plugin-query": "npm:^5.28.11"
     "@tanstack/react-query": "npm:^5.28.14"
-    "@techcell/node-sdk": "npm:0.0.1-b2467ae"
+    "@techcell/node-sdk": "npm:0.0.1-0562a47"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"

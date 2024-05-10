@@ -41,7 +41,7 @@ export default async function CartPage({ cartProducts }: Readonly<CartPageProps>
     getProductVariation(product.productId, product.skuId, product.quantity),
   );
 
-  const cartProductsDetail = await Promise.all(promises);
+  const cartProductsList = await Promise.all(promises);
 
   return (
     <div className="px-5 sm:container pb-4 h-auto">
@@ -51,7 +51,7 @@ export default async function CartPage({ cartProducts }: Readonly<CartPageProps>
           <div className="flex flex-col gap-4">
             {/* danh sách sản phẩm */}
             <div className="p-4 w-full bg-white rounded-md h-auto">
-              <ListProductCart products={cartProductsDetail} />
+              <ListProductCart products={cartProductsList} />
             </div>
 
             {/* chọn địa chỉ */}
@@ -65,7 +65,7 @@ export default async function CartPage({ cartProducts }: Readonly<CartPageProps>
           </div>
         </div>
         <div className="w-full sm:w-1/3 md:w-1/3 lg:w-1/3 xl:w-1/3 h-[100px]  sticky top-4">
-          <ButtonCart  products={cartProductsDetail}/>
+          <ButtonCart  products={cartProductsList}/>
         </div>
       </div>
 
