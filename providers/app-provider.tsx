@@ -3,6 +3,8 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { User } from '@techcell/node-sdk';
 import { isClient } from '@/lib/http';
+import { differenceInHours } from 'date-fns';
+import { authApiRequest } from '@/apiRequests';
 
 const AppContext = createContext<{
   user: User | null;
@@ -39,10 +41,15 @@ export default function AppProvider({
     [setUser],
   );
 
+  const handleLogoutCurrentUser = async () => {
+    setUser(null);
+    await authApiRequest.logoutFromNextClientToNextServer(true);
+    localStorage.removeItem('user');
+  };
+
   useEffect(() => {
-    if (!accessToken) {
-      setUser(null);
-      localStorage.removeItem('user');
+    if (!accessToken || accessToken === 'undefined') {
+      handleLogoutCurrentUser();
       return;
     }
     const _user = localStorage.getItem('user');

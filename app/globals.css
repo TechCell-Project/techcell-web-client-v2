@@ -148,6 +148,14 @@ iframe {
   opacity: 100%;
 }
 
+/* floating-ui */
+[role="listbox"] ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* keyframes */
 @keyframes slideDown {
   from {
     height: 0;

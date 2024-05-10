@@ -13,7 +13,7 @@ const TableCartDetails = ({ product }: Readonly<ProductCartProps>) => {
   return (
     <>
       <TableCell className=" w-[31%] sm:w-full md:w-full lg:w-full xl:w-full 2xl:w-[100px] h-auto flex flex-col items-center">
-       <Image
+        <Image
           src={product.variation.image ? product.variation.image.url : AlternativeImg.src}
           alt={product.productName}
           width={400}
@@ -21,7 +21,7 @@ const TableCartDetails = ({ product }: Readonly<ProductCartProps>) => {
           className="h-[80px] w-[80px] object-cover object-center"
         />
       </TableCell>
-      <TableCell className='my-1 w-[34%] sm:w-full md:w-full lg:w-full xl:w-full 2xl:w-full text-center'>
+      <TableCell className="my-1 w-[34%] sm:w-full md:w-full lg:w-full xl:w-full 2xl:w-full text-center">
         <div className="sm:text-sm font-semibold">{product.productName}</div>
         <div>{getVariationString(product.variation.attributes)}</div>
       </TableCell>
