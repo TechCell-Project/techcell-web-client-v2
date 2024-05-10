@@ -31,7 +31,6 @@ const HomePage = () => {
                 />
             </div>
 
-            {/* <ProductsPage /> */}
         </div>
     );
 };

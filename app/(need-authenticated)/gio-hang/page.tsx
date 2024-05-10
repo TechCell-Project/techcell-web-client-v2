@@ -39,9 +39,12 @@ export default async function Cart() {
     userCart.payload.products.length === 0
   ) {
     return (
-      <div className="px-5 sm:container sm:max-w-[640px] lg:max-w-[768px]">
-        <CartEmpty />
-      </div>
+      <>
+        <div className="h-16"></div>
+        <div className="px-5 sm:container sm:max-w-[640px] lg:max-w-[768px]">
+          <CartEmpty />
+        </div>
+      </>
     );
   }
 
