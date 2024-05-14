@@ -3,7 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { UserAddressResponseDto, UserAddressSchema, UserAddressSchemaDTO } from '@techcell/node-sdk';
+import {
+  User,
+  UserAddressResponseDto,
+  UserAddressSchema,
+  UserAddressSchemaDTO,
+} from '@techcell/node-sdk';
 import { buildAddressString } from '@/lib/utils';
 import { ADDRESS_TYPES } from '@/constants';
 import { Trash } from 'lucide-react';
@@ -15,6 +20,7 @@ import { Modal } from '@/components/ui/modal';
 import { DialogFooter } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 import { authApiRequest } from '@/apiRequests/auth';
+import { useAppContext } from '@/providers/app-provider';
 
 interface AddressListProps {
   list: UserAddressResponseDto[] | UserAddressSchema[] | undefined;
@@ -35,6 +41,7 @@ export function UserAddressList({
   currentIndex,
 }: Readonly<AddressListProps>) {
   const { refresh } = useRouter();
+  const { user, setUser } = useAppContext();
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>(currentIndex ?? 0);
   const [openSetDefault, setOpenSetDefault] = useState<boolean>(false);
   const [openDeleteAddress, setOpenDeleteAddress] = useState<DeleteAddressDialog>({
@@ -52,7 +59,7 @@ export function UserAddressList({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAddressIndex]);
 
-  if (!list) {
+  if (!list || list.length === 0) {
     return (
       <div className="w-full h-10 flex items-center justify-center text-foreground text-base">
         <p>Bạn chưa có địa chỉ nào</p>
@@ -68,11 +75,16 @@ export function UserAddressList({
           ...address,
           isDefault: index === selectedAddressIndex,
         };
-      }) as unknown as UserAddressSchemaDTO[];
+      });
 
       await authApiRequest.updateMe({
-        address: payload,
+        address: payload as UserAddressSchemaDTO[],
       });
+
+      setUser({
+        ...user,
+        address: payload as UserAddressSchema[],
+      } as User);
 
       toast({
         variant: 'success',
@@ -101,6 +113,11 @@ export function UserAddressList({
       await authApiRequest.updateMe({
         address: payload,
       });
+
+      setUser({
+        ...user,
+        address: payload as UserAddressSchema[],
+      } as User);
 
       toast({
         variant: 'success',

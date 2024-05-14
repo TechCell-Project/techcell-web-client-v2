@@ -22,7 +22,9 @@ import {
   GhnDistrictDTO,
   GhnProvinceDTO,
   GhnWardDTO,
+  User,
   UserAddressResponseDto,
+  UserAddressSchema,
   UserAddressSchemaDTO,
   UserAddressSchemaDTOTypeEnum,
 } from '@techcell/node-sdk';
@@ -30,6 +32,7 @@ import { ADDRESS_TYPES, AddressType, CASE_DEFAULT } from '@/constants';
 
 import { getErrorMsg, handleErrorApi } from '@/lib/utils';
 import { useUpdateEffect } from 'ahooks';
+import { useAppContext } from '@/providers/app-provider';
 
 const getUserAddressData = (index: number, addressList: UserAddressResponseDto[]) => {
   const currentAddressData = {
@@ -53,6 +56,7 @@ interface ProfileFormProps {
 
 export function AddressForm({ index, closeModal, addressList }: Readonly<ProfileFormProps>) {
   const { refresh } = useRouter();
+  const { user, setUser } = useAppContext();
   const [provinces, setProvinces] = useState<GhnProvinceDTO[]>([]);
   const [districts, setDistricts] = useState<GhnDistrictDTO[]>([]);
   const [wards, setWards] = useState<GhnWardDTO[]>([]);
@@ -186,29 +190,40 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
     try {
       console.log(values);
       console.log("index", index);
+      let payload = addressList.map((address) => {
+        return {
+          ...address,
+          provinceLevel: { provinceId: address.provinceLevel.provinceId },
+          districtLevel: { districtId: address.districtLevel.districtId },
+          wardLevel: { wardCode: address.wardLevel.wardCode },
+        } as UserAddressSchemaDTO;
+      });
+
       if (!index && index !== 0) {
+        payload.push({
+          ...values,
+          type: values.type as UserAddressSchemaDTOTypeEnum,
+        });
+
         await authApiRequest.updateMe({
-          address: [...addressList, values] as Array<UserAddressSchemaDTO>,
+          address: payload,
         });
       } else {
-        let payload: UserAddressSchemaDTO[] = addressList.map((address) => {
-          return {
-            ...address,
-            provinceLevel: { provinceId: address.provinceLevel.provinceId },
-            districtLevel: { districtId: address.districtLevel.districtId },
-            wardLevel: { wardCode: address.wardLevel.wardCode },
-          } as unknown as UserAddressSchemaDTO;
-        });
         payload[index] = {
           ...values,
           type: values.type as UserAddressSchemaDTOTypeEnum,
           isDefault: addressList[index].isDefault,
         };
-        console.log(payload[index]);
+
         await authApiRequest.updateMe({
           address: payload,
         });
       }
+
+      setUser({
+        ...user,
+        address: payload as UserAddressSchema[],
+      } as User);
 
       toast({
         variant: 'success',
