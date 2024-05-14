@@ -1,6 +1,5 @@
 'use client';
 
-
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 import { ProductCart } from '@/types/cart.type';
@@ -13,28 +12,29 @@ export type ListProductCartProps = {
 
 export default function ListProductCart({ products }: Readonly<ListProductCartProps>) {
   return (
-    <div className="">
-      <Table>
-        <TableHeader className='hidden sm:contents'>
-          <TableRow className=''>
-            <TableHead className="font-bold text-center">Hình ảnh </TableHead>
-            <TableHead className="font-medium text-center">Tên</TableHead>
-            <TableHead className="font-medium text-center">Giá</TableHead>
-            <TableHead className="font-medium text-center">Số lượng</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {products.map((product) => (
-            <TableRow
-              key={product.variation?.skuId}
-              className='flex flex-wrap justify-end sm:contents'
-            >
-              <TableCartDetails product={product} />
+    <div className="flex flex-col gap-4">
+      <div className="p-4 w-full bg-white rounded-md h-auto">
+        <Table>
+          <TableHeader className="hidden sm:contents">
+            <TableRow className="">
+              <TableHead className="font-bold text-center">Hình ảnh </TableHead>
+              <TableHead className="font-medium text-center">Tên</TableHead>
+              <TableHead className="font-medium text-center">Giá</TableHead>
+              <TableHead className="font-medium text-center">Số lượng</TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
+          </TableHeader>
+          <TableBody className="">
+            {products.map((product) => (
+              <TableRow
+                key={product.variation?.skuId}
+                className="flex flex-wrap justify-end items-center sm:table-row"
+              >
+                <TableCartDetails product={product} />
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

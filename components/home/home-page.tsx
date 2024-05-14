@@ -7,32 +7,29 @@ import { ListProductHot } from './list-product-hot';
 import BannerSection from './banner-page';
 import { ListProduct } from './list-product';
 
-
 const HomePage = () => {
-    return (
-        <div className="max-w-[!1320px]">
+  return (
+    <div className="max-w-[!1320px]">
+      <BannerSection />
 
-            <BannerSection />
+      <ListProductHot />
 
-            <ListProductHot />
+      <BrandHomePage />
 
-            <BrandHomePage />
+      <ListProduct />
 
-            <ListProduct />
-
-            <div className="mt-[10px]">
-                <Image
-                    src={Banner.src}
-                    sizes="100vw"
-                    width={1320}
-                    height={300}
-                    alt="banner"
-                    className="w-full h-auto rounded-sm"
-                />
-            </div>
-
-        </div>
-    );
+      <div className="mt-[10px]">
+        <Image
+          src={Banner.src}
+          sizes="100vw"
+          width={1320}
+          height={300}
+          alt="banner"
+          className="w-full h-auto rounded-sm"
+        />
+      </div>
+    </div>
+  );
 };
 
 export default HomePage;

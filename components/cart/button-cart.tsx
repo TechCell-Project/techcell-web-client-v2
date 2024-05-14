@@ -6,53 +6,23 @@ import { useEffect, useState } from 'react';
 import { RootPath } from '@/constants';
 import { useRouter } from 'next/navigation';
 import { authApiRequest } from '@/apiRequests';
+import { currencyFormat } from '@/utilities/func.util';
+
 export type ListProductCartProps = {
-  products: ProductCart[];
+  totalPrice: number;
+  handleClick: () => void;
+  isLoading: boolean;
 };
 
-const ButtonCart = ({ products }: Readonly<ListProductCartProps>) => {
-  const { push } = useRouter();
-  const [selectedSku, setSelectedSku] = useState<string[]>([]);
-  const [defaultAddressIndex, setDefaultAddressIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    const getDefaultIndex = async () => {
-      const { payload } = await authApiRequest.getMeClient();
-
-      if (payload.address) {
-        setDefaultAddressIndex(payload.address.findIndex((address) => address.isDefault));
-      }
-    };
-    getDefaultIndex();
-  }, []);
-  const { run } = useDebounceFn(
-    () => {
-      const matchedProduct = products.filter((product) =>
-        selectedSku.includes(product.variation.skuId),
-      );
-
-      const productsToPreview = matchedProduct.map((product) => {
-        return `${product.variation.skuId}-${product.quantity}`;
-      });
-
-      localStorage.setItem(
-        'selected-sku',
-        productsToPreview.toString() + '/' + defaultAddressIndex?.toString(),
-      );
-      push(RootPath.Payment);
-    },
-    {
-      wait: 1000,
-    },
-  );
-
+const ButtonCart = ({ totalPrice, handleClick, isLoading }: Readonly<ListProductCartProps>) => {
   const handleClickCheckout = () => {
-    run();
+    handleClick();
   };
+
   return (
     <div className="flex justify-between items-center bg-white h-20 px-2.5 sm:px-5 rounded-xl">
-      <span className="text-lg">Tạm tính: </span>
-      <Button variant="default" onClick={handleClickCheckout}>
+      <span className="text-lg">Tạm tính: <span className='text-primary'>{currencyFormat(totalPrice)}</span></span>
+      <Button variant="default" onClick={handleClickCheckout} disabled={isLoading}>
         <span>Tiến hành đặt hàng</span>
       </Button>
     </div>
