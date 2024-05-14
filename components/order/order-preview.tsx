@@ -29,8 +29,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Form } from '@/components/ui/form';
 import { InputText } from '@/components/common/form/input-text';
-import { toast } from '../ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { RootPath } from '@/constants';
+import { Icons } from '@/components/icons';
 
 interface OrderPreviewProps {
   previewData: PreviewOrderResponseDto;
@@ -42,6 +43,8 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number | undefined>(undefined);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<CreateOrderDtoPaymentMethodEnum>(CreateOrderDtoPaymentMethodEnum.Cod);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getAddressList = async () => {
@@ -89,6 +92,7 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
       });
       return;
     }
+    setIsLoading(true);
     try {
       const payload: CreateOrderDto = {
         ...values,
@@ -120,11 +124,13 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
         variant: 'destructive',
         title: 'Thanh toán thất bại',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="px-5 w-full h-fit sm:container sm:max-w-[640px] lg:max-w-[768px] bg-white mb-5 rounded-md">
+    <div className="px-5 pb-5 w-full h-fit sm:container sm:max-w-[640px] lg:max-w-[768px] bg-white mb-5 rounded-md">
       <div className="w-full text-center flex items-center px-4 py-2">
         <BackButton />
         <div className='w-full'>
@@ -162,13 +168,16 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
             disabled={isSubmitting}
             isTextArea={true}
           />
-          <div className="w-full flex justify-between">
-            <div className="text-[18px] font-bold">Tổng tiền tạm tính : </div>
-            <div className="text-primary font-bold">{currencyFormat(previewData.totalPrice)}</div>
+          <div className='w-full flex flex-col gap-5'>
+            <div className="w-full flex justify-between">
+              <div className="text-[18px] font-bold">Tổng tiền tạm tính : </div>
+              <div className="text-primary font-bold">{currencyFormat(previewData.totalPrice)}</div>
+            </div>
+            <Button className="w-full text-lg" type="submit" disabled={isLoading}>
+              {isLoading && <Icons.spinner className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />}
+              Đặt hàng
+            </Button>
           </div>
-          <Button className="w-full text-lg" type="submit">
-            Đặt hàng
-          </Button>
         </form>
       </Form>
     </div>

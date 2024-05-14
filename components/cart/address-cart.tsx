@@ -36,7 +36,7 @@ const AddressCart = () => {
   };
     return (
         <>
-            <h4 className="font-semibold text-xl">Thay đổi địa chỉ</h4>
+            <h4 className="font-semibold text-xl">Chọn địa chỉ</h4>
               <UserAddressList
                 list={addressList}
                 onOpenUpdateModal={handleOpenUpdateAddress}
