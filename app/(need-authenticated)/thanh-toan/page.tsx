@@ -18,6 +18,7 @@ import NotFoundPage from '@/components/common/not-found';
 import { toast } from '@/components/ui/use-toast';
 import OrderPreview from '@/components/order/order-preview';
 import { Breadcrumb, BreadcrumbProps } from '@/components/common/breadcrumbs';
+import { useOrderPreviewStore } from '@/providers/order-preview-store-provider';
 
 const paymentPageLocation: BreadcrumbProps = {
   links: [
@@ -40,77 +41,81 @@ export default function Order() {
   const [defaultAddressIndex, setDefaultAddressIndex] = useState<number | null>(null);
   const [previewOrderData, setPreviewOrderData] = useState<PreviewOrderResponseDto | null>(null);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saveSkuIds = searchParams.get('buy-now')
-        ? localStorage.getItem('selected-buy-now')
-        : localStorage.getItem('selected-sku');
+  const { previewData } = useOrderPreviewStore((state) => state);
 
-      if (!saveSkuIds) {
-        push(RootPath.Cart);
-        return;
-      }
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const saveSkuIds = searchParams.get('buy-now')
+  //       ? localStorage.getItem('selected-buy-now')
+  //       : localStorage.getItem('selected-sku');
 
-      const querryArray = saveSkuIds.split('/');
-      const products = querryArray[0].split(',').map((product) => {
-        const data = product.split('-');
-        return {
-          skuId: data[0],
-          quantity: parseInt(data[1]),
-        };
-      });
-      setPreviewProducts(products);
-      setDefaultAddressIndex(parseInt(querryArray[1]));
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  //     if (!saveSkuIds) {
+  //       push(RootPath.Cart);
+  //       return;
+  //     }
 
-  useUpdateEffect(() => {
-    const previewOrder = async (products: ProductInOrderDto[], addressIndex: number) => {
-      setIsLoading(true);
-      try {
-        const { payload } = await orderApiRequest.previewOrder({
-          products,
-          addressIndex,
-          paymentMethod: PreviewOrderDtoPaymentMethodEnum.Cod,
-        });
+  //     const querryArray = saveSkuIds.split('/');
+  //     const products = querryArray[0].split(',').map((product) => {
+  //       const data = product.split('-');
+  //       return {
+  //         skuId: data[0],
+  //         quantity: parseInt(data[1]),
+  //       };
+  //     });
+  //     setPreviewProducts(products);
+  //     setDefaultAddressIndex(parseInt(querryArray[1]));
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [searchParams]);
 
-        setPreviewOrderData(payload);
-      } catch (error) {
-        toast({
-          variant: 'destructive',
-          title: 'Khởi tạo đơn hàng thất bại',
-        });
-        push(RootPath.Cart);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  // useUpdateEffect(() => {
+  //   const previewOrder = async (products: ProductInOrderDto[], addressIndex: number) => {
+  //     setIsLoading(true);
+  //     try {
+  //       const { payload } = await orderApiRequest.previewOrder({
+  //         products,
+  //         addressIndex,
+  //         paymentMethod: PreviewOrderDtoPaymentMethodEnum.Cod,
+  //       });
 
-    if (previewProducts.length > 0 && defaultAddressIndex !== null) {
-      previewOrder(previewProducts, defaultAddressIndex);
-    }
-  }, [previewProducts, defaultAddressIndex]);
+  //       setPreviewOrderData(payload);
+  //     } catch (error) {
+  //       toast({
+  //         variant: 'destructive',
+  //         title: 'Khởi tạo đơn hàng thất bại',
+  //       });
+  //       push(RootPath.Cart);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+  //   if (previewProducts.length > 0 && defaultAddressIndex !== null) {
+  //     previewOrder(previewProducts, defaultAddressIndex);
+  //   }
+  // }, [previewProducts, defaultAddressIndex]);
 
-  if (!previewOrderData) {
+  // if (isLoading) {
+  //   return <LoadingPage />;
+  // }
+
+  if (!previewData) {
     return (
       <NotFoundPage
-        description="Không thể tải đơn đặt hàng"
+        description="Khởi tạo đơn hàng thất bại"
         redirectTitle="Quay lại"
         redirect={RootPath.Cart}
       />
     );
   }
 
+  console.log('previewData', previewData);
+
   return (
     <Suspense>
       <div className="space-y-5">
         <Breadcrumb links={paymentPageLocation.links} />
-        <OrderPreview previewData={previewOrderData} />
+        <OrderPreview previewData={previewData} />
         <div className="h-1"></div>
       </div>
     </Suspense>

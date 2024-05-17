@@ -4,6 +4,7 @@ import Favicon from '@/public/favicon.ico';
 import './globals.css';
 
 import AppProvider from '@/providers/app-provider';
+import { OrderPreviewProvider } from '@/providers/order-preview-store-provider';
 
 import { Toaster } from '@/components/ui/toaster';
 
@@ -41,10 +42,12 @@ export default async function RootLayout({
         <GoogleOAuthProvider clientId={process.env.GOOGLE_CLIENT_ID ?? ''}>
           <AppProvider>
             <AutoRefreshToken />
-            <Header />
-            <div className="bg-slate-100">{children}</div>
-            <ModalProvider />
-            <Footer />
+            <OrderPreviewProvider>
+              <Header />
+              <div className="bg-slate-100">{children}</div>
+              <ModalProvider />
+              <Footer />
+            </OrderPreviewProvider>
           </AppProvider>
         </GoogleOAuthProvider>
       </body>

@@ -61,6 +61,10 @@ export const BuyingButtonGroup = ({ productId, skuId }: BuyingButtonProps) => {
   };
 
   const handleAddtoCart = async () => {
+    if (!user) {
+      push(`${RootPath.Login}?callbackUrl=${pathname}`);
+      return;
+    }
     setIsLoading(true);
     try {
       if (!skuId) {

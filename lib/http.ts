@@ -7,7 +7,7 @@ import {
   LOGOUT_ENDPOINT_FORCE,
 } from '@/constants/services';
 import { normalizePath } from '@/lib/utils';
-import { LoginResponseDto } from '@techcell/node-sdk';
+import { LoginResponseDto, RefreshTokenResponseDto } from '@techcell/node-sdk';
 import { redirect } from 'next/navigation';
 
 type CustomOptions = Omit<RequestInit, 'method'> & {
@@ -90,7 +90,7 @@ const request = async <Response>(
 
   console.log(fullUrl);
 
-  const res = await fetch(fullUrl, {
+  let req = fetch(fullUrl, {
     ...options,
     headers: {
       ...baseHeaders,
@@ -99,6 +99,8 @@ const request = async <Response>(
     body,
     method,
   });
+
+  const res = await req;
 
   const payload: Response = await res
     .json()
@@ -145,6 +147,7 @@ const request = async <Response>(
         }
       } else {
         console.log('unauthorized error', fullUrl);
+        
         const sessionToken = (options?.headers as any)?.Authorization.split('Bearer ')[1];
         redirect(`/dang-xuat?sessionToken=${sessionToken}`);
       }

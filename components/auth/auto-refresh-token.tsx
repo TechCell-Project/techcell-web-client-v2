@@ -9,8 +9,6 @@ export default function AutoRefreshToken() {
   const { refresh } = useRouter();
 
   useEffect(() => {
-    handleRefresh();
-
     const interval = setInterval(async () => {
       await handleRefresh();
     }, 1000 * 60 * 1);

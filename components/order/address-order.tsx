@@ -64,7 +64,7 @@ const AddressOrder = ({ list, onOpenUpdateModal }: Readonly<AddressListProps>) =
                         </div>
                         <div className="text-left">
                           <p className="text-zinc-500 text-sm">
-                            {ADDRESS_TYPES.get(address.type)?.typeValue}
+                            {ADDRESS_TYPES.get(address.type  as 'home' | 'office' | 'other')?.typeValue}
                           </p>
                           <div className="flex items-center w-full">
                             <p className="text-zinc-500 truncate">{buildAddressString(address)}</p>
