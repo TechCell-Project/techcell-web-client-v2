@@ -27,8 +27,6 @@ export default function LoadMore({
   const [haveNextPage, setHaveNextPage] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  console.log(payload);
-
   const { run } = useDebounceFn(
     async () => {
       const res = await productApiRequest.getProducts({

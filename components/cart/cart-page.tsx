@@ -54,8 +54,6 @@ export default async function CartPage({ cartProducts }: Readonly<CartPageProps>
     };
   });
 
-  console.log(cartProductsData);
-
   return (
     <div className="px-5 sm:container pb-4 h-auto">
       <div className="w-full text-center mt-5 py-4 text-lg">Giỏ hàng của bạn</div>

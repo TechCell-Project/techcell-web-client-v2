@@ -1,17 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import {
   CreateOrderDto,
   CreateOrderDtoPaymentMethodEnum,
   PreviewOrderResponseDto,
-  UserAddressResponseDto,
 } from '@techcell/node-sdk';
 
 import { useAddressModal } from '@/hooks/useAddressModal';
-import { authApiRequest, orderApiRequest } from '@/apiRequests';
+import { orderApiRequest } from '@/apiRequests';
 
 import { Button } from '@/components/ui/button';
 import { UserAddressList } from '@/components/profile/address-list';
@@ -20,8 +19,6 @@ import PaymentMethodList from './payment_method_list';
 import OrderListProduct from './order-list-product';
 import { ShippingAddressInfo } from './shipping-info-order';
 import { currencyFormat } from '@/utilities/func.util';
-
-import useUpdateEffect from 'ahooks/lib/useUpdateEffect';
 
 import { useForm } from 'react-hook-form';
 import { PaymentFormType, PaymentSchema } from '@/validationSchemas';
@@ -32,6 +29,8 @@ import { InputText } from '@/components/common/form/input-text';
 import { toast } from '@/components/ui/use-toast';
 import { RootPath } from '@/constants';
 import { Icons } from '@/components/icons';
+import { useAppContext } from '@/providers/app-provider';
+import { useOrderPreviewStore } from '@/providers/order-preview-store-provider';
 
 interface OrderPreviewProps {
   previewData: PreviewOrderResponseDto;
@@ -39,30 +38,12 @@ interface OrderPreviewProps {
 const OrderPreview = ({ previewData }: OrderPreviewProps) => {
   const { push, refresh } = useRouter();
   const { onOpen, setAddressIndex } = useAddressModal();
-  const [addressList, setAddressList] = useState<UserAddressResponseDto[]>([]);
-  const [selectedAddressIndex, setSelectedAddressIndex] = useState<number | undefined>(undefined);
+  const { user } = useAppContext();
+  const { addressIndex, setAddressIndex: setStoreAddressIndex } = useOrderPreviewStore((state) => state);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<CreateOrderDtoPaymentMethodEnum>(CreateOrderDtoPaymentMethodEnum.Cod);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getAddressList = async () => {
-      const { payload } = await authApiRequest.getMeClient();
-
-      if (payload.address) {
-        setAddressList(payload.address);
-      }
-    };
-
-    getAddressList();
-  }, []);
-
-  useUpdateEffect(() => {
-    if (addressList.length > 0) {
-      setSelectedAddressIndex(addressList.findIndex((address) => address.isDefault));
-    }
-  }, [addressList]);
 
   const handleOpenUpdateAddress = (index: number) => {
     setAddressIndex(index);
@@ -85,13 +66,6 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
   } = form;
 
   const onSubmit = async (values: PaymentFormType) => {
-    if (!selectedAddressIndex) {
-      toast({
-        variant: 'destructive',
-        title: 'Vui lòng chọn địa chỉ',
-      });
-      return;
-    }
     setIsLoading(true);
     try {
       const payload: CreateOrderDto = {
@@ -102,7 +76,7 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
             quantity: product.quantity,
           };
         }),
-        addressIndex: selectedAddressIndex,
+        addressIndex: addressIndex,
         paymentMethod: CreateOrderDtoPaymentMethodEnum.Vnpay,
         isSelectFromCart: true,
         paymentReturnUrl: 'https://techcell.cloud',
@@ -133,20 +107,22 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
     <div className="px-5 pb-5 w-full h-fit sm:container sm:max-w-[640px] lg:max-w-[768px] bg-white mb-5 rounded-md">
       <div className="w-full text-center flex items-center px-4 py-2">
         <BackButton />
-        <div className='w-full'>
-        <div className="text-xl font-bold text-center">Thông tin</div>
+        <div className="w-full">
+          <div className="text-xl font-bold text-center">Thông tin</div>
         </div>
       </div>
 
-      <div className="w-full flex flex-col items-center gap-4 my-5">
-        <h4 className="font-semibold text-xl">Thay đổi địa chỉ</h4>
-        <UserAddressList
-          list={addressList}
-          onOpenUpdateModal={handleOpenUpdateAddress}
-          currentIndex={selectedAddressIndex}
-          onSelectIndex={setSelectedAddressIndex}
-        />
-      </div>
+      <Suspense>
+        <div className="w-full flex flex-col items-center gap-4 my-5">
+          <h4 className="font-semibold text-xl">Thay đổi địa chỉ</h4>
+          <UserAddressList
+            list={user?.address || []}
+            onOpenUpdateModal={handleOpenUpdateAddress}
+            currentIndex={addressIndex}
+            onSelectIndex={setStoreAddressIndex}
+          />
+        </div>
+      </Suspense>
 
       <OrderListProduct products={previewData.products} />
 
@@ -168,7 +144,7 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
             disabled={isSubmitting}
             isTextArea={true}
           />
-          <div className='w-full flex flex-col gap-5'>
+          <div className="w-full flex flex-col gap-5">
             <div className="w-full flex justify-between">
               <div className="text-[18px] font-bold">Tổng tiền tạm tính : </div>
               <div className="text-primary font-bold">{currencyFormat(previewData.totalPrice)}</div>

@@ -208,7 +208,6 @@ export const SearchBar = () => {
   const keywordValue = watch('keyword');
 
   const onSubmit = (data: SearchType) => {
-    console.log(JSON.stringify(data));
     const params = new URLSearchParams(searchParams);
     params.set(PAGE_PARAM, '1');
     params.set(FILTERS_PARAM, JSON.stringify(data));
@@ -238,8 +237,6 @@ export const SearchBar = () => {
     { wait: 600 },
   );
 
-  console.log(JSON.stringify({ keyword: searchTerm }));
-
   useUpdateEffect(() => {
     async function searchProductsByKeyword(keyword: string) {
       setIsFetching(true);
@@ -258,11 +255,6 @@ export const SearchBar = () => {
 
     searchProductsByKeyword(searchTerm);
   }, [searchTerm]);
-
-  console.log(keywordValue);
-  console.log(searchTerm);
-  console.log(open);
-  console.log(searchProducts);
 
   const removeHistorySearchItem = (historySearch: string) => {
     setRecentSearches(recentSearches?.filter((item) => item !== historySearch));

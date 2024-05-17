@@ -29,6 +29,10 @@ import { UserAddressList } from '@/components/profile/address-list';
 import { useAppContext } from '@/providers/app-provider';
 import { useAddressModal } from '@/hooks/useAddressModal';
 import { RootPath } from '@/constants/enum';
+import { orderApiRequest } from '@/apiRequests';
+import { PreviewOrderDtoPaymentMethodEnum } from '@techcell/node-sdk';
+import { useOrderPreviewStore } from '@/providers/order-preview-store-provider';
+import { toast } from '@/components/ui/use-toast';
 
 interface CartDataTableProps {
   data: CartColumnItem[];
@@ -45,6 +49,7 @@ export const CartDataTable = ({ data }: Readonly<CartDataTableProps>) => {
 
   const { user } = useAppContext();
   const { onOpen, setAddressIndex } = useAddressModal();
+  const { setPreviewData, setIsBuyFromCart, setAddressIndex: setStoredAddressIndex } = useOrderPreviewStore((state) => state);
 
   const table = useReactTable({
     data,
@@ -75,21 +80,45 @@ export const CartDataTable = ({ data }: Readonly<CartDataTableProps>) => {
     setShowUncheckMsg(false);
   }, [rowSelection]);
 
-  const { run } = useDebounceFn(() => {
-    const matchedProduct = data.filter((product) =>
-      selectedVariations.includes(product.variation.skuId),
-    );
+  const { run } = useDebounceFn(async () => {
+    try {
+      const matchedProduct = data.filter((product) =>
+        selectedVariations.includes(product.variation.skuId),
+      );
 
-    const productsToPreview = matchedProduct.map((product) => {
-      return `${product.variation.skuId}-${product.quantity}`;
-    });
+      const { payload } = await orderApiRequest.previewOrder({
+        products: matchedProduct.map((product) => {
+          return {
+            skuId: product.variation.skuId,
+            quantity: product.quantity,
+          };
+        }),
+        addressIndex: selectedAddressIndex as number,
+        paymentMethod: PreviewOrderDtoPaymentMethodEnum.Cod,
+      });
 
-    localStorage.setItem(
-      'selected-sku',
-      productsToPreview.toString() + '/' + selectedAddressIndex?.toString(),
-    );
-    push(RootPath.Payment);
-    setIsLoading(false);
+      setPreviewData(payload);
+      setStoredAddressIndex(selectedAddressIndex as number);
+      setIsBuyFromCart();
+  
+      const productsToPreview = matchedProduct.map((product) => {
+        return `${product.variation.skuId}-${product.quantity}`;
+      });
+  
+      localStorage.setItem(
+        'selected-sku',
+        productsToPreview.toString() + '/' + selectedAddressIndex?.toString(),
+      );
+      push(RootPath.Payment);
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'destructive',
+        title: 'Có lỗi xảy ra. Đặt hàng thất bại...',
+      })
+    } finally {
+      setIsLoading(false);
+    }
   }, {
     wait: 1000,
   });
@@ -130,8 +159,6 @@ export const CartDataTable = ({ data }: Readonly<CartDataTableProps>) => {
     setIsLoading(true);
     run();
   };
-
-  console.log(selectedAddressIndex);
 
   return (
     <>

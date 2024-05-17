@@ -20,7 +20,7 @@ export default function Home() {
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
       <div className="container">
-        <ListProductHot />
+        {/* <ListProductHot /> */}
       </div>
 
       <MaxWidthWrapper>
@@ -35,7 +35,7 @@ export default function Home() {
           />
         </div>
 
-        <ListProduct />
+        {/* <ListProduct /> */}
 
         <div className="flex flex-row justify-center my-5">
           <Link href={RootPath.ProductList}>

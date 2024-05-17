@@ -126,7 +126,6 @@ export const InputComboBox = <T extends FieldValues, OptionType>({
       control={form.control}
       name={name}
       render={({ field }) => {
-        console.log(field.value);
 
         return (
         <FormItem className={cn('w-full flex flex-col', className)}>

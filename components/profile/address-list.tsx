@@ -21,6 +21,7 @@ import { DialogFooter } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
 import { authApiRequest } from '@/apiRequests/auth';
 import { useAppContext } from '@/providers/app-provider';
+import { useUpdateEffect } from 'ahooks';
 
 interface AddressListProps {
   list: UserAddressResponseDto[] | UserAddressSchema[] | undefined;
@@ -49,8 +50,6 @@ export function UserAddressList({
     index: null,
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  console.log(currentIndex);
 
   useEffect(() => {
     if (onSelectIndex) {
@@ -135,6 +134,9 @@ export function UserAddressList({
       setSelectedAddressIndex(0);
     }
   };
+
+  console.log('currentSelectedAddressIndex', selectedAddressIndex);
+  console.log('passedIndex', currentIndex);
 
   return (
     <RadioGroup
