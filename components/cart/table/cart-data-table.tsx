@@ -100,15 +100,7 @@ export const CartDataTable = ({ data }: Readonly<CartDataTableProps>) => {
       setPreviewData(payload);
       setStoredAddressIndex(selectedAddressIndex as number);
       setIsBuyFromCart();
-  
-      const productsToPreview = matchedProduct.map((product) => {
-        return `${product.variation.skuId}-${product.quantity}`;
-      });
-  
-      localStorage.setItem(
-        'selected-sku',
-        productsToPreview.toString() + '/' + selectedAddressIndex?.toString(),
-      );
+      
       push(RootPath.Payment);
     } catch (error) {
       console.log(error);
