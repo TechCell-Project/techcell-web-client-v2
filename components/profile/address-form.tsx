@@ -220,9 +220,11 @@ export function AddressForm({ index, closeModal, addressList }: Readonly<Profile
         });
       }
 
+      const { payload: updateResult } = await authApiRequest.getMeClient();
+
       setUser({
         ...user,
-        address: payload as UserAddressSchema[],
+        address: updateResult.address,
       } as User);
 
       toast({
