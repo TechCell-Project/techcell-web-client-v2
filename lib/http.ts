@@ -106,8 +106,6 @@ const request = async <Response>(
     .json()
     .catch((reason) => console.log('reason', reason.status));
 
-  console.log(payload);
-
   const data = {
     status: res.status,
     payload,

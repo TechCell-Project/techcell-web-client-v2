@@ -1,6 +1,5 @@
 import { ApiTags, DEFAULT_LIMIT } from '@/constants';
 import http from '@/lib/http';
-import { MessageResType } from '@/validationSchemas';
 import {
   CreateOrderDto,
   Order,
@@ -16,7 +15,7 @@ export const orderApiRequest = {
   previewOrder: (payload: PreviewOrderDto) =>
     http.post<PreviewOrderResponseDto>(`${ApiPrefix}/preview`, payload),
 
-  createOrder: (payload: CreateOrderDto) => http.post<MessageResType>(ApiPrefix, payload),
+  createOrder: (payload: CreateOrderDto) => http.post<Order>(ApiPrefix, payload),
 
   getOrders: (payload: OrdersApiOrdersControllerGetOrdersRequest) => {
     const { page, limit, filters, sort } = payload;
