@@ -10,7 +10,12 @@ export enum RootPath {
   ProductList = '/danh-sach-san-pham',
   ProductDetails = '/chi-tiet-san-pham',
   Profile = '/ho-so',
-  Order = '/don-hang',
+  Order = '/chi-tiet-don-hang',
+  AllOrder = '/chi-tiet-don-hang/tat-ca',
+  WaitForPay = '/chi-tiet-don-hang/cho-thanh-toan',
+  TransportOrder = '/chi-tiet-don-hang/van-chuyen',
+  CompleteOrder = '/chi-tiet-don-hang/hoan-thanh',
+  Cancelled = '/chi-tiet-don-hang/da-huy',
   Brand = '/thuong-hieu',
 }
 

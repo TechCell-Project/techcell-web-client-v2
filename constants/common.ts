@@ -9,6 +9,7 @@ import Img7 from '@/public/phone-test/ip12mini.webp';
 import Img8 from '@/public/phone-test/ip12pro.webp';
 import Img9 from '@/public/phone-test/ip13.webp';
 import { Phone, RefreshCw, Rocket, WalletCards } from 'lucide-react';
+import { RootPath } from './enum';
 
 export const HOME_SLOGAN =
   'Nâng cấp kết nối của bạn: Các giao dịch thông minh, điện thoại thông minh hơn!';
@@ -213,3 +214,31 @@ export const BRANDS: BrandLabel[] = [
 ];
 
 export const BRANDS_MAP = new Map<string, BrandLabel>(BRANDS.map((brand) => [brand.key, brand]));
+
+export type NavLinkProps = {
+  title: string;
+  href: string;
+};
+
+export const NAV_ORDER: NavLinkProps[] = [
+  {
+    title: 'Tất cả',
+    href: RootPath.AllOrder
+  },
+  {
+    title: 'Chờ thanh toán',
+    href: RootPath.WaitForPay
+  },
+  {
+    title: 'Vận chuyển',
+    href: RootPath.TransportOrder
+  },
+  {
+    title: 'Hoàn thành',
+    href: RootPath.CompleteOrder
+  },
+  {
+    title: 'Đã hủy',
+    href: RootPath.Cancelled
+  },
+];

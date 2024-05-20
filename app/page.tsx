@@ -13,6 +13,7 @@ import MaxWidthWrapper from '@/components/common/max-width-wrapper';
 export default function Home() {
   return (
     <main>
+      <div className="h-16"></div>
       <h2 className="w-full hidden sm:block text-base uppercase bg-primary text-white py-2.5 text-center">
         {HOME_SLOGAN}
       </h2>
