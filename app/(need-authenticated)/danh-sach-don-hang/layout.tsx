@@ -1,3 +1,4 @@
+import MaxWidthWrapper from '@/components/common/max-width-wrapper';
 import OrderListProduct from '@/components/order/order-list-product';
 import SidebarOrder from '@/components/order/sidebar-order';
 import { NAV_ORDER } from '@/constants';
@@ -15,8 +16,10 @@ export default function StoreLayout({ children }: Readonly<{ children: React.Rea
   return (
     <div className='w-full container'>
       <div className="h-16"></div>
-      <SidebarOrder />
-      <div>{children}</div>
+      <MaxWidthWrapper>
+        <SidebarOrder />
+        <div className='mt-6'>{children}</div>
+      </MaxWidthWrapper>
     </div>
   );
 };

@@ -4,7 +4,6 @@ import { Button } from '../ui/button';
 const OrderDetailComponent = () => {
   return (
     <div className="container py-4">
-      <div className="h-16"></div>
       <div className="w-full">
         <div className="w-full sm:w-[600px] m-auto h-auto bg-white rounded-md">
           <div className="py-4">

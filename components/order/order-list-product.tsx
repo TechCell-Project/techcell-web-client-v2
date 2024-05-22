@@ -39,12 +39,10 @@ const getStatusMessage = (status: string) => {
   }
 }
 
-
 const OrderListProduct = ({ product }: OrderListProductProps) => {
   return (
-    <MaxWidthWrapper>
       <div className="flex flex-col">
-        <div className="bg-white my-1 p-5">
+        <div className="bg-white my-1 p-5 rounded-xl">
           <div className="flex flex-row justify-end text-primary text-sm sm:text-lg">
             {getStatusMessage(product.payment.status)}
           </div>
@@ -97,7 +95,6 @@ const OrderListProduct = ({ product }: OrderListProductProps) => {
           </div>
         </div>
       </div>
-    </MaxWidthWrapper>
     // <div className="w-auto sm:w-[full] h-auto m-auto bg-white my-3 p-4 sm:p-0 sm:py-4">
     //   <div className="">
     //     <div className="text-center">
