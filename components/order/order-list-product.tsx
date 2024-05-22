@@ -14,6 +14,7 @@ import TempProductImg from '@/public/phone-test/15-base.jpg';
 import { Separator } from '../ui/separator';
 import MaxWidthWrapper from '../common/max-width-wrapper';
 import { PhoneListOrder } from '@/constants/common';
+import { RootPath } from '@/constants';
 
 
 interface OrderListProductProps {
@@ -48,7 +49,7 @@ const OrderListProduct = ({ product }: OrderListProductProps) => {
             {getStatusMessage(product.payment.status)}
           </div>
           <Separator className="my-4" />
-          <Link href={``} className='flex flex-row items-center justify-between'>
+          <Link href={`${RootPath.OrderDetails}`} className='flex flex-row items-center justify-between'>
             <div className='flex flex-row items-center'>
               <div className="w-[120px] h-[120px] sm:w-[180px] sm:h-[180px]">
                 <Image

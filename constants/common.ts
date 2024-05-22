@@ -235,11 +235,11 @@ export const NAV_ORDER: NavLinkProps[] = [
   },
   {
     title: 'Vận chuyển',
-    href: RootPath.TransportOrder
+    href: RootPath.Transport
   },
   {
     title: 'Hoàn thành',
-    href: RootPath.CompleteOrder
+    href: RootPath.Complete
   },
   {
     title: 'Đã hủy',
