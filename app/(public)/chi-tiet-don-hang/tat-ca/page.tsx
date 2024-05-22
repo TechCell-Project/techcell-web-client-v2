@@ -1,9 +1,15 @@
 import OrderListProduct from "@/components/order/order-list-product";
+import { List_Order } from "@/constants/common";
 
-const AllOrder = () => {
+
+const AllOrderPage = () => {
     return (
-        <OrderListProduct />
+        <>
+            {List_Order.map((product) => (
+                <OrderListProduct key={product.skuId} product={product} />
+            ))}
+        </>
     );
 }
 
-export default AllOrder;
+export default AllOrderPage;

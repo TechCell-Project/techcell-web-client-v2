@@ -13,77 +13,88 @@ import Link from 'next/link';
 import TempProductImg from '@/public/phone-test/15-base.jpg';
 import { Separator } from '../ui/separator';
 import MaxWidthWrapper from '../common/max-width-wrapper';
+import { PhoneListOrder } from '@/constants/common';
 
 
 interface OrderListProductProps {
-  products: ProductSchema[];
+  product: PhoneListOrder;
+  // products: ProductSchema[];
 }
 
-const OrderListProduct = () => {
-  const [products, setProducts] = useState<ProductInListDto[]>([])
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getProductByTags = async () => {
-      setLoading(true);
-      const res = await productApiRequest.getProducts({
-        limit: 8,
-      });
-
-      if (res.status === 200) {
-        setProducts(res.payload.data);
-      }
-      setLoading(false);
-    };
-
-    getProductByTags();
-  }, []);
-
-  if (loading) {
-    return (
-      <NormalCardSkeleton />
-    )
+const getStatusMessage = (status: string) => {
+  switch (status) {
+    case "pending":
+      return "Chờ xử lý";
+    case "processing":
+      return "Đang xử lý";
+    case "wait-for-payment":
+      return "Chờ thanh toán";
+    case "completed":
+      return "Hoàn thành";
+    case "canceled":
+      return "Đã hủy";
+    default:
+      return "";
   }
+}
 
+
+const OrderListProduct = ({ product }: OrderListProductProps) => {
   return (
     <MaxWidthWrapper>
       <div className="flex flex-col">
-        {products.map((product) => (
-          <div key={product.id} className="bg-white my-1 p-5">
-            <div className="flex flex-row justify-end text-primary text-sm sm:text-base">CHỜ THANH TOÁN</div>
-            <Separator className="my-4" />
-            <Link href={``} className='flex flex-row items-center justify-between'>
-              <div className='flex flex-row items-center'>
-                <div className="w-[120px] h-[120px] sm:w-[180px] sm:h-[180px]">
-                  <Image
-                    src={product.images[0]?.url || TempProductImg.src}
-                    alt={product.modelName}
-                    width={180}
-                    height={180}
-                    className="w-full h-auto max-h-[180px] object-cover object-center"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <span className='text-sm sm:text-base'>{product.name}</span>
-                  <span className='text-sm sm:text-base'>Phân loại:</span>
-                  <span className='text-sm sm:text-base'>Số lượng:</span>
-                  <div className="flex flex-row items-center block sm:hidden">
-                    <span className="text-slate-500 line-through mr-2 text-xs sm:text-sm">1200000</span>
-                    <span className="text-primary text-sm sm:text-base">1000000</span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-row items-center hidden sm:block">
-                <span className="text-slate-500 line-through mr-2 text-xs sm:text-sm">1200000</span>
-                <span className="text-primary text-sm sm:text-base">1000000</span>
-              </div>
-            </Link>
-            <Separator className="my-4" />
-            <div className="flex flex-row justify-end items-center">
-              <span className="mr-2 text-sm">Thành tiền:</span>
-              <span className="text-primary text-base">1000000</span></div>
+        <div className="bg-white my-1 p-5">
+          <div className="flex flex-row justify-end text-primary text-sm sm:text-lg">
+            {getStatusMessage(product.payment.status)}
           </div>
-        ))}
+          <Separator className="my-4" />
+          <Link href={``} className='flex flex-row items-center justify-between'>
+            <div className='flex flex-row items-center'>
+              <div className="w-[120px] h-[120px] sm:w-[180px] sm:h-[180px]">
+                <Image
+                  src={product.image.url || TempProductImg.src}
+                  alt={product.productName}
+                  width={180}
+                  height={180}
+                  className="w-full h-auto max-h-[180px] object-cover object-center"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className='text-sm sm:text-base'>{product.productName}</span>
+                <span className='text-sm sm:text-base'>Phân loại: {product.productType}</span>
+                <span className='text-sm sm:text-base'>SerialNumber: {product.serialNumber}</span>
+                <span className='text-sm sm:text-base'>Số lượng:  {product.quantity}</span>
+                <div className="flex flex-row items-center block sm:hidden">
+                  <span className="text-slate-500 line-through mr-2 text-xs sm:text-lg">
+                    {currencyFormat(Number(product.unitPrice.base))}
+                    <sup>đ</sup>
+                  </span>
+                  <span className="text-primary text-sm sm:text-xl">
+                    {currencyFormat(Number(product.unitPrice.special))}
+                    <sup>đ</sup>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-row items-center hidden sm:block">
+              <span className="text-slate-500 line-through mr-2 text-xs sm:text-lg">
+                {currencyFormat(Number(product.unitPrice.base))}
+                <sup>đ</sup>
+              </span>
+              <span className="text-primary text-sm sm:text-xl">
+                {currencyFormat(Number(product.unitPrice.special))}
+                <sup>đ</sup>
+              </span>
+            </div>
+          </Link>
+          <Separator className="my-4" />
+          <div className="flex flex-row justify-end items-center">
+            <span className="mr-2 text-xl">Thành tiền:</span>
+            <span className="text-primary text-xl">
+              {currencyFormat(Number(product.unitPrice.special))}
+            </span>
+          </div>
+        </div>
       </div>
     </MaxWidthWrapper>
     // <div className="w-auto sm:w-[full] h-auto m-auto bg-white my-3 p-4 sm:p-0 sm:py-4">

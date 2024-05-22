@@ -226,6 +226,10 @@ export const NAV_ORDER: NavLinkProps[] = [
     href: RootPath.AllOrder
   },
   {
+    title: 'Đang xử lý',
+    href: RootPath.Processing
+  },
+  {
     title: 'Chờ thanh toán',
     href: RootPath.WaitForPay
   },
@@ -242,3 +246,152 @@ export const NAV_ORDER: NavLinkProps[] = [
     href: RootPath.Cancelled
   },
 ];
+
+export type PhoneListOrder = {
+  skuId: string;
+  productName: string;
+  productType: string;
+  image: ImageChildrens;
+  serialNumber: string[];
+  unitPrice: UnitPriceChildrens;
+  quantity: number;
+  payment: PaymentChildrens;
+};
+
+export type ImageChildrens = {
+  publicId: string;
+  url: string;
+  isThumbnail: boolean;
+};
+
+export type UnitPriceChildrens = {
+  base: number;
+  special: number;
+};
+
+export type PaymentChildrens = {
+  method: string;
+  status: string;
+  url: string;
+};
+
+
+export const List_Order: PhoneListOrder[] = [
+  {
+    skuId: "1",
+    productName: "Iphone 15",
+    productType: "512GB - Gold",
+    image: {
+      publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
+      url: "/phone-test/15-promax.jpg",
+      isThumbnail: false
+    },
+    serialNumber: [
+      "ip15prm12345",
+    ],
+    unitPrice: {
+      base: 20000000,
+      special: 15000000
+    },
+    quantity: 1,
+    payment: {
+      method: "COD",
+      status: "pending",
+      url: "https://vnpay.com/pay",
+    },
+  },
+  {
+    skuId: "2",
+    productName: "Iphone 14",
+    productType: "216GB - Xanh",
+    image: {
+      publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
+      url: "/phone-test/ip14.webp",
+      isThumbnail: false
+    },
+    serialNumber: [
+      "ip14prm12345",
+    ],
+    unitPrice: {
+      base: 17000000,
+      special: 16000000
+    },
+    quantity: 1,
+    payment: {
+      method: "COD",
+      status: "processing",
+      url: "https://vnpay.com/pay",
+    },
+  },
+  {
+    skuId: "3",
+    productName: "Iphone 13",
+    productType: "128GB - Red",
+    image: {
+      publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
+      url: "/phone-test/ip13mini.webp",
+      isThumbnail: false
+    },
+    serialNumber: [
+      "ip13prm12345",
+    ],
+    unitPrice: {
+      base: 15000000,
+      special: 13000000
+    },
+    quantity: 1,
+    payment: {
+      method: "COD",
+      status: "wait-for-payment",
+      url: "https://vnpay.com/pay",
+    },
+  },
+  {
+    skuId: "4",
+    productName: "Iphone 12",
+    productType: "128GB - Tím",
+    image: {
+      publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
+      url: "/phone-test/ip12mini.webp",
+      isThumbnail: false
+    },
+    serialNumber: [
+      "ip12prm12345",
+    ],
+    unitPrice: {
+      base: 14000000,
+      special: 13000000
+    },
+    quantity: 1,
+    payment: {
+      method: "COD",
+      status: "completed",
+      url: "https://vnpay.com/pay",
+    },
+  },
+  {
+    skuId: "5",
+    productName: "Iphone 11 Promax",
+    productType: "256GB - White",
+    image: {
+      publicId: "5f9a7f5d9d8f6d7f5d8f6d7",
+      url: "/phone-test/ip11.webp",
+      isThumbnail: false
+    },
+    serialNumber: [
+      "ip11prm12345",
+    ],
+    unitPrice: {
+      base: 14000000,
+      special: 12000000
+    },
+    quantity: 1,
+    payment: {
+      method: "COD",
+      status: "canceled",
+      url: "https://vnpay.com/pay",
+    },
+  }
+]
+
+export const statusesToDisplay = ["completed", "processing", "pending", "canceled", "failed"];

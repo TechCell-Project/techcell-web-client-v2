@@ -12,6 +12,7 @@ export enum RootPath {
   Profile = '/ho-so',
   Order = '/chi-tiet-don-hang',
   AllOrder = '/chi-tiet-don-hang/tat-ca',
+  Processing = '/chi-tiet-don-hang/dang-xu-ly',
   WaitForPay = '/chi-tiet-don-hang/cho-thanh-toan',
   TransportOrder = '/chi-tiet-don-hang/van-chuyen',
   CompleteOrder = '/chi-tiet-don-hang/hoan-thanh',

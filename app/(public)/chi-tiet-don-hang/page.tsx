@@ -1,10 +1,10 @@
 import OrderDetailComponent from "@/components/order/order-detail";
-import OrderListProduct from "@/components/order/order-list-product";
+import AllOrderPage from "./tat-ca/page";
 
 const OrderDetail = () => {
     return (
         <>
-            <OrderListProduct />
+            <AllOrderPage />
             <OrderDetailComponent />
         </>
     );

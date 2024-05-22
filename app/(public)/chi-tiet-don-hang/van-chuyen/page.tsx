@@ -1,7 +1,7 @@
-const TransportOrder = () => {
+const TransportOrderPage = () => {
     return (
         <div className="">Van chuyen</div>
     );
 }
 
-export default TransportOrder;
+export default TransportOrderPage;
