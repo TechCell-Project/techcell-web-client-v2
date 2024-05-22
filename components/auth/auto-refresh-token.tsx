@@ -11,7 +11,7 @@ export default function AutoRefreshToken() {
   useEffect(() => {
     const interval = setInterval(async () => {
       await handleRefresh();
-    }, 1000 * 60 * 1);
+    }, 1000 * 50 * 1);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps

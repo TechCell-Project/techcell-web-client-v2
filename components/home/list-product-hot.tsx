@@ -17,32 +17,15 @@ import '../../styles/product.css';
 import { Button } from '@/components/ui/button';
 import { Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { productApiRequest } from '@/apiRequests/product';
 import { ProductInListDto } from '@techcell/node-sdk';
 import Link from 'next/link';
 import { SuccinctCard } from '../common/product-card/succinct-card';
-import { NormalCardSkeleton } from '../common/product-card/normal-card-skeleton';
 
-export const ListProductHot = () => {
-  const [products, setProducts] = useState<ProductInListDto[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+interface ListProductHotProps {
+  products: ProductInListDto[];
+}
 
-  useEffect(() => {
-    const getProductByTags = async () => {
-      const res = await productApiRequest.getProducts({
-        limit: 10,
-        // filters: JSON.stringify({ tagIds: ['661b7c09128dfd9b6b3e19da'] }),
-      });
-
-      if (res.status === 200) {
-        setProducts(res.payload.data);
-      }
-      setIsLoading(false);
-    };
-    setIsLoading(true);
-    getProductByTags();
-  }, []);
-
+export const ListProductHot = ({ products }: ListProductHotProps) => {
   const perViewNumber = typeof window !== 'undefined' && window.innerWidth < 1024 ? 1 : 4;
 
   return (
@@ -79,33 +62,29 @@ export const ListProductHot = () => {
         </div>
       </div>
       <div className="m-10">
-        {isLoading ? (
-          <NormalCardSkeleton />
-        ) : (
-          <Swiper
-            slidesPerView={perViewNumber}
-            spaceBetween={10}
-            pagination={{
-              clickable: true,
-            }}
-            autoplay={{
-              delay: 7000,
-              disableOnInteraction: false,
-            }}
-            modules={[Navigation, Autoplay]}
-            className="w-full"
-          >
-            {products.map((product) => (
-              <SwiperSlide key={product.id} className="rounded">
-                <SuccinctCard key={product.id} product={product} />
-              </SwiperSlide>
-            ))}
-            <SwiperNavButtons />
-          </Swiper>
-        )}
-
+        <Swiper
+          slidesPerView={perViewNumber}
+          spaceBetween={10}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{
+            delay: 7000,
+            disableOnInteraction: false,
+          }}
+          modules={[Navigation, Autoplay]}
+          className="w-full"
+        >
+          {products.map((product) => (
+            <SwiperSlide key={product.id} className="rounded">
+              <SuccinctCard key={product.id} product={product} />
+            </SwiperSlide>
+          ))}
+          <SwiperNavButtons />
+        </Swiper>
       </div>
-      <div className="flex flex-row justify-center block sm:hidden mb-2">
+
+      <div className="flex flex-row justify-center sm:hidden mb-2">
         <Link href={''}>
           <Button
             variant="default"

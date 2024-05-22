@@ -1,6 +1,5 @@
 import { BENEFIT_SECTION, HOME_SLOGAN, IMAGE_CAROUSEL } from '@/constants/common';
 import { SwiperCarousel } from '@/components/home/swiper-carousel';
-import HomePage from '@/components/home/home-page';
 import { ListProductHot } from '@/components/home/list-product-hot';
 import Image from 'next/image';
 import Banner from '@/public/banner/banner.png';
@@ -9,8 +8,22 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { RootPath } from '@/constants/enum';
 import MaxWidthWrapper from '@/components/common/max-width-wrapper';
+import { productApiRequest } from '@/apiRequests';
+import { Suspense } from 'react';
+import { NormalCardSkeleton } from '@/components/common/product-card/normal-card-skeleton';
 
-export default function Home() {
+export default async function Home() {
+  const hotProductsReq = productApiRequest.getProducts({
+    limit: 4,
+    // filters: JSON.stringify({ tagIds: ['661b7c18128dfd9b6b3e19de'] }),
+  });
+
+  const normalProductsReq = productApiRequest.getProducts({
+    limit: 8,
+  });
+
+  const homeProductsRes = await Promise.all([hotProductsReq, normalProductsReq]);
+
   return (
     <main>
       <div className="h-16"></div>
@@ -21,7 +34,9 @@ export default function Home() {
       <SwiperCarousel imgLabels={IMAGE_CAROUSEL} />
 
       <div className="container">
-        {/* <ListProductHot /> */}
+        <Suspense fallback={<NormalCardSkeleton />}>
+          <ListProductHot products={homeProductsRes[0].payload.data} />
+        </Suspense>
       </div>
 
       <MaxWidthWrapper>
@@ -36,7 +51,9 @@ export default function Home() {
           />
         </div>
 
-        {/* <ListProduct /> */}
+        <Suspense fallback={<NormalCardSkeleton />}>
+          <ListProduct products={homeProductsRes[1].payload.data} />
+        </Suspense>
 
         <div className="flex flex-row justify-center my-5">
           <Link href={RootPath.ProductList}>

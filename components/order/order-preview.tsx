@@ -82,16 +82,23 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
         paymentReturnUrl: 'https://techcell.cloud',
       };
 
-      await orderApiRequest.createOrder(payload);
+      const { payload: order } = await orderApiRequest.createOrder(payload);
 
-      localStorage.removeItem('selected-sku');
+      console.log(order);
+
+      if (order.payment.url) {
+        window.location.replace(order.payment.url);
+      }
+
       toast({
         variant: 'success',
         title: 'Đặt hàng thành công',
       });
 
       refresh();
-      push(RootPath.Cart);
+      if (selectedPaymentMethod === CreateOrderDtoPaymentMethodEnum.Cod) {
+        push(RootPath.Cart);
+      }
     } catch (error) {
       console.log(error);
       toast({
