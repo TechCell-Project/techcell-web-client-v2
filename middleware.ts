@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.next();
   console.log(`ROUTE: ${pathname} - ${haveAccessToken ? 'Have access' : 'No access'}`);
   const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
-  const isAuthRoute = authRoutes.includes(pathname);
+  const isAuthRoute = authRoutes.includes(pathname) || pathname.startsWith(RootPath.Logout);
   const isNeedAuthRoute = needAuthRoutes.includes(pathname);
 
   // save current pathname to cookies for redirect after authenticate

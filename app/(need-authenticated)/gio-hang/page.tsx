@@ -40,7 +40,6 @@ export default async function Cart() {
   ) {
     return (
       <>
-        <div className="h-16"></div>
         <div className="px-5 sm:container sm:max-w-[640px] lg:max-w-[768px]">
           <CartEmpty />
         </div>

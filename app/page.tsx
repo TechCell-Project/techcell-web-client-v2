@@ -66,10 +66,10 @@ export default async function Home() {
         </div>
       </MaxWidthWrapper>
 
-      <div className="bg-slate-100 mt-5">
+      <div className="bg-slate-200 mt-5">
         <div className="max-w-full px-0 sm:container">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {BENEFIT_SECTION.map((benefit) => (
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between">
+            {BENEFIT_SECTION.map((benefit, index) => (
               <div key={benefit.title} className="flex justify-center items-center my-5 h-20 gap-5">
                 <div className="font-blod">
                   <benefit.icon />

@@ -56,7 +56,7 @@ export const IconUser = ({ user }: { user: User }) => {
             </Button>
           </DropdownMenuItem>
           <DropdownMenuItem className="text-base h-9">
-            <Button variant="ghost" onClick={() => push(RootPath.Order)} className="justify-start pl-0 gap-4 w-full">
+            <Button variant="ghost" onClick={() => push(RootPath.OrderList)} className="justify-start pl-0 gap-4 w-full">
               <LiaShippingFastSolid className="mr-2 h-5 w-5" />
               <span>Đơn hàng</span>
             </Button>

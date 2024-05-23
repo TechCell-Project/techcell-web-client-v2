@@ -36,7 +36,7 @@ export function PaginationBar({ hasNextPage }: Readonly<PaginationProps>) {
 
   return (
     <Suspense>
-      <div className="flex h-9 sm:h-10 lg:h-12 items-center justify-center relative">
+      <div className="flex w-full items-center justify-center relative">
         {currentPage > 1 && (
           <div className="absolute left-0 flex items-center gap-1.5 sm:gap-2.5 text-primary">
             <ChevronsLeft />

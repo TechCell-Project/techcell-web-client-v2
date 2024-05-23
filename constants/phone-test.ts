@@ -1,8 +1,8 @@
-import {ProductInListDto} from '@techcell/node-sdk'
+import { ProductInListDto } from '@techcell/node-sdk'
 
 export const PHONE_TEST: ProductInListDto[] = [
   {
-    id:'iphonex',
+    id: 'iphonex',
     name: 'iPhone X',
     modelName: 'iPhone X',
     brandName: 'Apple',
@@ -10,18 +10,18 @@ export const PHONE_TEST: ProductInListDto[] = [
       {
         publicId: '5f9a7f5d9d8f6d7f5d8f6d7',
         url: '/phone-test/ipX.webp',
-        isThumbnail:false,
+        isThumbnail: false,
       },
     ],
-    price: 
-      {
-        special: 3990000,
-        base: 4990000,
-      },
+    price:
+    {
+      special: 3990000,
+      base: 4990000,
+    },
     tags: [],
   },
   {
-    id:'iphonex',
+    id: 'iphonex',
     name: 'iPhone X',
     modelName: 'iPhone XS',
     brandName: 'Apple',
@@ -29,19 +29,19 @@ export const PHONE_TEST: ProductInListDto[] = [
       {
         publicId: '5f9a7f5d9d8f6d7f5d8f6d7',
         url: '/phone-test/IpXS.webp',
-        isThumbnail:false,
+        isThumbnail: false,
       },
     ],
-    price: 
-      {
-        special: 7990000,
-        base: 8990000,
-      },
-    
+    price:
+    {
+      special: 7990000,
+      base: 8990000,
+    },
+
     tags: [],
   },
   {
-    id:'iphonex',
+    id: 'iphonex',
     name: 'iPhone X',
     modelName: 'iPhone XS',
     brandName: 'Apple',
@@ -49,20 +49,20 @@ export const PHONE_TEST: ProductInListDto[] = [
       {
         publicId: '5f9a7f5d9d8f6d7f5d8f6d7',
         url: '/phone-test/IpXS.webp',
-        isThumbnail:false,
+        isThumbnail: false,
 
       },
     ],
-    price: 
-      {
-        special: 8990000,
-        base: 9990000,
-      },
-    
+    price:
+    {
+      special: 8990000,
+      base: 9990000,
+    },
+
     tags: [],
   },
   {
-    id:'iphonex',
+    id: 'iphonex',
 
     name: 'iPhone X',
     modelName: 'iPhone XR',
@@ -71,16 +71,16 @@ export const PHONE_TEST: ProductInListDto[] = [
       {
         publicId: '5f9a7f5d9d8f6d7f5d8f6d7',
         url: '/phone-test/ipXR.webp',
-        isThumbnail:false,
+        isThumbnail: false,
 
       },
     ],
-    price: 
-      {
-        special: 7690000,
-        base: 20000000,
-      },
-    
+    price:
+    {
+      special: 7690000,
+      base: 20000000,
+    },
+
     tags: [],
   },
 ]

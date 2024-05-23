@@ -6,11 +6,11 @@ import { RootPath } from '@/constants/enum';
  * @type {string[]}
  */
 export const publicRoutes = [
-    '',
-    RootPath.Home,
-    RootPath.ProductDetails,
-    RootPath.ProductList,
-    RootPath.Search,
+  '',
+  RootPath.Home,
+  RootPath.ProductDetails,
+  RootPath.ProductList,
+  RootPath.Search,
 ] as string[];
 
 /**
@@ -19,15 +19,19 @@ export const publicRoutes = [
  * @type {string[]}
  */
 export const authRoutes = [
-    RootPath.Login,
-    RootPath.Register,
+  RootPath.Login,
+  RootPath.Register,
+  RootPath.ForgotPassword,
+  RootPath.ChangePassword,
+  RootPath.ConfirmEmail,
 ] as string[];
 
 export const needAuthRoutes = [
-    RootPath.Cart,
-    RootPath.Profile,
-    RootPath.Order,
-    RootPath.Payment,
+  RootPath.Cart,
+  RootPath.Profile,
+  RootPath.Order,
+  RootPath.OrderList,
+  RootPath.Payment,
 ] as string[];
 
 /**
