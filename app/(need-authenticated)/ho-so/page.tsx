@@ -16,7 +16,6 @@ export default async function ProfilePage() {
 
   return (
     <Suspense fallback={<LoadingPageServer />}>
-      <div className="h-16"></div>
       <Profile profile={user.payload} />
     </Suspense>
   );

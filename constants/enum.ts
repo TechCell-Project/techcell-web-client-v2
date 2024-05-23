@@ -2,8 +2,10 @@ export enum RootPath {
   Home = '/',
   Login = '/dang-nhap',
   Register = '/dang-ky-tai-khoan',
+  ConfirmEmail = '/confirm-email',
   ForgotPassword = '/quen-mat-khau',
   ChangePassword = '/mat-khau-moi',
+  Logout = '/dang-xuat',
   Cart = '/gio-hang',
   Payment = '/thanh-toan',
   Search = '/tim-kiem',
@@ -11,11 +13,7 @@ export enum RootPath {
   ProductDetails = '/chi-tiet-san-pham',
   Profile = '/ho-so',
   Order = '/chi-tiet-don-hang',
-  AllOrder = '/chi-tiet-don-hang/tat-ca',
-  WaitForPay = '/chi-tiet-don-hang/cho-thanh-toan',
-  TransportOrder = '/chi-tiet-don-hang/van-chuyen',
-  CompleteOrder = '/chi-tiet-don-hang/hoan-thanh',
-  Cancelled = '/chi-tiet-don-hang/da-huy',
+  OrderList = '/don-hang',
   Brand = '/thuong-hieu',
 }
 
