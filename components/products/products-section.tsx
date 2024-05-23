@@ -25,10 +25,10 @@ export const ProductsList = ({
     <>
       <div className="w-full flex flex-col items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product) => (
-          <NormalCard key={product.id} product={product} onClickBuying={() => setSelectedId(product.id)} />
+          <NormalCard key={product.id} product={product} onClickBuying={setSelectedId} />
         ))}
       </div>
-      <LoadMore filters={searchParams?.filters} sort={searchParams?.sort} />
+      <LoadMore filters={searchParams?.filters} sort={searchParams?.sort} onClickBuying={setSelectedId} />
       <ModalInformation
         onClose={() => setSelectedId(null)}
         productId={selectedId}

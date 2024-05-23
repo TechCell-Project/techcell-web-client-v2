@@ -133,7 +133,8 @@ const request = async <Response>(
         if (!clientLogoutRequest) {
           try {
             const payload = await refreshRequest.json();
-            const { accessToken, refreshToken, accessTokenExpires } = payload as RefreshTokenResponseDto;
+            const { accessToken, refreshToken, accessTokenExpires } =
+              payload as RefreshTokenResponseDto;
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('accessTokenExpires', accessTokenExpires.toString());
@@ -145,7 +146,7 @@ const request = async <Response>(
                 ...baseHeaders,
               } as any,
             });
-  
+
             try {
               await clientLogoutRequest;
             } catch (error) {

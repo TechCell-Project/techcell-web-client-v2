@@ -17,9 +17,14 @@ import { productApiRequest } from '@/apiRequests/product';
 
 let page = 2;
 
+interface LoadMoreProps {
+  onClickBuying: (id: string) => void;
+}
+
 export default function LoadMore({
+  onClickBuying,
   ...payload
-}: Readonly<Omit<ProductsApiProductsControllerGetProductsRequest, 'page'>>) {
+}: LoadMoreProps & Readonly<Omit<ProductsApiProductsControllerGetProductsRequest, 'page'>>) {
   const { refresh } = useRouter();
   const { ref, inView } = useInView();
 
@@ -60,7 +65,7 @@ export default function LoadMore({
     <>
       <div className="w-full flex flex-col items-center sm:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product) => (
-          <NormalCard key={product.id} product={product} />
+          <NormalCard key={product.id} product={product} onClickBuying={onClickBuying} />
         ))}
       </div>
       <div className="w-full flex justify-center items-center h-20">
