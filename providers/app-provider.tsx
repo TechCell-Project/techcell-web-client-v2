@@ -52,24 +52,24 @@ export default function AppProvider({
     localStorage.removeItem('user');
   };
 
-  useEffect(() => {
-    if (!refreshToken || refreshToken === 'undefined' || !accessTokenExpires || accessTokenExpires === 'undefined') {
-      handleLogoutCurrentUser();
-      return;
-    }
+  // useEffect(() => {
+  //   if (!refreshToken || refreshToken === 'undefined' || !accessTokenExpires || accessTokenExpires === 'undefined') {
+  //     handleLogoutCurrentUser();
+  //     return;
+  //   }
 
-    const firstRefresh = async () => {
-      const res = await authApiRequest.refreshTokenFromNextClientToNextServer();
-      localStorage.setItem('accessToken', res.payload.accessToken);
-      localStorage.setItem('accessTokenExpires', res.payload.accessTokenExpires.toString());
-      refresh();
-    }
+  //   const firstRefresh = async () => {
+  //     const res = await authApiRequest.refreshTokenFromNextClientToNextServer();
+  //     localStorage.setItem('accessToken', res.payload.accessToken);
+  //     localStorage.setItem('accessTokenExpires', res.payload.accessTokenExpires.toString());
+  //     refresh();
+  //   }
 
-    if (differenceInMinutes(new Date(parseInt(accessTokenExpires)), new Date()) < 10) {
-      firstRefresh();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   if (differenceInMinutes(new Date(parseInt(accessTokenExpires)), new Date()) < 10) {
+  //     firstRefresh();
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     if (!accessToken || accessToken === 'undefined') {

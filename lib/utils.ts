@@ -3,7 +3,7 @@ import { UseFormSetError } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { EntityError, HttpError } from './http';
 import { ERROR_MSG } from '@/constants/error';
-import { UserAddressResponseDto, UserAddressSchema } from '@techcell/node-sdk';
+import { ProductSchema, UserAddressResponseDto, UserAddressSchema } from '@techcell/node-sdk';
 import { PHONE_CATEGORIES } from '@/constants';
 
 export function cn(...inputs: ClassValue[]) {
@@ -152,4 +152,14 @@ export function scrollToTop() {
       behavior: 'smooth',
     });
   }
+}
+
+export function getTotalOrderProductQuantity(products: ProductSchema[]) {
+  let total = 0;
+
+  products.forEach((product) => {
+    total += product.quantity;
+  });
+
+  return total;
 }

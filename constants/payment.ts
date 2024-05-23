@@ -8,25 +8,25 @@ import JCBImg from '@/public/img_payment/JCB.png';
 export const STATUS_ALL = 'all';
 export const STATUS_PENDING = 'pending';
 export const STATUS_PROCESSING = 'processing';
-export const STATUS_COMPLETED = 'completed';
-export const STATUS_CANCELLED = 'cancelled';
-export const STATUS_REFUNDED = 'refunded';
+export const STATUS_CONFIRMED = 'confirmed';
+export const STATUS_PREPARING = 'preparing';
+export const STATUS_PREPARED = 'prepared';
 export const STATUS_SHIPPING = 'shipping';
-export const STATUS_WAIT_FOR_PAYMENT = 'wait_for_payment';
+export const STATUS_CANCELLED = 'canceled';
+export const STATUS_FAILED = 'failed';
+export const STATUS_COMPLETED = 'completed';
+export const STATUS_WAIT_FOR_PAYMENT = 'wait-for-payment';
 
 export const COMMON_STATUS_KEYS = [
   STATUS_ALL,
   STATUS_PENDING,
-  STATUS_PROCESSING,
   STATUS_COMPLETED,
   STATUS_CANCELLED,
-  STATUS_REFUNDED,
 ];
 
-
 export type StatusLabel = {
-    key: string;
-    label: string;
+  key: string;
+  label: string;
 };
 
 export const ORDER_STATUS_KEYS = [...COMMON_STATUS_KEYS, STATUS_SHIPPING];
@@ -45,7 +45,7 @@ const COMMON_STATUSES: Map<string, StatusLabel> = new Map<string, StatusLabel>([
     STATUS_PENDING,
     {
       key: STATUS_PENDING,
-      label: 'Đang chờ xác nhận',
+      label: 'Chờ xác nhận',
     },
   ],
   [
@@ -55,32 +55,45 @@ const COMMON_STATUSES: Map<string, StatusLabel> = new Map<string, StatusLabel>([
       label: 'Đã hủy',
     },
   ],
-  [
-    STATUS_REFUNDED,
-    {
-      key: STATUS_REFUNDED,
-      label: 'Đã hoàn tiền',
-    },
-  ],
 ]);
 
 export const ORDER_STATUSES: Map<string, StatusLabel> = new Map(COMMON_STATUSES)
+  .set(STATUS_CONFIRMED, {
+    key: STATUS_CONFIRMED,
+    label: 'Đã xác nhận',
+  })
+  .set(STATUS_PREPARING, {
+    key: STATUS_PREPARING,
+    label: 'Đang chuẩn bị hàng',
+  })
+  .set(STATUS_PREPARED, {
+    key: STATUS_PREPARED,
+    label: 'Đã chuẩn bị hàng',
+  })
   .set(STATUS_SHIPPING, {
     key: STATUS_SHIPPING,
     label: 'Đang giao hàng',
   })
+  .set(STATUS_FAILED, {
+    key: STATUS_FAILED,
+    label: 'Giao thất bại',
+  })
   .set(STATUS_COMPLETED, {
     key: STATUS_COMPLETED,
     label: 'Đã giao hàng',
-  })
-  .set(STATUS_PROCESSING, {
-    key: STATUS_PROCESSING,
-    label: 'Đơn của bạn đang được xử lí',
   });
 
 export type ValidOrderStatus = keyof typeof ORDER_STATUSES;
 
+export function isValidOrderStatus(status: string): boolean {
+  return ORDER_STATUSES.has(status);
+}
+
 export const PAYMENT_STATUSES: Map<string, StatusLabel> = new Map(COMMON_STATUSES)
+  .set(STATUS_PROCESSING, {
+    key: STATUS_PROCESSING,
+    label: 'Đang xử lý',
+  })
   .set(STATUS_WAIT_FOR_PAYMENT, {
     key: STATUS_WAIT_FOR_PAYMENT,
     label: 'Chờ thanh toán',
@@ -89,9 +102,9 @@ export const PAYMENT_STATUSES: Map<string, StatusLabel> = new Map(COMMON_STATUSE
     key: STATUS_COMPLETED,
     label: 'Đã thanh toán',
   })
-  .set(STATUS_PROCESSING, {
-    key: STATUS_PROCESSING,
-    label: 'Đang xử lí',
+  .set(STATUS_FAILED, {
+    key: STATUS_FAILED,
+    label: 'Thanh toán thất bại',
   });
 
 export type ValidPaymentStatus = keyof typeof PAYMENT_STATUSES;

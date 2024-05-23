@@ -155,6 +155,26 @@ iframe {
   margin: 0;
 }
 
+/* grids */
+.grid-orders {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .grid-orders {
+    grid-template-columns: 20% 80%;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-orders {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* keyframes */
 @keyframes slideDown {
   from {

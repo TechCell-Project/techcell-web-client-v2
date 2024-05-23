@@ -106,7 +106,7 @@ const request = async <Response>(
     .json()
     .catch((reason) => console.log('reason', reason.status));
 
-  const data = {
+  let data = {
     status: res.status,
     payload,
   };
@@ -121,38 +121,59 @@ const request = async <Response>(
         },
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
+      const refreshRequest = await fetch('/api/auth-client/refresh', {
+        method: 'POST',
+        headers: {
+          ...baseHeaders,
+          ...options?.headers,
+        } as any,
+      });
+
       if (isClient) {
         if (!clientLogoutRequest) {
-          clientLogoutRequest = fetch('/api/auth-client/logout', {
-            method: 'POST',
-            body: JSON.stringify({ force: true }),
-            headers: {
-              ...baseHeaders,
-            } as any,
-          });
-
           try {
-            await clientLogoutRequest;
+            const payload = await refreshRequest.json();
+            const { accessToken, refreshToken, accessTokenExpires } =
+              payload as RefreshTokenResponseDto;
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('accessTokenExpires', accessTokenExpires.toString());
           } catch (error) {
-            console.log(error);
-          } finally {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-            localStorage.removeItem('accessTokenExpires');
-            clientLogoutRequest = null;
-            location.reload();
+            clientLogoutRequest = fetch('/api/auth-client/logout', {
+              method: 'POST',
+              body: JSON.stringify({ force: true }),
+              headers: {
+                ...baseHeaders,
+              } as any,
+            });
+
+            try {
+              await clientLogoutRequest;
+            } catch (error) {
+              console.log(error);
+            } finally {
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+              localStorage.removeItem('accessTokenExpires');
+              clientLogoutRequest = null;
+              location.reload();
+            }
           }
         }
       } else {
         console.log('unauthorized error', fullUrl);
-        
-        const sessionToken = (options?.headers as any)?.Authorization.split('Bearer ')[1];
+
+        const sessionToken = (
+          options?.headers ?? baseHeaders.Authorization
+            ? baseHeaders
+            : ({ Authorization: '' } as any)
+        )?.Authorization?.split('Bearer ')[1];
         redirect(`/dang-xuat?sessionToken=${sessionToken}`);
       }
     } else {
       console.log(data);
       console.log(res);
-      throw new HttpError(data);
+      // throw new HttpError(data);
     }
   }
 
