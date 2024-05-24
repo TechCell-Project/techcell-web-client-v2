@@ -121,17 +121,16 @@ const request = async <Response>(
         },
       );
     } else if (res.status === AUTHENTICATION_ERROR_STATUS) {
-      const refreshRequest = await fetch('/api/auth-client/refresh', {
-        method: 'POST',
-        headers: {
-          ...baseHeaders,
-          ...options?.headers,
-        } as any,
-      });
-
       if (isClient) {
         if (!clientLogoutRequest) {
           try {
+            const refreshRequest = await fetch('/api/auth-client/refresh', {
+              method: 'POST',
+              headers: {
+                ...baseHeaders,
+                ...options?.headers,
+              } as any,
+            });
             const payload = await refreshRequest.json();
             const { accessToken, refreshToken, accessTokenExpires } =
               payload as RefreshTokenResponseDto;
