@@ -1,10 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-import { Button } from '@/components/ui/button';
-import { RootPath } from '@/constants';
+import { CANCEL_REASONS, RootPath } from '@/constants';
 import { ArrowLeft } from 'lucide-react';
 import { Order } from '@techcell/node-sdk';
 import { buildAddressString, cn } from '@/lib/utils';
@@ -21,12 +21,34 @@ import {
 } from '@/constants/payment';
 import { currencyFormat } from '@/utilities/func.util';
 
+import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
+import { orderApiRequest } from '@/apiRequests';
+import { Modal } from '@/components/ui/modal';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { CancelOrderFormType, CancelOrderSchema } from '@/validationSchemas';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Textarea } from '@/components/ui/textarea';
+
 interface OrderDetailProps {
   order: Order;
 }
 
 export const OrderDetail = ({ order }: OrderDetailProps) => {
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [otherReason, setOtherReason] = useState<string>('');
+  const [isError, setIsError] = useState<boolean>(false);
 
   const handleBackToOrderList = () => {
     push(RootPath.OrderList);
@@ -38,6 +60,61 @@ export const OrderDetail = ({ order }: OrderDetailProps) => {
       [STATUS_PENDING, STATUS_CONFIRMED, STATUS_PREPARING].includes(order.orderStatus));
 
   const continuable = order.payment.status === STATUS_WAIT_FOR_PAYMENT;
+
+  const form = useForm<CancelOrderFormType>({
+    resolver: zodResolver(CancelOrderSchema),
+  });
+
+  const {
+    formState: { isSubmitting },
+    handleSubmit,
+    control,
+    reset,
+    watch,
+  } = form;
+
+  const reasonField = watch('reason');
+
+  const handleCloseCancelModal = () => {
+    reset();
+    setIsOpen(false);
+  };
+
+  const handleCancelOrder = async (values: CancelOrderFormType) => {
+    if (!cancelable) {
+      return;
+    }
+    let reason = values.reason;
+
+    if (values.reason === 'other-reason') {
+      if (otherReason.length < 3) {
+        setIsError(true);
+        return;
+      }
+      reason = otherReason;
+    }
+
+    try {
+      await orderApiRequest.cancelOrder(order._id, reason);
+
+      toast({
+        variant: 'success',
+        title: 'Hủy đơn thành công',
+      });
+
+      refresh();
+
+      handleCloseCancelModal();
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: 'destructive',
+        title: 'Hủy đơn thất bại',
+      });
+    }
+  };
+
+  const formatter = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
   return (
     <div className="container py-4">
@@ -59,7 +136,10 @@ export const OrderDetail = ({ order }: OrderDetailProps) => {
                 </li>
                 <li className="w-full flex justify-between items-center mb-2">
                   <div>Ngày đặt hàng:</div>
-                  <span className="font-bold text-end">05/05/2024</span>
+                  <span className="font-bold text-end">
+                    {new Date(order.createdAt).toLocaleDateString()}{' '}
+                    {formatter.format(new Date(order.createdAt))}
+                  </span>
                 </li>
                 <li className="w-full flex justify-between items-center mb-2">
                   <div>Tình trạng:</div>
@@ -204,6 +284,7 @@ export const OrderDetail = ({ order }: OrderDetailProps) => {
                   <Button
                     variant="destructive"
                     className={cn('w-full sm:w-1/2', continuable && 'sm:w-1/2')}
+                    onClick={() => setIsOpen(true)}
                   >
                     Hủy đơn
                   </Button>
@@ -220,6 +301,82 @@ export const OrderDetail = ({ order }: OrderDetailProps) => {
           </div>
         </div>
       </div>
+      <Modal
+        title="Xác nhận hủy đơn hàng"
+        isOpen={isOpen}
+        onClose={handleCloseCancelModal}
+        disableClickOutside={true}
+      >
+        <Form {...form}>
+          <form onSubmit={handleSubmit(handleCancelOrder)} className="space-y-4">
+            <FormField
+              control={control}
+              name="reason"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel>Lý do hủy đơn</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      {Array.from(CANCEL_REASONS.entries()).map(([key, reason]) => (
+                        <FormItem key={key} className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={key} />
+                          </FormControl>
+                          <FormLabel className="font-normal">{reason}</FormLabel>
+                        </FormItem>
+                      ))}
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="other-reason" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Khác</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {reasonField === 'other-reason' && (
+              <FormItem>
+                <Textarea
+                  className="resize-none"
+                  placeholder="Ghi rõ lý do"
+                  value={otherReason}
+                  onChange={(e) => setOtherReason(e.target.value)}
+                />
+                {isError === true && (
+                  <p className="text-red-500">
+                    {otherReason === '' ? 'Lý do không được để trống' : 'Lý do cần ít nhất 3 kí tự'}
+                  </p>
+                )}
+              </FormItem>
+            )}
+            <div className="flex justify-end gap-3">
+              <Button
+                variant="default"
+                type="submit"
+                className="hover:bg-primary-dark"
+                disabled={isSubmitting}
+              >
+                Xác nhận
+              </Button>
+              <Button
+                variant="outline"
+                type="button"
+                className="border-2 hover:bg-gray-200"
+                onClick={handleCloseCancelModal}
+              >
+                Đóng
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </Modal>
     </div>
   );
 };

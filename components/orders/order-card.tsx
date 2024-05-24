@@ -7,7 +7,9 @@ import Image from 'next/image';
 import {
   ORDER_STATUSES,
   PAYMENT_STATUSES,
+  STATUS_CANCELLED,
   STATUS_COMPLETED,
+  STATUS_FAILED,
   STATUS_PENDING,
   STATUS_PREPARED,
   STATUS_PREPARING,
@@ -24,8 +26,9 @@ import { getTotalOrderProductQuantity } from '@/lib/utils';
 
 import AlternativeImg from '@/public/phone-test/15-promax.jpg';
 import TechcellIcon from '@/public/favicon.ico';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 import { RootPath } from '@/constants';
+import { CircleX } from 'lucide-react';
 
 interface OrderCardProps {
   order: Order;
@@ -67,6 +70,12 @@ const getOrderStatusContent = (orderStatus: string): OrderStatusContent => {
         color: 'text-green-500',
         icon: <BsHouseCheckFill />,
       };
+      break;
+    case STATUS_CANCELLED || STATUS_FAILED: 
+      content = {
+        color: 'text-red-500',
+        icon: <CircleX />
+      }
       break;
     default:
       break;

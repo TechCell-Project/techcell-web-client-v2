@@ -19,9 +19,10 @@ import { useAddressModal } from '@/hooks/useAddressModal';
 interface BuyingButtonProps {
   productId: string;
   skuId: string | null;
+  handleCloseModal?: () => void;
 }
 
-export const BuyingButtonGroup = ({ productId, skuId }: BuyingButtonProps) => {
+export const BuyingButtonGroup = ({ productId, skuId, handleCloseModal }: BuyingButtonProps) => {
   const pathname = usePathname();
   const { refresh, push } = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -90,6 +91,8 @@ export const BuyingButtonGroup = ({ productId, skuId }: BuyingButtonProps) => {
         title: 'Thêm vào giỏ hàng thành công',
       });
       refresh();
+
+      if (handleCloseModal) handleCloseModal();
     } catch (error) {
       toast({
         variant: 'destructive',

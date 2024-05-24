@@ -16,7 +16,7 @@ import { Button } from '@/components/ui/button';
 import { UserAddressList } from '@/components/profile/address-list';
 import { BackButton } from '@/components/common/button-back';
 import PaymentMethodList from './payment_method_list';
-import OrderListProduct from './order-list-product';
+import { OrderListProduct } from './order-list-product';
 import { ShippingAddressInfo } from './shipping-info-order';
 import { currencyFormat } from '@/utilities/func.util';
 
@@ -39,7 +39,9 @@ const OrderPreview = ({ previewData }: OrderPreviewProps) => {
   const { push, refresh } = useRouter();
   const { onOpen, setAddressIndex } = useAddressModal();
   const { user } = useAppContext();
-  const { addressIndex, setAddressIndex: setStoreAddressIndex } = useOrderPreviewStore((state) => state);
+  const { addressIndex, setAddressIndex: setStoreAddressIndex } = useOrderPreviewStore(
+    (state) => state,
+  );
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<CreateOrderDtoPaymentMethodEnum>(CreateOrderDtoPaymentMethodEnum.Cod);
 

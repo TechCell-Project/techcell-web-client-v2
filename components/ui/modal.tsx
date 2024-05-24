@@ -8,9 +8,17 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;
+  disableClickOutside?: boolean;
 }
 
-export const Modal = ({ title, description, isOpen, onClose, children }: ModalProps) => {
+export const Modal = ({
+  title,
+  description,
+  isOpen,
+  onClose,
+  children,
+  disableClickOutside = false,
+}: ModalProps) => {
   const onChange = (open: boolean) => {
     if (!open) {
       onClose();
@@ -19,7 +27,14 @@ export const Modal = ({ title, description, isOpen, onClose, children }: ModalPr
 
   return (
     <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent>
+      <DialogContent
+        onInteractOutside={(e) => {
+          if (disableClickOutside) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }}
+      >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
