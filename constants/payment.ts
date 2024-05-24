@@ -17,12 +17,7 @@ export const STATUS_FAILED = 'failed';
 export const STATUS_COMPLETED = 'completed';
 export const STATUS_WAIT_FOR_PAYMENT = 'wait-for-payment';
 
-export const COMMON_STATUS_KEYS = [
-  STATUS_ALL,
-  STATUS_PENDING,
-  STATUS_COMPLETED,
-  STATUS_CANCELLED,
-];
+export const COMMON_STATUS_KEYS = [STATUS_ALL, STATUS_PENDING, STATUS_COMPLETED, STATUS_CANCELLED];
 
 export type StatusLabel = {
   key: string;
@@ -115,37 +110,61 @@ export type PaymentMethodLabel = {
   imgLable: string;
 };
 
-export const PAYMENT_METHODS: Array<PaymentMethodLabel> = [
-  {
-    key: 'COD',
-    label: 'Thanh toán khi nhận hàng',
-    imgLable: CODImg.src,
-  },
-  {
-    key: 'VNPAY',
-    label: 'Thanh toán bằng VNPay',
-    imgLable: VNPAYImg.src,
-  },
-  {
-    key: 'ATM',
-    label: 'Thanh toán bằng thẻ ATM',
-    imgLable: ATMImg.src,
-  },
-  {
-    key: 'VISA',
-    label: 'Thanh toán bằng thẻ Visa',
-    imgLable: VISAImg.src,
-  },
-  {
-    key: 'MASTERCARD',
-    label: 'Thanh toán bằng Mastercard',
-    imgLable: MASTERCARDImg.src,
-  },
-  {
-    key: 'JCB',
-    label: 'Thanh toán bằng thẻ JCB',
-    imgLable: JCBImg.src,
-  },
-];
+export const PAYMENT_METHODS: Map<string, PaymentMethodLabel> = new Map<string, PaymentMethodLabel>(
+  [
+    [
+      'COD',
+      {
+        key: 'COD',
+        label: 'Thanh toán khi nhận hàng',
+        imgLable: CODImg.src,
+      },
+    ],
+    [
+      'VNPAY',
+      {
+        key: 'VNPAY',
+        label: 'Thanh toán bằng VNPay',
+        imgLable: VNPAYImg.src,
+      },
+    ],
+    [
+      'VNBANK',
+      {
+        key: 'VNBANK',
+        label: 'Thanh toán bằng thẻ VNBANK',
+        imgLable: VNPAYImg.src,
+      },
+    ],
+    [
+      'INTCARD',
+      {
+        key: 'INTCARD',
+        label: 'Thanh toán bằng thẻ INTCARD',
+        imgLable: VNPAYImg.src,
+      },
+    ],
+    // {
+    //   key: 'ATM',
+    //   label: 'Thanh toán bằng thẻ ATM',
+    //   imgLable: ATMImg.src,
+    // },
+    // {
+    //   key: 'VISA',
+    //   label: 'Thanh toán bằng thẻ Visa',
+    //   imgLable: VISAImg.src,
+    // },
+    // {
+    //   key: 'MASTERCARD',
+    //   label: 'Thanh toán bằng Mastercard',
+    //   imgLable: MASTERCARDImg.src,
+    // },
+    // {
+    //   key: 'JCB',
+    //   label: 'Thanh toán bằng thẻ JCB',
+    //   imgLable: JCBImg.src,
+    // },
+  ],
+);
 
-export type ValidPaymentMethod = (typeof PAYMENT_METHODS)[number]['key'];
+// export type ValidPaymentMethod = (typeof PAYMENT_METHODS)[number]['key'];

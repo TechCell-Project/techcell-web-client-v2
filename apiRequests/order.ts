@@ -1,5 +1,6 @@
 import { ApiTags, DEFAULT_LIMIT } from '@/constants';
 import http from '@/lib/http';
+import { MessageResType } from '@/validationSchemas';
 import {
   CreateOrderDto,
   Order,
@@ -49,5 +50,17 @@ export const orderApiRequest = {
   getOrdersClient: (payload: OrdersApiOrdersControllerGetOrdersRequest) =>
     http.get<OrderInfinityPaginationResult>(handleGetUrl(payload)),
 
+  getOrderByIdServer: (orderId: string, accessToken: string) =>
+    http.get<Order>(`${ApiPrefix}/${orderId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }),
+
   getOrderById: (orderId: string) => http.get<Order>(`${ApiPrefix}/${orderId}`),
+
+  cancelOrder: (orderId: string, reason: string) =>
+    http.patch<MessageResType>(`${ApiPrefix}/${orderId}/cancel`, {
+      reason,
+    }),
 };

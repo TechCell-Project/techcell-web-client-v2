@@ -49,9 +49,10 @@ const getKeyName = (keyName: string) => {
 interface SelectProductVariationProps {
   variations: VariationDto[];
   productId: string;
+  handleClose?: () => void;
 }
 
-export const SelectProductVariation = ({ variations, productId }: SelectProductVariationProps) => {
+export const SelectProductVariation = ({ variations, productId, handleClose }: SelectProductVariationProps) => {
   const modifiedVariations = variations.map((variation) => {
     return {
       ...variation,
@@ -147,7 +148,7 @@ export const SelectProductVariation = ({ variations, productId }: SelectProductV
   };
 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full h-full flex flex-col gap-4">
       <ProductPrice price={currentPrice} />
       {attributeMaps.map(([keyName, attributes], index) => (
         <div key={getKeyName(keyName).key} className="flex flex-col gap-2.5 mb-4">
@@ -204,7 +205,7 @@ export const SelectProductVariation = ({ variations, productId }: SelectProductV
           </div>
         </div>
       ))}
-      <BuyingButtonGroup productId={productId} skuId={selectedVariation} />
+      <BuyingButtonGroup productId={productId} skuId={selectedVariation} handleCloseModal={handleClose} />
     </div>
   );
 };

@@ -15,7 +15,7 @@ type Props = {
   searchParams?: { [key: string]: string | undefined };
 };
 
-export default async function OrderDetail({ searchParams }: Readonly<Props>) {
+export default async function Page({ searchParams }: Readonly<Props>) {
   const cookieStore = cookies();
   const accessToken = cookieStore.get('accessToken');
 

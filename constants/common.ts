@@ -40,55 +40,54 @@ export const BENEFIT_SECTION: Array<{
   title: string;
   desc: string;
 }> = [
-    {
-      icon: Rocket,
-      title: 'Vận chuyển nhanh',
-      desc: 'Miễn phí vận chuyển cho đơn hàng từ 2 triệu',
-    },
-    {
-      icon: RefreshCw,
-      title: 'Đổi trả & hoàn tiền',
-      desc: 'Quy trình đổi trả dễ dàng',
-    },
-    {
-      icon: Phone,
-      title: 'Liên hệ',
-      desc: 'Chăm sóc khách hàng 24/7',
-    },
-    {
-      icon: WalletCards,
-      title: 'Thanh toán',
-      desc: 'VNPay & COD trả tiền khi nhận hàng',
-    },
-  ];
-
+  {
+    icon: Rocket,
+    title: 'Vận chuyển nhanh',
+    desc: 'Miễn phí vận chuyển cho đơn hàng từ 2 triệu',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Đổi trả & hoàn tiền',
+    desc: 'Quy trình đổi trả dễ dàng',
+  },
+  {
+    icon: Phone,
+    title: 'Liên hệ',
+    desc: 'Chăm sóc khách hàng 24/7',
+  },
+  {
+    icon: WalletCards,
+    title: 'Thanh toán',
+    desc: 'VNPay & COD trả tiền khi nhận hàng',
+  },
+];
 
 export const BRAND: Array<{
   id: string;
   name: string;
   desc: string;
 }> = [
-    {
-      id: '1',
-      name: 'Apple',
-      desc: '',
-    },
-    {
-      id: '2',
-      name: 'Sam sung',
-      desc: '',
-    },
-    {
-      id: '3',
-      name: 'Xiaomi',
-      desc: '',
-    },
-    {
-      id: '4',
-      name: 'OPPO',
-      desc: '',
-    },
-  ];
+  {
+    id: '1',
+    name: 'Apple',
+    desc: '',
+  },
+  {
+    id: '2',
+    name: 'Sam sung',
+    desc: '',
+  },
+  {
+    id: '3',
+    name: 'Xiaomi',
+    desc: '',
+  },
+  {
+    id: '4',
+    name: 'OPPO',
+    desc: '',
+  },
+];
 export type AddressType = {
   typeKey: string;
   typeValue: string;
@@ -220,25 +219,7 @@ export type NavLinkProps = {
   href: string;
 };
 
-export const NAV_ORDER: NavLinkProps[] = [
-  {
-    title: 'Tất cả',
-    href: RootPath.AllOrder
-  },
-  {
-    title: 'Chờ thanh toán',
-    href: RootPath.WaitForPay
-  },
-  {
-    title: 'Vận chuyển',
-    href: RootPath.TransportOrder
-  },
-  {
-    title: 'Hoàn thành',
-    href: RootPath.CompleteOrder
-  },
-  {
-    title: 'Đã hủy',
-    href: RootPath.Cancelled
-  },
-];
+export const CANCEL_REASONS = new Map<string, string>([
+  ['change-address', 'Tôi muốn thay đổi địa chỉ giao hang'],
+  ['change-order-items', 'Tôi muốn mua sản phẩm khác'],
+]);
